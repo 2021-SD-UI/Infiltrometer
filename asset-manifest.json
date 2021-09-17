@@ -1,21 +1,20 @@
 {
   "files": {
-    "main.css": "/Infiltrometer/static/css/main.f0910d0f.chunk.css",
-    "main.js": "/Infiltrometer/static/js/main.d8920552.chunk.js",
-    "main.js.map": "/Infiltrometer/static/js/main.d8920552.chunk.js.map",
+    "main.css": "/Infiltrometer/static/css/main.7c9f2fc8.chunk.css",
+    "main.js": "/Infiltrometer/static/js/main.e1195fed.chunk.js",
+    "main.js.map": "/Infiltrometer/static/js/main.e1195fed.chunk.js.map",
     "runtime-main.js": "/Infiltrometer/static/js/runtime-main.a77bc88c.js",
     "runtime-main.js.map": "/Infiltrometer/static/js/runtime-main.a77bc88c.js.map",
-    "static/js/2.eb5bbf21.chunk.js": "/Infiltrometer/static/js/2.eb5bbf21.chunk.js",
-    "static/js/2.eb5bbf21.chunk.js.map": "/Infiltrometer/static/js/2.eb5bbf21.chunk.js.map",
+    "static/js/2.d90ff22d.chunk.js": "/Infiltrometer/static/js/2.d90ff22d.chunk.js",
+    "static/js/2.d90ff22d.chunk.js.map": "/Infiltrometer/static/js/2.d90ff22d.chunk.js.map",
     "index.html": "/Infiltrometer/index.html",
-    "static/css/main.f0910d0f.chunk.css.map": "/Infiltrometer/static/css/main.f0910d0f.chunk.css.map",
-    "static/js/2.eb5bbf21.chunk.js.LICENSE.txt": "/Infiltrometer/static/js/2.eb5bbf21.chunk.js.LICENSE.txt",
-    "static/media/logo.b2e5a01e.svg": "/Infiltrometer/static/media/logo.b2e5a01e.svg"
+    "static/css/main.7c9f2fc8.chunk.css.map": "/Infiltrometer/static/css/main.7c9f2fc8.chunk.css.map",
+    "static/js/2.d90ff22d.chunk.js.LICENSE.txt": "/Infiltrometer/static/js/2.d90ff22d.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.a77bc88c.js",
-    "static/js/2.eb5bbf21.chunk.js",
-    "static/css/main.f0910d0f.chunk.css",
-    "static/js/main.d8920552.chunk.js"
+    "static/js/2.d90ff22d.chunk.js",
+    "static/css/main.7c9f2fc8.chunk.css",
+    "static/js/main.e1195fed.chunk.js"
   ]
 }
