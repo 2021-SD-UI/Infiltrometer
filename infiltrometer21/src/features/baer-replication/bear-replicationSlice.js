@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-
+import {TimerStateValues} from 'react-compound-timer'
 const initialState = {};
 
 export const baerReplicationSlice = createSlice({
