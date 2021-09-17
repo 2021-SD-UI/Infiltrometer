@@ -1,31 +1,31 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter as Router, Route, Switch, useRouteMatch, useParams } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import BaerInitializeView from './features/baer-initialize/BaerInitializeView';
 import BaerReplicationView from './features/baer-replication/BaerReplicationView';
 import BaerResultsView from './features/baer-results/BaerResultsView';
 const  App = ()=> {
   return (
-    <Router>
+    <BrowserRouter>
           <Switch>
-            <Route exact path ="/">
+            <Route exact path ="/Infiltrometer/">
               <div>
-                Default
+                <Link to="/Infiltrometer/baer-initialize">Baer Initialize View</Link>
               </div>
             </Route>
-            <Route exact path ="/baer-initialize">
+            <Route exact path ="/Infiltrometer/baer-initialize">
               <BaerInitializeView/>
             </Route>
-            <Route exact path ="/baer-replication">
+            <Route exact path ="/Infiltrometer/baer-replication">
               <BaerReplicationView/>
             </Route>
-            <Route exact path ="/baer-results">
+            <Route exact path ="/Infiltrometer/baer-results">
               <BaerResultsView/>
             </Route>
 
           </Switch>
           
-    </Router>
+    </BrowserRouter>
   );
 }
 
