@@ -12,16 +12,27 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.5",
+<<<<<<< HEAD
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3"
   },
   "scripts": {
     "predeploy": "npm run build",
+=======
+    "react-scripts": "4.0.3"
+  },
+  "scripts": {
+        "predeploy": "npm run build",
+>>>>>>> 78bb0b272eb4a705b282305de49fe4500958c841
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
+<<<<<<< HEAD
+=======
+
+>>>>>>> 78bb0b272eb4a705b282305de49fe4500958c841
   },
   "eslintConfig": {
     "extends": "react-app"
