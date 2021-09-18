@@ -104,7 +104,7 @@ function round(number, precision) {
 *
 * @namespace
 */
-const methods = {
+export const methods = {
   linear(data, options) {
     const sum = [0, 0, 0, 0, 0];
     let len = 0;
@@ -322,5 +322,3 @@ function createWrapper() {
 
   return Object.keys(methods).reduce(reduce, {});
 }
-
-module.exports = createWrapper();

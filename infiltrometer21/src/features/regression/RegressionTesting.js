@@ -1,5 +1,5 @@
 import React from 'react';
-import regressionJs from './regression-js';
+import {methods} from '../regression/regression-js';
 export function RegressionTesting(){
 
     function handleChange(event) {
@@ -15,7 +15,7 @@ export function RegressionTesting(){
     for (let i = 0; i < points.length; i ++){
         points[i] = points[i].split(',');
     }
-    state.results = regressionJs.polynomial(points, { order: 2, precision: 15 });
+    state.results = methods.polynomial(points, { order: 2, precision: 15 });
 
     alert('Points were submitted: ' + points + "\nRegression output: " + state.results.string);
     console.log(state.results);
