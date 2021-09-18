@@ -10,26 +10,30 @@ const initialState = {
 };
 
 export const reportsSlice = createSlice({
-    name: 'baerResults',
+  name: 'baerResults',
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-     newReport: (state, protocol, infiltrometerType) => {
+     newReport: (state, action) => {
       // Push a new report onto the report stack and increment the id
       state.reports.push(
         {
             id: state.curId++,
-            date: new Date(),
-            protocol: protocol,
-            readings: readings,
-            infiltrometerType: infiltrometerType
+            date: action.payload.date,
+            protocol: action.payload.protocol,
+            readings: [],
+            infiltrometerType: action.payload.infiltrometerType
         }
       );
 
     },
-    addReading: (state, reading, id)=>{
-        state.reports[id].readings.push(reading); 
+    addReading: (state, action)=>{
+        state.reports[action.payload.id].readings.push(action.payload.reading); 
     }
   }
 });
+
+export const { newReport } = reportsSlice.actions;
+export const selectReports = (state) => state.reports;
+
 export default reportsSlice.reducer;
