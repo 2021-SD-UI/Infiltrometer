@@ -7,9 +7,7 @@ export const baerInitializeSlice = createSlice({
     name: 'baerInitialize',
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
-  reducers: {}
+  reducers: {
+  }
 });
-
-export const baerInitializeSlice = createSlice();
-
 export default baerInitializeSlice.reducer;

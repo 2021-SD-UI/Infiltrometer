@@ -1,5 +1,5 @@
 {
-  "homepage": "https://2021-SD-UI.github.io/Infiltrometer",
+  "homepage": "https://2021-sd-ui.github.io/Infiltrometer",
   "name": "infiltrometer21",
   "version": "0.1.0",
   "private": true,
@@ -10,29 +10,19 @@
     "@testing-library/user-event": "^7.2.1",
     "gh-pages": "^3.2.3",
     "react": "^17.0.2",
+    "react-compound-timer": "^1.2.0",
     "react-dom": "^17.0.2",
     "react-redux": "^7.2.5",
-<<<<<<< HEAD
     "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3"
   },
   "scripts": {
     "predeploy": "npm run build",
-=======
-    "react-scripts": "4.0.3"
-  },
-  "scripts": {
-        "predeploy": "npm run build",
->>>>>>> 78bb0b272eb4a705b282305de49fe4500958c841
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
-<<<<<<< HEAD
-=======
-
->>>>>>> 78bb0b272eb4a705b282305de49fe4500958c841
   },
   "eslintConfig": {
     "extends": "react-app"
