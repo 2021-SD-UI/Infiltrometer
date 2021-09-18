@@ -21,7 +21,7 @@ export const reportsSlice = createSlice({
             id: state.curId++,
             date: new Date(),
             protocol: protocol,
-            readings: readings,
+            readings: [],
             infiltrometerType: infiltrometerType
         }
       );
