@@ -5,6 +5,7 @@ import BaerInitializeView from './features/baer-initialize/BaerInitializeView';
 import BaerReplicationView from './features/baer-replication/BaerReplicationView';
 import BaerResultsView from './features/baer-results/BaerResultsView';
 import { ShowReportsButton } from './features/reports/ShowReportsButon';
+import { RegressionTesting } from './features/regression/RegressionTesting';
 const  App = ()=> {
   return (
     <BrowserRouter>
@@ -23,6 +24,9 @@ const  App = ()=> {
             </Route>
             <Route exact path ="/Infiltrometer/baer-results">
               <BaerResultsView/>
+            </Route>
+             <Route exact path ="/Infiltrometer/testing/regression">
+              <RegressionTesting/>
             </Route>
 
           </Switch>
