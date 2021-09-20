@@ -6,6 +6,7 @@ import BaerReplicationView from './features/baer-replication/BaerReplicationView
 import BaerResultsView from './features/baer-results/BaerResultsView';
 import { ShowReportsButton } from './features/reports/ShowReportsButon';
 import { RegressionTesting } from './features/regression/RegressionTesting';
+
 const  App = ()=> {
   return (
     <BrowserRouter>
