@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/Infiltrometer/static/css/main.7c9f2fc8.chunk.css",
-    "main.js": "/Infiltrometer/static/js/main.195d0370.chunk.js",
-    "main.js.map": "/Infiltrometer/static/js/main.195d0370.chunk.js.map",
+    "main.js": "/Infiltrometer/static/js/main.92fd6b20.chunk.js",
+    "main.js.map": "/Infiltrometer/static/js/main.92fd6b20.chunk.js.map",
     "runtime-main.js": "/Infiltrometer/static/js/runtime-main.a77bc88c.js",
     "runtime-main.js.map": "/Infiltrometer/static/js/runtime-main.a77bc88c.js.map",
     "static/js/2.b998a24c.chunk.js": "/Infiltrometer/static/js/2.b998a24c.chunk.js",
@@ -15,6 +15,6 @@
     "static/js/runtime-main.a77bc88c.js",
     "static/js/2.b998a24c.chunk.js",
     "static/css/main.7c9f2fc8.chunk.css",
-    "static/js/main.195d0370.chunk.js"
+    "static/js/main.92fd6b20.chunk.js"
   ]
 }
