@@ -7,25 +7,31 @@ import {Protocols} from '../reports/protocols'
 import { selectInitialVolume, selectInfiltrometerData,
   selectInfiltrometerRadius, selectInfiltrometerSuction } from './bear-initializeSlice';
 import { Redirect } from 'react-router';
+import { useEffect } from 'react';
+
+
+
 
 const BaerInitializeView = () => {
+  
   const dispatch = useDispatch();
   /**
    * Adds a new Baer prototocol report using the reports slice
    */
   const generateNewBaerReport=()=>{
 
-
+    //TODO: validate the input
+   
+    //dispatch the new report with valid input
     dispatch(newReport({
      
       protocol: Protocols.Baer,
       //new Date() initializes to the current Date
-      date: (new Date()).toString(),
-     
+      date: (new Date()).toString(),    
       infiltrometerData: 0
     })
-    
     );
+
   }
   /**Makes sure the current initial volume in the store is valid
    * @returns true if valid, false if not valid
@@ -114,8 +120,6 @@ const BaerInitializeView = () => {
       <button type="submit" class="btn btn-primary" onClick = {generateNewBaerReport}>Start Protocol</button>
     </div>
   </div>
-
-
   </div>
      );
 }
