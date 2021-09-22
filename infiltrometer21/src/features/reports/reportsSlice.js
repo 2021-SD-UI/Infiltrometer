@@ -17,7 +17,7 @@ export const reportsSlice = createSlice({
      newReport: (state, action) => {
       // Push a new report onto the report stack and increment the id
       state.curId++;
-      state.reports.push(
+      state.reports = [...state.reports,(
         {
             id: state.curId,
             date: action.payload.date,
@@ -25,7 +25,7 @@ export const reportsSlice = createSlice({
             readings: [],
             infiltrometerData: action.payload.infiltrometerData
         }
-      );
+      )];
 
     },
 
@@ -36,12 +36,15 @@ export const reportsSlice = createSlice({
      * 
      */
     addReading: (state, action)=>{
-        state.reports[action.payload.id].readings.push(action.payload.reading); 
+      //add the reading to the end of the list of readings
+        state.reports[state.curId].readings =
+        [...state.reports[state.curId].readings, 
+        action.payload.reading]; 
     }
   }
 });
 
-export const { newReport } = reportsSlice.actions;
+export const { newReport, addReading } = reportsSlice.actions;
 export const selectReports = (state) => state.reports;
 
 export default reportsSlice.reducer;

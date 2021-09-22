@@ -8,10 +8,7 @@ import { selectInitialVolume, selectInfiltrometerData,
   
   selectInfiltrometerRadius, selectInfiltrometerSuction } from './bear-initializeSlice';
 const BaerInitializeView = () => {
-
   const dispatch = useDispatch();
-
-
   /**
    * Adds a new Baer prototocol report using the reports slice
    */

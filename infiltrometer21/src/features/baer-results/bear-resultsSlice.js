@@ -2,7 +2,11 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 
 
-const initialState = {};
+const initialState = {
+
+
+
+};
 
 export const baerResultsSlice = createSlice({
     name: 'baerResults',
