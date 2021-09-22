@@ -1,6 +1,6 @@
 //The Page we are displaying for the baer Initialize view
 import { Link } from 'react-router-dom';
-import React from 'react';
+import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { newReport } from '../reports/reportsSlice';
 import {Protocols} from '../reports/protocols'
@@ -14,6 +14,18 @@ import { useEffect } from 'react';
 
 const BaerInitializeView = () => {
   
+  const [redirect, setRedirect] = useState(false);
+
+  /**
+   * Goes to baer replication page when we set the redirect
+   * flag to true
+   * @returns 
+   */
+  const Redirector = () =>{
+    return redirect ? <Redirect to ="/Infiltrometer/baer-replication"/> : null;
+  }
+
+
   const dispatch = useDispatch();
   /**
    * Adds a new Baer prototocol report using the reports slice
@@ -32,6 +44,9 @@ const BaerInitializeView = () => {
     })
     );
 
+
+    //set our redirect flag to true
+    setRedirect(true);
   }
   /**Makes sure the current initial volume in the store is valid
    * @returns true if valid, false if not valid
@@ -53,8 +68,6 @@ const BaerInitializeView = () => {
 
   return (
   <div>
-
- 
   <div>
     <h1>
       Initialize Baer Protocol
@@ -120,6 +133,7 @@ const BaerInitializeView = () => {
       <button type="submit" class="btn btn-primary" onClick = {generateNewBaerReport}>Start Protocol</button>
     </div>
   </div>
+    <Redirector/>
   </div>
      );
 }
