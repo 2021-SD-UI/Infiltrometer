@@ -4,12 +4,13 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectReading } from './bear-replicationSlice';
 import {addReading} from '../reports/reportsSlice';
+import { selectTimeInterval } from '../baer-initialize/bear-initializeSlice';
 
 const BaerReplicationView = () => {
 
   //Gets the current reading in the baer-replicationSlice
   const reading = useSelector(selectReading);
-
+  const timeInterval = useSelector(selectTimeInterval);
   const dispatch = useDispatch();
 
 
@@ -17,6 +18,13 @@ const BaerReplicationView = () => {
     <div>
       <button onClick={()=>dispatch(addReading(reading))}>
         Add Reading
+      </button>
+      <button onClick={()=>{
+        
+        console.log(timeInterval);
+
+      }}>
+        Log Time Interval
       </button>
       Bear Replication View
     </div>

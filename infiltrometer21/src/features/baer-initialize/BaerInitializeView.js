@@ -7,7 +7,7 @@ import {Protocols} from '../reports/protocols'
 import { selectInitialVolume, selectInfiltrometerData,
   selectInfiltrometerRadius, selectInfiltrometerSuction,
 setInitialVolume,
-setInfiltrometerSuction} from './bear-initializeSlice';
+setInfiltrometerSuction, setTimeInterval, selectTimeInterval} from './bear-initializeSlice';
 import { Redirect } from 'react-router';
 import { useEffect } from 'react';
 
@@ -16,7 +16,13 @@ import { useEffect } from 'react';
 
 const BaerInitializeView = () => {
   
-  const [redirect, setRedirect] = useState(false);
+
+  const initailState = {
+    validated: false,
+    redirect: false
+  };
+
+  const [state, setState] = useState(false);
 
   /**
    * Goes to baer replication page when we set the redirect
@@ -24,7 +30,7 @@ const BaerInitializeView = () => {
    * @returns 
    */
   const Redirector = () =>{
-    return redirect ? <Redirect to ="/Infiltrometer/baer-replication"/> : null;
+    return state.redirect ? <Redirect to ="/Infiltrometer/baer-replication"/> : null;
   }
 
   const infiltrometerData = useSelector(selectInfiltrometerData);
@@ -35,7 +41,11 @@ const BaerInitializeView = () => {
   const generateNewBaerReport=()=>{
 
     //TODO: validate the input
-   
+    setState({...state,
+      validated: true});
+
+
+
     //dispatch the new report with valid input
     dispatch(newReport({
      
@@ -47,8 +57,9 @@ const BaerInitializeView = () => {
     );
 
 
-    //set our redirect flag to true
-    setRedirect(true);
+      //set our redirect flag to true
+      setState({...state,redirect: true});
+    
   }
   /**Makes sure the current initial volume in the store is valid
    * @returns true if valid, false if not valid
@@ -105,9 +116,15 @@ const BaerInitializeView = () => {
     </div>
   </div>
   <div class="form-group row">
-    <label for="inputTimeInterval" class="col-sm-2 col-form-label">Time Interval</label>
+    <label for="inputTimeInterval" class="col-sm-2 col-form-label" >Time Interval</label>
     <div class="col-sm-10">
-      <input type="number" class="form-control" id="inputTimeInterval" placeholder="Enter Time Interval"/>
+      <input type="number" class="form-control" id="inputTimeInterval" placeholder="Enter Time Interval" onChange = {
+        
+        //set the suction in redux when the text changes
+
+        (text)=>dispatch(setTimeInterval(text.target.value))
+        
+        }/>
     </div>
   </div>
   
