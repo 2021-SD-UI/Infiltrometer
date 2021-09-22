@@ -41,8 +41,11 @@ export const baerInitializeSlice = createSlice({
     },
     setInitialVolume: (state, action)=>{
 
-      state.initialVolume = action.payload.initialVolume;
+      state.initialVolume = action.payload;
     
+    },
+    setInfiltrometerSuction: (state, action)=>{
+      state.infiltrometerSuction = action.payload;
     }
 
   }
@@ -53,17 +56,21 @@ export const baerInitializeSlice = createSlice({
  * @param {*} state 
  * @returns 
  */
-export const selectInfiltrometerType = (state) => state.bearInitialize.infiltrometerType;
+export const selectInfiltrometerType = (state) => state.baerInitialize.infiltrometerType;
 
-export const selectInfiltrometerRadius = (state) => state.bearInitialize.infiltrometerR;
+export const selectInfiltrometerRadius = (state) => state.baerInitialize.infiltrometerR;
 
-export const selectInfiltrometerSuction = (state) => state.bearInitialize.suction;
+export const selectInfiltrometerSuction = (state) => state.baerInitialize.suction;
 
-export const selectSoilType = (state) => state.bearInitialize.soilType;
+export const selectSoilType = (state) => state.baerInitialize.soilType;
 
-export const selectInitialVolume = (state) => state.bearInitialize.initialVolume;
+export const selectInitialVolume = (state) => state.baerInitialize.initialVolume;
 
-export const selectInfiltrometerData = (state) => state.bearInitialize;
+export const selectInfiltrometerData = (state) => state.baerInitialize;
+
+
+//export the actions
+export const { setInfiltrometerType, setInitialVolume, setInfiltrometerSuction } = baerInitializeSlice.actions;
 
 
 

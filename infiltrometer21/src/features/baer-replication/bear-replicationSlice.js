@@ -22,11 +22,11 @@ export const baerReplicationSlice = createSlice({
      * @param {must contain a volume payload} action 
      */
     setVolume: (state, action)=>{
-      state.volume = action.payload.volume;
+      state.volume = action.payload;
     }
     ,
     setSecondsElapsed: (state, action)=>{
-      state.secondsElapsed = action.payload.secondsElapsed;
+      state.secondsElapsed = action.payload;
     }
 
   }

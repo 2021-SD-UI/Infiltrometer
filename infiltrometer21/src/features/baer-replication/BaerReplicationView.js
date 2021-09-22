@@ -15,7 +15,7 @@ const BaerReplicationView = () => {
 
   return (<div>
     <div>
-      <button onClick={()=>dispatch(addReading({reading}))}>
+      <button onClick={()=>dispatch(addReading(reading))}>
         Add Reading
       </button>
       Bear Replication View

@@ -5,7 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { newReport } from '../reports/reportsSlice';
 import {Protocols} from '../reports/protocols'
 import { selectInitialVolume, selectInfiltrometerData,
-  selectInfiltrometerRadius, selectInfiltrometerSuction } from './bear-initializeSlice';
+  selectInfiltrometerRadius, selectInfiltrometerSuction,
+setInitialVolume,
+setInfiltrometerSuction} from './bear-initializeSlice';
 import { Redirect } from 'react-router';
 import { useEffect } from 'react';
 
@@ -25,7 +27,7 @@ const BaerInitializeView = () => {
     return redirect ? <Redirect to ="/Infiltrometer/baer-replication"/> : null;
   }
 
-
+  const infiltrometerData = useSelector(selectInfiltrometerData);
   const dispatch = useDispatch();
   /**
    * Adds a new Baer prototocol report using the reports slice
@@ -40,7 +42,7 @@ const BaerInitializeView = () => {
       protocol: Protocols.Baer,
       //new Date() initializes to the current Date
       date: (new Date()).toString(),    
-      infiltrometerData: 0
+      infiltrometerData: infiltrometerData
     })
     );
 
@@ -79,15 +81,27 @@ const BaerInitializeView = () => {
     </div>
 
   <div class="form-group row">
-    <label for="inputVolume" class="col-sm-2 col-form-label">Initial Volume</label>
+    <label for="inputVolume" class="col-sm-2 col-form-label" >Initial Volume</label>
     <div class="col-sm-10">
-      <input type="number" class="form-control" id="inputVolume" placeholder="Enter Volume"/>
+      <input type="number" class="form-control" id="inputVolume" onChange = {
+        
+        //set the initial volume in redux when the text changes
+
+        (evt)=>dispatch(setInitialVolume(evt.target.value))
+        
+        } placeholder="Enter Volume"/>
     </div>
   </div>
   <div class="form-group row">
     <label for="inputSuction" class="col-sm-2 col-form-label">Suction</label>
     <div class="col-sm-10">
-      <input type="number" class="form-control" id="inputSuction" placeholder="Enter Suction"/>
+      <input type="number" class="form-control" id="inputSuction"  onChange = {
+        
+        //set the suction in redux when the text changes
+
+        (evt)=>dispatch(setInfiltrometerSuction(evt.target.value))
+        
+        } placeholder="Enter Suction"/>
     </div>
   </div>
   <div class="form-group row">

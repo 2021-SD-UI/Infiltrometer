@@ -39,7 +39,7 @@ export const reportsSlice = createSlice({
       //add the reading to the end of the list of readings
         state.reports[state.curId].readings =
         [...state.reports[state.curId].readings, 
-        action.payload.reading]; 
+        action.payload]; 
     }
   }
 });
