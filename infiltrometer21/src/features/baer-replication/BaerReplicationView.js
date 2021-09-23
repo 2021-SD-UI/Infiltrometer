@@ -25,18 +25,33 @@ const renderTime = ({ remainingTime }) => {
 
 const BaerReplicationView = () => {
 
+
+
+  const initializeState = {
+    timerIsPlaying: true,
+    key: 0
+  };
+
+  const [state, setState] = useState(initializeState);
+
+
   //Gets the current reading in the baer-replicationSlice
   const reading = useSelector(selectReading);
   const timeInterval = useSelector(selectTimeInterval);
   const dispatch = useDispatch();
-  const [key, setKey] = useState(0);
 
+  //use to set the key variable
+  const setKey = (key) => setState({...state, key});
+  //use to set the timer is playing variable
+  const setPlaying = (playing)=>setState({...state, timerIsPlaying:playing});
+
+  
   return (
       <div>
         <div className="timer-wrapper">
           <CountdownCircleTimer
-              key={key}
-              isPlaying
+              key={state.key}
+              isPlaying = {state.timerIsPlaying}
               duration={Number(timeInterval)}
               colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
           >
@@ -51,6 +66,9 @@ const BaerReplicationView = () => {
         <div>
           <button onClick={()=>dispatch(addReading(reading))}>
             Add Reading
+          </button>
+           <button onClick={()=>setPlaying(!state.timerIsPlaying)}>
+            Toggle Timer
           </button>
         Bear Replication View
         </div>
