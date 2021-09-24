@@ -98,7 +98,7 @@ const BaerInitializeView = () => {
         
         //set the initial volume in redux when the text changes
 
-        (evt)=>dispatch(setInitialVolume(evt.target.value))
+        (evt)=>dispatch(setInitialVolume(Number(evt.target.value)))
         
         } placeholder="Enter Volume"/>
     </div>
@@ -110,7 +110,7 @@ const BaerInitializeView = () => {
         
         //set the suction in redux when the text changes
 
-        (evt)=>dispatch(setInfiltrometerSuction(evt.target.value))
+        (evt)=>dispatch(setInfiltrometerSuction(Number(evt.target.value)))
         
         } placeholder="Enter Suction"/>
     </div>
@@ -122,7 +122,7 @@ const BaerInitializeView = () => {
         
         //set the suction in redux when the text changes
 
-        (text)=>dispatch(setTimeInterval(text.target.value))
+        (text)=>dispatch(setTimeInterval(Number(text.target.value)))
         
         }/>
     </div>

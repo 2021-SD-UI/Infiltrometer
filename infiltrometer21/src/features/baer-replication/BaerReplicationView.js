@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import React, {useState} from 'react';
 import ReactDOM from "react-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { selectReading } from './bear-replicationSlice';
+import { selectReading, setVolume, setSecondsElapsed } from './bear-replicationSlice';
 import {addReading} from '../reports/reportsSlice';
 import { selectTimeInterval, selectInitialVolume } from '../baer-initialize/bear-initializeSlice';
 import {CountdownCircleTimer} from "react-countdown-circle-timer";
 import "./timer.css";
+import _default from 'react-overlays/esm/Modal';
 
 const renderTime = ({ remainingTime }) => {
   if (remainingTime === 0) {
@@ -25,36 +26,57 @@ const renderTime = ({ remainingTime }) => {
 
 const BaerReplicationView = () => {
 
-  const initializeState = {
-    timerIsPlaying: false,
-    key: 0
-  };
-
-  const [state, setState] = useState(initializeState);
+ 
 
   //Gets the current reading in the baer-replicationSlice
   const reading = useSelector(selectReading);
   const timeInterval = useSelector(selectTimeInterval);
-  const initialVolume = useSelector(selectInitialVolume);
+  const initialVolume = Number(useSelector(selectInitialVolume));
   const dispatch = useDispatch();
+
+   const initializeState = {
+    timerIsPlaying: false,
+    key: 0,
+    lastVolume: initialVolume
+  };
+
+  const [state, setState] = useState(initializeState);
 
   //use to set the key variable
   const setKey = (key) => setState({...state, key});
   //use to set the timer is playing variable
   const setPlaying = (playing)=>setState({...state, timerIsPlaying:playing});
+  //use to set the last recorded volume
+  const setLastVolume = (lastVolume)=>setState({...state, lastVolume});
 
   // This function will be called when the timer reaches zero.
   function getVolumeReading() {
-      let volumeReading = prompt("Enter volumetric data below.");
+      let volumeReading = Number(prompt("Enter volumetric data below.",0));
 
-      // Notify user of invalid input if volume reading is greater than initial volume or is negative.
-      if (volumeReading > initialVolume || volumeReading < 0) {
-          window.confirm("Invalid input! Make sure your volume reading is less than or equal to: " + initialVolume);
+      // Notify user of invalid input if volume reading is greater than last volume or is negative.
+      
+      while (volumeReading > state.lastVolume || volumeReading < 0 || volumeReading == null) {
+          window.confirm("Invalid input! Make sure your volume reading is less than or equal to: " + state.lastVolume );
+          volumeReading = Number(prompt("Enter volumetric data below.",0));
       }
       // TODO: Record data to report
-      else {
+      
+          //update the last recorded volume to the one we just recorded
+          setLastVolume(volumeReading);
 
-      }
+          //TODO: set the volume in the replication store
+          dispatch(setVolume(volumeReading));
+          
+          
+          //TODO: set the time in the replication store
+          dispatch(setSecondsElapsed(0));
+
+          //TODO: add the replication store's current reading to the report's readings
+          dispatch(addReading(reading));
+
+          //restart the timer
+          setKey(state.key + 1);
+      
   }
 
   return (
@@ -70,15 +92,8 @@ const BaerReplicationView = () => {
             {renderTime}
           </CountdownCircleTimer>
         </div>
-          <div className="button-wrapper">
-              <button onClick={() => setKey(prevKey => prevKey + 1)}>
-                  Restart Timer
-              </button>
-          </div>
+          
         <div>
-          <button onClick={()=>dispatch(addReading(reading))}>
-            Add Reading
-          </button>
            <button onClick={()=>setPlaying(!state.timerIsPlaying)}>
             Toggle Timer
           </button>
