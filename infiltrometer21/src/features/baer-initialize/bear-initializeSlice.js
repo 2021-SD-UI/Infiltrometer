@@ -49,6 +49,10 @@ export const baerInitializeSlice = createSlice({
     },
     setTimeInterval: (state, action)=>{
       state.timeInterval = action.payload;
+    },
+
+    setSoilType: (state, action) =>{
+      state.soilType = action.payload;
     }
 
   }
@@ -73,8 +77,10 @@ export const selectInfiltrometerData = (state) => state.baerInitialize;
 
 export const selectTimeInterval = (state) => state.baerInitialize.timeInterval;
 
+
+
 //export the actions
-export const { setInfiltrometerType, setInitialVolume, setInfiltrometerSuction, setTimeInterval } = baerInitializeSlice.actions;
+export const { setInfiltrometerType, setInitialVolume, setInfiltrometerSuction, setTimeInterval, setSoilType } = baerInitializeSlice.actions;
 
 
 
