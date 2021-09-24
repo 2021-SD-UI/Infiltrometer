@@ -7,10 +7,11 @@ import {Protocols} from '../reports/protocols'
 import { selectInitialVolume, selectInfiltrometerData,
   selectInfiltrometerRadius, selectInfiltrometerSuction,
 setInitialVolume,
-setInfiltrometerSuction, setTimeInterval, selectTimeInterval} from './bear-initializeSlice';
+setInfiltrometerSuction, setTimeInterval, selectTimeInterval,setSoilType,selectSoilType} from './bear-initializeSlice';
 import { Redirect } from 'react-router';
 import { useEffect } from 'react';
 import { setLastVolume } from '../baer-replication/bear-replicationSlice';
+import { soilTypes } from '../../app/soilTypes';
 
 
 
@@ -76,6 +77,24 @@ const BaerInitializeView = () => {
    */
   function ValidateInfiltromterType(infiltrometerType){
 
+  } 
+  /** validates suction
+   * @returns true if valid, false if not valid
+   * @param {the suction to check for validation} suction
+   */
+  function ValidateSuction() {
+      let suction = useSelector(selectInfiltrometerSuction);
+      return (suction > 0);
+  }
+  /**validates time interval
+   * 
+   * @returns ture if valid, otherwise false.
+   * @param {the time interval to check for validation}
+   */
+  function ValidateTimeInterval() {
+    let timeInterval = useSelector(selectTimeInterval);
+
+    return (timeInterval > 0);
   }
 
 
@@ -137,25 +156,33 @@ const BaerInitializeView = () => {
       <legend class="col-form-label col-sm-2 pt-0">Soil Type</legend>
       <div class="col-sm-10">
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="gridRadios" id="clayRadio" value="option1" checked/>
+          <input class="form-check-input" type="radio" name="gridRadios" id="clayRadio" value="option1" onChange = {
+            (evt)=>dispatch(setSoilType(soilTypes.clay))
+          }/>
           <label class="form-check-label" for="clayRadio">
             Clay
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="gridRadios" id="loamRadio" value="option2"/>
+          <input class="form-check-input" type="radio" name="gridRadios" id="loamRadio" value="option2"onChange = {
+            (evt)=>dispatch(setSoilType(soilTypes.loam))
+          }/>
           <label class="form-check-label" for="loamRadio">
             Loam
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="gridRadios" id="clayLoamRadio" value="option3"/>
+          <input class="form-check-input" type="radio" name="gridRadios" id="clayLoamRadio" value="option3"onChange = {
+            (evt)=>dispatch(setSoilType(soilTypes.clayLoam))
+          }/>
           <label class="form-check-label" for="clayLoamRadio">
             Clay Loam
           </label>
         </div>
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="gridRadios" id="customRadio" value="option4"/>
+          <input class="form-check-input" type="radio" name="gridRadios" id="customRadio" value="option4"onChange = {
+            (evt)=>dispatch(setSoilType(soilTypes.default))
+          }/>
           <label class="form-check-label" for="customRadio">
             Custom
           </label>
