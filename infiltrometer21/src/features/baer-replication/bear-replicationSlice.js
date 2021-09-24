@@ -1,5 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-
+import {  createSlice } from '@reduxjs/toolkit';
 
 /**
  * Initialize all the data associated with a reading....
@@ -7,7 +6,8 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
  */
 const initialState = {
   volume: 0,
-  secondsElapsed: 0
+  secondsElapsed: 0,
+  lastVolume: 0
 };
 
 export const baerReplicationSlice = createSlice({
@@ -27,13 +27,17 @@ export const baerReplicationSlice = createSlice({
     setSecondsElapsed: (state, action)=>{
       state.secondsElapsed = Number(action.payload);
     }
+    ,
+    setLastVolume:(state, action)=>{
+      state.lastVolume = Number(action.payload);
+    }
 
   }
 });
 
-export const {setVolume, setSecondsElapsed} = baerReplicationSlice.actions;
+export const {setVolume, setSecondsElapsed, setLastVolume} = baerReplicationSlice.actions;
 
 
-export const selectReading = (state) => state.baerReplication;
+export const selectLastVolume = (state) => state.baerReplication.lastVolume;
 
 export default baerReplicationSlice.reducer;

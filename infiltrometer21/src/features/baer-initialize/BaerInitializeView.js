@@ -10,6 +10,7 @@ setInitialVolume,
 setInfiltrometerSuction, setTimeInterval, selectTimeInterval} from './bear-initializeSlice';
 import { Redirect } from 'react-router';
 import { useEffect } from 'react';
+import { setLastVolume } from '../baer-replication/bear-replicationSlice';
 
 
 
@@ -96,9 +97,11 @@ const BaerInitializeView = () => {
     <div class="col-sm-10">
       <input type="number" class="form-control" id="inputVolume" onChange = {
         
-        //set the initial volume in redux when the text changes
+        //set the initial volume and the last volume in redux when the text changes
 
-        (evt)=>dispatch(setInitialVolume(Number(evt.target.value)))
+        (evt)=>{dispatch(setInitialVolume(Number(evt.target.value)));
+                dispatch(setLastVolume(Number(evt.target.value)))}
+        
         
         } placeholder="Enter Volume"/>
     </div>
