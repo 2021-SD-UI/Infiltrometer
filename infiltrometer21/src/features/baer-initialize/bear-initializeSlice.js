@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { soilTypes } from '../../app/soilTypes';
 
+
  const initialState = {  
         initialVolume: 0,
         
@@ -9,7 +10,7 @@ import { soilTypes } from '../../app/soilTypes';
           long: 0,
         },
 
-        soilType: soilTypes.default,
+        soilType: soilTypes.custom,
         
         infiltrometerRadius: 0,
         
@@ -50,8 +51,7 @@ export const baerInitializeSlice = createSlice({
     setTimeInterval: (state, action)=>{
       state.timeInterval = action.payload;
     },
-
-    setSoilType: (state, action) =>{
+    setSoilType:(state, action)=>{
       state.soilType = action.payload;
     }
 
@@ -76,7 +76,6 @@ export const selectInitialVolume = (state) => state.baerInitialize.initialVolume
 export const selectInfiltrometerData = (state) => state.baerInitialize;
 
 export const selectTimeInterval = (state) => state.baerInitialize.timeInterval;
-
 
 
 //export the actions

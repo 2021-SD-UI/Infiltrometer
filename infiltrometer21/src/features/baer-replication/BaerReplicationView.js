@@ -5,7 +5,7 @@ import ReactDOM from "react-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { setVolume, setSecondsElapsed, selectLastVolume, setLastVolume } from './bear-replicationSlice';
 import {addReading} from '../reports/reportsSlice';
-import { selectTimeInterval, selectInitialVolume } from '../baer-initialize/bear-initializeSlice';
+import { selectTimeInterval, selectInitialVolume, setSoilType, selectSoilType } from '../baer-initialize/bear-initializeSlice';
 import {CountdownCircleTimer} from "react-countdown-circle-timer";
 import "./timer.css";
 import _default from 'react-overlays/esm/Modal';
@@ -38,6 +38,9 @@ const BaerReplicationView = () => {
 
   const dispatch = useDispatch();
 
+  //current soil type in the store
+  const curSoilType = useSelector(selectSoilType);
+
    const initializeState = {
     timerIsPlaying: false,
     key: 0,
@@ -67,10 +70,13 @@ const BaerReplicationView = () => {
 
           //TODO: set the volume in the replication store
           dispatch(setLastVolume(volumeReading));
-
           dispatch(setVolume(volumeReading));
           dispatch(setSecondsElapsed(0));
-          dispatch(addReading({volume: volumeReading, secondsElapsed: 0}));
+          dispatch(addReading(
+            
+            {volume: volumeReading, secondsElapsed: 0}
+            
+            ));
           setKey(state.key + 1);
       
   }

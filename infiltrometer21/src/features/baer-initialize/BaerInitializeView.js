@@ -26,6 +26,9 @@ const BaerInitializeView = () => {
 
   const [state, setState] = useState(false);
 
+  //current soil type in the store
+  const curSoilType = useSelector(selectSoilType);
+  
   /**
    * Goes to baer replication page when we set the redirect
    * flag to true
@@ -156,7 +159,8 @@ const BaerInitializeView = () => {
       <legend class="col-form-label col-sm-2 pt-0">Soil Type</legend>
       <div class="col-sm-10">
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="gridRadios" id="clayRadio" value="option1" onChange = {
+          <input class="form-check-input" type="radio" name="gridRadios" id="clayRadio" value="option1"
+          checked = {curSoilType == soilTypes.clay} onChange = {
             (evt)=>dispatch(setSoilType(soilTypes.clay))
           }/>
           <label class="form-check-label" for="clayRadio">
