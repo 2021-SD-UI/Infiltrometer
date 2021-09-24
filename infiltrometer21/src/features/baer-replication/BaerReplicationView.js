@@ -5,7 +5,7 @@ import ReactDOM from "react-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { selectReading } from './bear-replicationSlice';
 import {addReading} from '../reports/reportsSlice';
-import { selectTimeInterval } from '../baer-initialize/bear-initializeSlice';
+import { selectTimeInterval, selectInitialVolume } from '../baer-initialize/bear-initializeSlice';
 import {CountdownCircleTimer} from "react-countdown-circle-timer";
 import "./timer.css";
 
@@ -25,19 +25,17 @@ const renderTime = ({ remainingTime }) => {
 
 const BaerReplicationView = () => {
 
-
-
   const initializeState = {
-    timerIsPlaying: true,
+    timerIsPlaying: false,
     key: 0
   };
 
   const [state, setState] = useState(initializeState);
 
-
   //Gets the current reading in the baer-replicationSlice
   const reading = useSelector(selectReading);
   const timeInterval = useSelector(selectTimeInterval);
+  const initialVolume = useSelector(selectInitialVolume);
   const dispatch = useDispatch();
 
   //use to set the key variable
@@ -45,7 +43,20 @@ const BaerReplicationView = () => {
   //use to set the timer is playing variable
   const setPlaying = (playing)=>setState({...state, timerIsPlaying:playing});
 
-  
+  // This function will be called when the timer reaches zero.
+  function getVolumeReading() {
+      let volumeReading = prompt("Enter volumetric data below.");
+
+      // Notify user of invalid input if volume reading is greater than initial volume or is negative.
+      if (volumeReading > initialVolume || volumeReading < 0) {
+          window.confirm("Invalid input! Make sure your volume reading is less than or equal to: " + initialVolume);
+      }
+      // TODO: Record data to report
+      else {
+
+      }
+  }
+
   return (
       <div>
         <div className="timer-wrapper">
@@ -54,6 +65,7 @@ const BaerReplicationView = () => {
               isPlaying = {state.timerIsPlaying}
               duration={Number(timeInterval)}
               colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
+              onComplete={() => getVolumeReading()}
           >
             {renderTime}
           </CountdownCircleTimer>
