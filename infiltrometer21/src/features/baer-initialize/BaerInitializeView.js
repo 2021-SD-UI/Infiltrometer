@@ -20,7 +20,7 @@ const BaerInitializeView = () => {
 
   const initailState = {
     validated: false,
-    redirect: false
+    redirect: null
   };
 
   const [state, setState] = useState(false);
@@ -31,7 +31,7 @@ const BaerInitializeView = () => {
    * @returns 
    */
   const Redirector = () =>{
-    return state.redirect ? <Redirect to ="/Infiltrometer/baer-replication"/> : null;
+    return state.redirect!=null ? <Redirect to ={state.redirect}/> : null;
   }
 
   const infiltrometerData = useSelector(selectInfiltrometerData);
@@ -53,13 +53,13 @@ const BaerInitializeView = () => {
       protocol: Protocols.Baer,
       //new Date() initializes to the current Date
       date: (new Date()).toString(),    
-      infiltrometerData: infiltrometerData
+      infiltrometerData
     })
     );
 
 
       //set our redirect flag to true
-      setState({...state,redirect: true});
+      setState({...state,redirect: "/Infiltrometer/baer-replication"});
     
   }
   /**Makes sure the current initial volume in the store is valid
@@ -81,7 +81,7 @@ const BaerInitializeView = () => {
 
 
   return (
-  <div>
+  <div class = "col-sm">
   <div>
     <h1>
       Initialize Baer Protocol
@@ -91,6 +91,7 @@ const BaerInitializeView = () => {
         <div>
 
     </div>
+  <div class="container">
 
   <div class="form-group row">
     <label for="inputVolume" class="col-sm-2 col-form-label" >Initial Volume</label>
@@ -163,10 +164,9 @@ const BaerInitializeView = () => {
     </div>
   </fieldset>
   <div class="form-group row">
-    <div class="col-sm-10">
-      <button type="submit" class="btn btn-primary" onClick = {generateNewBaerReport}>Start Protocol</button>
-    </div>
+   <button type="submit" class="btn btn-primary" onClick = {generateNewBaerReport}>Start Protocol</button>
   </div>
+    </div>
     <Redirector/>
   </div>
      );

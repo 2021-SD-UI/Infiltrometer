@@ -91,11 +91,18 @@ const BaerReplicationView = () => {
           <div>
             Last Volume: {maxVolume}
           </div>
-        <div>
-           <button onClick={()=>setPlaying(!state.timerIsPlaying)}>
-            Toggle Timer
-          </button>
-        Bear Replication View
+        <div class="container">
+          <div class="row">
+             <button type="submit" class="btn btn-primary col-md-10" onClick = {()=>setPlaying(!state.timerIsPlaying)}>{
+            
+            !state.timerIsPlaying? "Start " : "Stop "
+            
+            } Timer</button>
+            <button type="submit" class="btn btn-secondary col-md-10">
+              End Protocol
+            </button>
+          </div>
+           
         </div>
         <Link to ="/Infiltrometer/baer-results">To Results View</Link>
       </div>);
