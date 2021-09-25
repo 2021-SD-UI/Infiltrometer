@@ -45,6 +45,6 @@ export const reportsSlice = createSlice({
 });
 
 export const { newReport, addReading } = reportsSlice.actions;
-export const selectReports = (state) => state.reports;
+export const selectReports = (state) => state.reports.reports;
 
 export default reportsSlice.reducer;
