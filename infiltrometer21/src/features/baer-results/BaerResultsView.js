@@ -14,25 +14,50 @@ const  BaerResultsView = ()=> {
   console.log(reports);
   console.log(lastVolume);
   console.log(infiltrometerData);
-
-  function makeTable(report) {
-    return (
-    <div>
-      {reports[0].readings[0]}
-    </div>
+console.log(reports[0].readings[0].volume);
 
 
-  )
+
+  function makeTableBody(reports,i){
+
+      return (
+          <tr>
+            <td>{reports[0].readings[i].volume}</td>
+            <td>{reports[0].readings[i].secondsElapsed}</td>
+          </tr>
+      )
   }
 
 
-  return (<div>
-    <div>
-      Bear Results View
-    </div>
+  return (<div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-9 text-lg-center">
+          <h1>Bear Results View</h1>
+
+        </div>
+        <div class="col-sm-1"></div>
       <Link to ="/Infiltrometer/baer-initialize">To Initialize View</Link>
-    {makeTable(reports)}
-    {reports.date}
+      </div>
+      <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-9">
+          <div class="container">
+            <table className={"table border-secondary"}>
+              <thead class="table-dark">
+                <tr>
+                  <th>Volume</th>
+                  <th>Seconds Elapsed</th>
+                </tr>
+              </thead>
+              <tbody>
+                  {makeTableBody(reports,0)}
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-sm-1"></div>
+      </div>
     </div>);
 }
 export default BaerResultsView;
