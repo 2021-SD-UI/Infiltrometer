@@ -10,7 +10,7 @@ import { soilTypes } from '../../app/soilTypes';
           long: 0,
         },
 
-        soilType: soilTypes.custom,
+        soilType: soilTypes.clay,
         
         infiltrometerRadius: 0,
         
