@@ -7,13 +7,14 @@ import {Protocols} from '../reports/protocols'
 import { selectInitialVolume, selectInfiltrometerData,
   selectInfiltrometerRadius, selectInfiltrometerSuction,
 setInitialVolume,
-setInfiltrometerSuction, setTimeInterval, selectTimeInterval,setSoilType,selectSoilType} from './bear-initializeSlice';
+setInfiltrometerSuction, setTimeInterval, selectTimeInterval,setSoilType,selectSoilType, setInfiltrometerData} from './bear-initializeSlice';
 import { Redirect } from 'react-router';
 import { useEffect } from 'react';
 import { setLastVolume } from '../baer-replication/bear-replicationSlice';
 import { soilTypes } from '../../app/soilTypes';
 import {Field, reduxForm} from 'redux-form'
 import { connect } from 'react-redux';
+import { setPage } from '../page-redirection/redirector-slice';
 
 
 
@@ -61,83 +62,19 @@ const validate = values => {
 
 
 const BaerInitializeView = (props) => {
-
+  const infiltrometerData = useSelector(selectInfiltrometerData);
   const { handleSubmit, pristine, reset, submitting } = props
   
-
-  const initailState = {
-    validated: false,
-    redirect: null,
-  };
-
-  const [state, setState] = useState(false);
 
   //current soil type in the store
   const curSoilType = useSelector(selectSoilType);
   
-  /**
-   * Goes to baer replication page when we set the redirect
-   * flag to true
-   * @returns 
-   */
-  const Redirector = () =>{
-    return state.redirect!=null ? <Redirect to ={state.redirect}/> : null;
-  }
+  
 
-  const infiltrometerData = useSelector(selectInfiltrometerData);
   const dispatch = useDispatch();
   /**
    * Adds a new Baer prototocol report using the reports slice
    */
-  const generateNewBaerReport=()=>{
-
-    //TODO: validate the input
-    setState({...state,
-      validated: true});
-
-
-
-    //dispatch the new report with valid input
-    
-
-
-      //set our redirect flag to true
-      setState({...state,redirect: "/Infiltrometer/baer-replication"});
-    
-  }
-  /**Makes sure the current initial volume in the store is valid
-   * @returns true if valid, false if not valid
-   * @param {\The volume to check for validation} volume 
-   */
-  function ValidateInitialVolume(){
-      let volume = useSelector(selectInitialVolume);
-      return (volume > 0);
-  }
-  /**
-   * @returns true if valid, false if not valid
-   * @param {the infitrometerType to check for validation} infiltrometerType 
-   */
-  function ValidateInfiltromterType(infiltrometerType){
-
-  } 
-  /** validates suction
-   * @returns true if valid, false if not valid
-   * @param {the suction to check for validation} suction
-   */
-  function ValidateSuction() {
-      let suction = useSelector(selectInfiltrometerSuction);
-      return (suction > 0);
-  }
-  /**validates time interval
-   * 
-   * @returns ture if valid, otherwise false.
-   * @param {the time interval to check for validation}
-   */
-  function ValidateTimeInterval() {
-    let timeInterval = useSelector(selectTimeInterval);
-
-    return (timeInterval > 0);
-  }
 
 
 
@@ -230,47 +167,55 @@ const BaerInitializeView = (props) => {
     
   
     <div>
-      <button type="submit" disabled={submitting}>Submit</button>
-      <button type="button" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
+      <button type="submit" class="btn btn-primary" disabled={submitting}>Start Protocol</button>
+      <button type="button" class="btn btn-secondary" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
     </div>
   </form>
 
-
- 
-  <div class="form-group row">
-   <button type="submit" class="btn btn-primary" onClick = {generateNewBaerReport}>Start Protocol</button>
-  </div>
     </div>
-    <Redirector/>
   </div>
      );
 }
 const onSubmit = (values, dispatch) => {
-  
-  dispatch(setInitialVolume(Number(values.volume)));
-  dispatch(setLastVolume(Number(values.volume)));
-  dispatch(setTimeInterval(Number(values.timeInterval)));
-  dispatch(setInfiltrometerSuction(Number(values.suction)));
-  switch (values.soilType) {
-    case "clay":
-      dispatch(setSoilType(soilTypes.clay));
-      break;
 
+let soilType = soilTypes.default;
+switch (values.soilType) {
+    case "clay":
+      soilType = soilTypes.clay;
+      break;
     case "clayLoam":
-      dispatch(setSoilType(soilTypes.clayLoam));
+       soilType = soilTypes.clayLoam;
       break;
     case "loam":
-      dispatch(setSoilType(soilTypes.loam));
-      break;
-    case "custom":
-      dispatch(setSoilType(soilTypes.default));
+       soilType = soilTypes.loam;
       break;
     default:
       break;
   }
+  let infiltrometerData = {
+     initialVolume: Number(values.volume),
+        
+              coordinates: {
+                lat:0,
+                long: 0,
+                },
+                soilType,
+                infiltrometerRadius: values.radius,       
+                timeInterval: Number(values.timeInterval),
+                infiltrometerSuction: Number(values.suction),
+  }
+  //set the infitrometer data in the store
+  dispatch(setInfiltrometerData(infiltrometerData));
+  
+  //send out the new report to the store
+  dispatch(newReport(  {
+            date: (new Date()).toString(),
+            protocol: Protocols.Baer,
+            infiltrometerData
+  }));
 
-  
-  
+  //change the page
+  dispatch(setPage("/Infiltrometer/baer-replication"));
 }
 export default connect()(reduxForm({
   form: 'baerInitializeForm',

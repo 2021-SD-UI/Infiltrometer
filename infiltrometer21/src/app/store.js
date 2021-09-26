@@ -6,6 +6,7 @@ import baerReplicationReducer from '../features/baer-replication/bear-replicatio
 import baerResultsReducer from '../features/baer-results/bear-resultsSlice';
 import reportsSlice from '../features/reports/reportsSlice';
 import {reducer as reduxFormReducer} from 'redux-form'
+import  redirectReducer  from '../features/page-redirection/redirector-slice';
 
 
 
@@ -17,6 +18,7 @@ export const store = configureStore({
     baerResults: baerResultsReducer,
     counter: counterReducer,
     reports: reportsSlice,
-    form: reduxFormReducer
+    form: reduxFormReducer,
+    redirector: redirectReducer
   },
 });

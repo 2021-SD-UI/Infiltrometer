@@ -10,7 +10,7 @@ const initialState = {
 };
 
 export const reportsSlice = createSlice({
-  name: 'baerResults',
+  name: 'reports',
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
@@ -45,6 +45,6 @@ export const reportsSlice = createSlice({
 });
 
 export const { newReport, addReading } = reportsSlice.actions;
-export const selectReports = (state) => state.reports;
+export const selectReports = (state) => state.reports.reports;
 
 export default reportsSlice.reducer;
