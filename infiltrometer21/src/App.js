@@ -6,10 +6,11 @@ import BaerReplicationView from './features/baer-replication/BaerReplicationView
 import BaerResultsView from './features/baer-results/BaerResultsView';
 import { ShowReportsButton } from './features/reports/ShowReportsButon';
 import { RegressionTesting } from './features/regression/RegressionTesting';
-
+import { Redirector } from './features/page-redirection/Redirector';
 const  App = ()=> {
   return (
     <BrowserRouter>
+          <Redirector/>
           <ShowReportsButton/>
           <Switch>
             <Route exact path ="/Infiltrometer/">

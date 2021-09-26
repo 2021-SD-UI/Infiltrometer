@@ -7,98 +7,75 @@ import {Protocols} from '../reports/protocols'
 import { selectInitialVolume, selectInfiltrometerData,
   selectInfiltrometerRadius, selectInfiltrometerSuction,
 setInitialVolume,
-setInfiltrometerSuction, setTimeInterval, selectTimeInterval,setSoilType,selectSoilType} from './bear-initializeSlice';
+setInfiltrometerSuction, setTimeInterval, selectTimeInterval,setSoilType,selectSoilType, setInfiltrometerData} from './bear-initializeSlice';
 import { Redirect } from 'react-router';
 import { useEffect } from 'react';
 import { setLastVolume } from '../baer-replication/bear-replicationSlice';
 import { soilTypes } from '../../app/soilTypes';
+import {Field, reduxForm} from 'redux-form'
+import { connect } from 'react-redux';
+import { setPage } from '../page-redirection/redirector-slice';
+
+
+
+const renderField = ({ input, label, type, meta: { touched, error} }) => (
+  <div>
+    
+    <div>
+      <input {...input} placeholder={label} type={type}/>
+      {touched && ((error && <span>{error}</span>))}
+    </div>
+  </div>
+)
+
+const validate = values => {
+  const errors = {}
+  if (!values.volume) {
+    errors.volume = 'Required'
+  } else if (values.volume < 0) {
+    errors.volume = 'Must be a value greater than zero'
+  }
+
+
+  if (!values.suction) {
+    errors.suction = 'Required'
+  } else if (Number(values.suction) <= 0) {
+    errors.suction = 'Must be a positive value'
+  }
+
+
+  if (!values.timeInterval) {
+    errors.timeInterval = 'Required'
+  } else if (Number(values.timeInterval) <= 0) {
+    errors.timeInterval = 'Time interval must be greater than 0'
+  }
+
+  if (!values.radius) {
+    errors.radius = "Required"
+  } else if (Number(values.radius) <= 0) { 
+    errors.radius = 'Radius must be larger than 0'
+  }
+  return errors
+}
 
 
 
 
-const BaerInitializeView = () => {
+const BaerInitializeView = (props) => {
+  const infiltrometerData = useSelector(selectInfiltrometerData);
+  const { handleSubmit, pristine, reset, submitting } = props
   
-
-  const initailState = {
-    validated: false,
-    redirect: null
-  };
-
-  const [state, setState] = useState(false);
 
   //current soil type in the store
   const curSoilType = useSelector(selectSoilType);
   
-  /**
-   * Goes to baer replication page when we set the redirect
-   * flag to true
-   * @returns 
-   */
-  const Redirector = () =>{
-    return state.redirect!=null ? <Redirect to ={state.redirect}/> : null;
-  }
+  
 
-  const infiltrometerData = useSelector(selectInfiltrometerData);
   const dispatch = useDispatch();
   /**
    * Adds a new Baer prototocol report using the reports slice
    */
-  const generateNewBaerReport=()=>{
 
-    //TODO: validate the input
-    setState({...state,
-      validated: true});
-
-
-
-    //dispatch the new report with valid input
-    dispatch(newReport({
-     
-      protocol: Protocols.Baer,
-      //new Date() initializes to the current Date
-      date: (new Date()).toString(),    
-      infiltrometerData
-    })
-    );
-
-
-      //set our redirect flag to true
-      setState({...state,redirect: "/Infiltrometer/baer-replication"});
-    
-  }
-  /**Makes sure the current initial volume in the store is valid
-   * @returns true if valid, false if not valid
-   * @param {\The volume to check for validation} volume 
-   */
-  function ValidateInitialVolume(){
-      let volume = useSelector(selectInitialVolume);
-      return (volume > 0);
-  }
-  /**
-   * @returns true if valid, false if not valid
-   * @param {the infitrometerType to check for validation} infiltrometerType 
-   */
-  function ValidateInfiltromterType(infiltrometerType){
-
-  } 
-  /** validates suction
-   * @returns true if valid, false if not valid
-   * @param {the suction to check for validation} suction
-   */
-  function ValidateSuction() {
-      let suction = useSelector(selectInfiltrometerSuction);
-      return (suction > 0);
-  }
-  /**validates time interval
-   * 
-   * @returns ture if valid, otherwise false.
-   * @param {the time interval to check for validation}
-   */
-  function ValidateTimeInterval() {
-    let timeInterval = useSelector(selectTimeInterval);
-
-    return (timeInterval > 0);
-  }
 
 
 
@@ -115,91 +92,134 @@ const BaerInitializeView = () => {
     </div>
   <div class="container">
 
-  <div class="form-group row">
-    <label for="inputVolume" class="col-sm-2 col-form-label" >Initial Volume</label>
-    <div class="col-sm-10">
-      <input type="number" class="form-control" id="inputVolume" onChange = {
-        
-        //set the initial volume and the last volume in redux when the text changes
 
-        (evt)=>{dispatch(setInitialVolume(Number(evt.target.value)));
-                dispatch(setLastVolume(Number(evt.target.value)))}
-        
-        
-        } placeholder="Enter Volume"/>
-    </div>
-  </div>
-  <div class="form-group row">
-    <label for="inputSuction" class="col-sm-2 col-form-label">Suction</label>
-    <div class="col-sm-10">
-      <input type="number" class="form-control" id="inputSuction"  onChange = {
-        
-        //set the suction in redux when the text changes
 
-        (evt)=>dispatch(setInfiltrometerSuction(Number(evt.target.value)))
-        
-        } placeholder="Enter Suction"/>
+  <form onSubmit = {handleSubmit}>
+    <div class="for-group row">
+      <label for="volume" class="col-sm-2 col-form-label" >Initial Volume</label>
+      <div class="col-sm-10">
+        <Field name="volume" type ="number" component={renderField} label="Initial Volume"/>
+      </div>
     </div>
-  </div>
-  <div class="form-group row">
-    <label for="inputTimeInterval" class="col-sm-2 col-form-label" >Time Interval</label>
-    <div class="col-sm-10">
-      <input type="number" class="form-control" id="inputTimeInterval" placeholder="Enter Time Interval" onChange = {
-        
-        //set the suction in redux when the text changes
 
-        (text)=>dispatch(setTimeInterval(Number(text.target.value)))
-        
-        }/>
+    <div class="for-group row">
+      <label for="suction" class="col-sm-2 col-form-label" >Suction</label>
+      <div class="col-sm-10">
+      <Field name="suction" type="number" component={renderField} label="Suction"/>
+      </div>
     </div>
-  </div>
-  
-  <fieldset class="form-group">
+
+    <div class="for-group row">
+      <label for="timeInterval" class="col-sm-2 col-form-label" >Time Interval</label>
+      <div class="col-sm-10">
+      <Field name="timeInterval" type="number" component={renderField} label="Time Interval"/>
+      </div>
+    </div>
+
+    <div class="for-group row">
+      <label for="radius" class="col-sm-2 col-form-label" >Radius</label>
+      <div class="col-sm-10">
+      <Field name="radius" type="number" component={renderField} label="Radius"/>
+      </div>
+    </div>
+
     <div class="row">
       <legend class="col-form-label col-sm-2 pt-0">Soil Type</legend>
       <div class="col-sm-10">
+
         <div class="form-check">
-          <input class="form-check-input" type="radio" name="gridRadios" id="clayRadio" value="option1"
-          checked = {curSoilType == soilTypes.clay} onChange = {
-            (evt)=>dispatch(setSoilType(soilTypes.clay))
-          }/>
-          <label class="form-check-label" for="clayRadio">
-            Clay
-          </label>
+          <label><Field name="soilType" component="input" type="radio"  value="clay"/> Clay</label>
+
         </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="gridRadios" id="loamRadio" value="option2"onChange = {
-            (evt)=>dispatch(setSoilType(soilTypes.loam))
-          }/>
-          <label class="form-check-label" for="loamRadio">
-            Loam
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="gridRadios" id="clayLoamRadio" value="option3"onChange = {
-            (evt)=>dispatch(setSoilType(soilTypes.clayLoam))
-          }/>
-          <label class="form-check-label" for="clayLoamRadio">
-            Clay Loam
-          </label>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="radio" name="gridRadios" id="customRadio" value="option4"onChange = {
-            (evt)=>dispatch(setSoilType(soilTypes.default))
-          }/>
-          <label class="form-check-label" for="customRadio">
-            Custom
-          </label>
-        </div>
-      </div>
+
     </div>
-  </fieldset>
-  <div class="form-group row">
-   <button type="submit" class="btn btn-primary" onClick = {generateNewBaerReport}>Start Protocol</button>
-  </div>
+
+    <div class="col-sm-10">
+
+        <div class="form-check">
+          <label><Field name="soilType" component="input" type="radio" value="loam"/> Loam</label>
+
+        </div>
+
     </div>
-    <Redirector/>
+
+    <div class="col-sm-10">
+
+        <div class="form-check">
+          <label><Field name="soilType" component="input" type="radio" value="clayLoam"/> Clay Loam</label>
+
+        </div>
+
+    </div>
+
+    <div class="col-sm-10">
+
+        <div class="form-check">
+          <label><Field name="soilType" component="input" type="radio" value="custom" /> Custom</label>
+          <Field name="nh0" component="input" type="number" value="nh0"/>
+          <Field name="alpha" component="input" type="number" value="alpha"/>
+
+        </div>
+
+    </div>
+    </div>
+
+    
+  
+    <div>
+      <button type="submit" class="btn btn-primary" disabled={submitting}>Start Protocol</button>
+      <button type="button" class="btn btn-secondary" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
+    </div>
+  </form>
+
+    </div>
   </div>
      );
 }
-export default BaerInitializeView;
+const onSubmit = (values, dispatch) => {
+
+let soilType = soilTypes.default;
+switch (values.soilType) {
+    case "clay":
+      soilType = soilTypes.clay;
+      break;
+    case "clayLoam":
+       soilType = soilTypes.clayLoam;
+      break;
+    case "loam":
+       soilType = soilTypes.loam;
+      break;
+    default:
+      break;
+  }
+  let infiltrometerData = {
+     initialVolume: Number(values.volume),
+        
+              coordinates: {
+                lat:0,
+                long: 0,
+                },
+                soilType,
+                infiltrometerRadius: values.radius,       
+                timeInterval: Number(values.timeInterval),
+                infiltrometerSuction: Number(values.suction),
+  }
+  //set the infitrometer data in the store
+  dispatch(setInfiltrometerData(infiltrometerData));
+  
+  //send out the new report to the store
+  dispatch(newReport(  {
+            date: (new Date()).toString(),
+            protocol: Protocols.Baer,
+            infiltrometerData
+  }));
+
+  //change the page
+  dispatch(setPage("/Infiltrometer/baer-replication"));
+}
+export default connect()(reduxForm({
+  form: 'baerInitializeForm',
+  validate,
+  onSubmit
+
+})(BaerInitializeView));
