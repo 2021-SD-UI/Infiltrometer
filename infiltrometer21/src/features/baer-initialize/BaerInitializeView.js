@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom';
 import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { newReport } from '../reports/reportsSlice';
+import { addReading, newReport } from '../reports/reportsSlice';
 import {Protocols} from '../reports/protocols'
 import { selectInitialVolume, selectInfiltrometerData,
   selectInfiltrometerRadius, selectInfiltrometerSuction,
@@ -10,7 +10,7 @@ setInitialVolume,
 setInfiltrometerSuction, setTimeInterval, selectTimeInterval,setSoilType,selectSoilType, setInfiltrometerData} from './bear-initializeSlice';
 import { Redirect } from 'react-router';
 import { useEffect } from 'react';
-import { setLastVolume } from '../baer-replication/bear-replicationSlice';
+import { setLastVolume, setSecondsElapsed } from '../baer-replication/bear-replicationSlice';
 import { soilTypes } from '../../app/soilTypes';
 import {Field, reduxForm} from 'redux-form'
 import { connect } from 'react-redux';
@@ -213,6 +213,12 @@ switch (values.soilType) {
             date: (new Date()).toString(),
             protocol: Protocols.Baer,
             infiltrometerData
+  }));
+
+  //add the intial reading
+  dispatch(addReading({
+    volume: Number(values.volume),
+    secondsElapsed: 0
   }));
 
   //change the page
