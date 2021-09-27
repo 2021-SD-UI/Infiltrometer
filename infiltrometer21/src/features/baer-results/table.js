@@ -69,9 +69,9 @@ const Table =()=> {
      //Whenever our class runs, render method will be called automatically, it may have already defined in the constructor behind the scene.
         return (
             <div>
-                <table class="table table-dark" id='students'>
+                <table class="table table-light table-striped table-hover" id='students'>
                     <tbody>
-                    <tr >{renderTableHeader()}</tr>
+                    <tr class="table-dark">{renderTableHeader()}</tr>
                     {renderTableData()}
                     </tbody>
                 </table>
