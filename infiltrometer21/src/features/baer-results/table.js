@@ -1,53 +1,42 @@
-import React, {Component, useState} from 'react'
+import React, {Component, useEffect, useState} from 'react'
 import {useSelector} from "react-redux";
-import {selectReports} from "../reports/reportsSlice";
+import {selectCurId, selectReports} from "../reports/reportsSlice";
 
 const Table =()=> {
     const rawReports = useSelector(selectReports);
 
+    const curReport = rawReports[useSelector(selectCurId)];
 
 
-    const initialState = { //state is by default an object
-        reports: [
-            {id: 1, Time: 2, Volume: 21},
-            {id: 2, Time: 5, Volume: 19},
-            {id: 3, Time: 6, Volume: 16},
-            {id: 4, Time: 2, Volume: 25}
-        ]
+    const [state, setState] = useState(filterReadings());
+
+    function findRate(i){
+        return curReport.readings[i].volume/curReport.readings[i].secondsElapsed;
     }
-
-
-
-    const [state, setState] = useState(initialState);
     function filterReadings(){
-        const readingsArr = [];
-        for(let i = 0; i< rawReports[0].readings.length; i++){
-            const readingObj = {
+        let readingsArr = [];
+        for(let i = 0; i < curReport.readings.length; i++){
+            readingsArr[i] = {
 
-                id: 0,
-                time: 0,
-                volume: 0
+                id: i,
+                Time: curReport.readings[i].secondsElapsed,
+                Volume: curReport.readings[i].volume,
+                Rate: findRate(i)
 
             };
-            readingObj.id = 0;
-            readingObj.time = 2;
-            console.log()
-            readingObj.volume = rawReports[0].readings[i].volume;
-            readingsArr[i] = readingObj;
         }
-        return readingsArr;
+        return {reports: readingsArr};
     }
-    const filteredReadings = filterReadings()
 
     function renderTableData() {
-
         return state.reports.map((report, index) => {
-            const {id, Time, Volume} = report //destructuring
+            const {id, Time, Volume,Rate} = report //destructuring
             return (
                 <tr key={id}>
                     <td>{id}</td>
                     <td>{Time}</td>
                     <td>{Volume}</td>
+                    <td>{Rate}</td>
                 </tr>
             )
         })
@@ -68,9 +57,9 @@ const Table =()=> {
             if (key.toUpperCase() === "VOLUME") {
                 return <th key={index}>{key.toUpperCase() + " (mL)"}</th>
             }
-            /*if (key.toUpperCase() === "INFILT") {
-                return <th key={index}>{key.toUpperCase() + " (cm)"}</th>
-            }*/
+            if (key.toUpperCase() === "RATE") {
+                return <th key={index}>{key.toUpperCase() + " (mL/sec)"}</th>
+            }
             // return <th key={index}>{key.toUpperCase()}</th>
         })
     }
@@ -80,10 +69,9 @@ const Table =()=> {
      //Whenever our class runs, render method will be called automatically, it may have already defined in the constructor behind the scene.
         return (
             <div>
-                <h1 id='title' align={"center"}>Mini-disk data</h1>
-                <table id='students'>
+                <table class="table table-dark" id='students'>
                     <tbody>
-                    <tr>{renderTableHeader()}</tr>
+                    <tr >{renderTableHeader()}</tr>
                     {renderTableData()}
                     </tbody>
                 </table>
