@@ -1,18 +1,49 @@
 //contains the single reference to the soil types to be used in reports under key "soilType"
 export const soilTypes = {
-    clay: {nh0:1,
+    clay: {nh0:1.09,
          /* positive number, of n/h0*/ 
-         alpha: 1 /* positive number,*/},
+         alpha: 0.005 /* positive number,*/},
     clayLoam:  {
-        nh0:2,
+        nh0:1.31,
          /* positive number, of n/h0*/ 
-         alpha: 2 /* positive number,*/},
-    loam:  {nh0:3,
+         alpha: 1.31 /* positive number,*/},
+    loam:  {nh0:1.56,
          /* positive number, of n/h0*/ 
-         alpha: 3 /* positive number,*/},
-    default: {
-        nh0:4,
-         /* positive number, of n/h0*/ 
-         alpha: 4 /* positive number,*/
-    }
+         alpha: .036 /* positive number,*/},
+     sand: {
+          alpha: 0.145,
+          nh0: 2.68
+     },
+     sandyClay:{
+          alpha: 0.027,
+          nh0: 1.23
+     },
+     loamySand:{
+          alpha: 0.124,
+          nh0: 2.28
+     },
+     sandyClayLoam:{
+          alpha: .059,
+          nh0: 1.48
+     },
+     sandyLoam:{
+          alpha: 0.075,
+          nh0: 1.89
+     },
+     silt:{
+          alpha: 0.016,
+          nh0: 1.37
+     },
+     siltLoam:{
+          alpha: .02,
+          nh0: 1.41
+     },
+     siltyClay:{
+          alpha: 0.005,
+          nh0: 1.09
+     },
+     siltyClayLoam:{
+          alpha: 0.01,
+          nh0: 1.23
+     }
 }
