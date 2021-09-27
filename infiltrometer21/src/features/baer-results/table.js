@@ -11,7 +11,7 @@ const Table =()=> {
     const [state, setState] = useState(filterReadings());
 
     function findRate(i){
-        return curReport.readings[i].volume/curReport.readings[i].secondsElapsed;
+        return curReport.readings[i].volume/curReport.readings[i].secondsElapsed*60;
     }
     function filterReadings(){
         let readingsArr = [];
