@@ -4,7 +4,7 @@ import React, {useState} from 'react';
 import ReactDOM from "react-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { setVolume, setSecondsElapsed, selectLastVolume, setLastVolume } from './bear-replicationSlice';
-import {addReading} from '../reports/reportsSlice';
+import reportsSlice, {addReading, selectCurId, selectReports, selectCurReadingID} from '../reports/reportsSlice';
 import { selectTimeInterval, selectInitialVolume, setSoilType, selectSoilType } from '../baer-initialize/bear-initializeSlice';
 import {CountdownCircleTimer} from "react-countdown-circle-timer";
 import "./timer.css";
@@ -34,6 +34,7 @@ const BaerReplicationView = () => {
   const initialVolume = Number(useSelector(selectInitialVolume));
   const lastVolume = Number(useSelector(selectLastVolume));
 
+
   //the max allowed volume
   const maxVolume = Math.min(initialVolume, lastVolume);
 
@@ -52,7 +53,7 @@ const BaerReplicationView = () => {
   const setKey = (key) => setState({...state, key});
   //use to set the timer is playing variable
   const setPlaying = (playing)=>setState({...state, timerIsPlaying:playing});
- 
+  const curID = useSelector(selectCurReadingID);
   function endProtocol(){
 
     //go to the results page
@@ -106,6 +107,9 @@ const BaerReplicationView = () => {
         </div>
           <div>
             Last Volume: {maxVolume}
+          </div>
+          <div>
+            Current Replication: {curID}
           </div>
         <div class="container">
           <div class="row">

@@ -47,4 +47,5 @@ export const reportsSlice = createSlice({
 export const { newReport, addReading } = reportsSlice.actions;
 export const selectReports = (state) => state.reports.reports;
 export const selectCurId = (state) => state.reports.curId;
+export const selectCurReadingID = (state) => state.reports.reports[state.reports.curId].readings.length;
 export default reportsSlice.reducer;
