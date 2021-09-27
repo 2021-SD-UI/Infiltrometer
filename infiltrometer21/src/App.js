@@ -11,7 +11,6 @@ const  App = ()=> {
   return (
     <BrowserRouter>
           <Redirector/>
-          <ShowReportsButton/>
           <Switch>
             <Route exact path ="/Infiltrometer/">
               <div>

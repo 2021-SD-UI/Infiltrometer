@@ -10,6 +10,7 @@ import {CountdownCircleTimer} from "react-countdown-circle-timer";
 import "./timer.css";
 import _default from 'react-overlays/esm/Modal';
 import { useEffect } from 'react';
+import { setPage } from '../page-redirection/redirector-slice';
 
 const renderTime = ({ remainingTime }) => {
   if (remainingTime === 0) {
@@ -38,8 +39,6 @@ const BaerReplicationView = () => {
 
   const dispatch = useDispatch();
 
-  //current soil type in the store
-  const curSoilType = useSelector(selectSoilType);
 
    const initializeState = {
     timerIsPlaying: false,
@@ -54,31 +53,42 @@ const BaerReplicationView = () => {
   //use to set the timer is playing variable
   const setPlaying = (playing)=>setState({...state, timerIsPlaying:playing});
  
+  function endProtocol(){
 
+    //go to the results page
+    dispatch(setPage("/Infiltrometer/baer-results"))
+  }
   // This function will be called when the timer reaches zero.
   function getVolumeReading() {
+
+      //stop the timer from running
+      setPlaying(false);
+
       let volumeReading = Number(prompt("Enter volumetric data below.",0));
 
+      //don't record if cancel was pressed
+      if (!volumeReading) return;
       // Notify user of invalid input if volume reading is greater than last volume or is negative.
-      
       while (volumeReading > maxVolume
-         || volumeReading < 0 || volumeReading == null) {
+         || volumeReading < 0) {
           window.confirm("Invalid input! Make sure your volume reading is less than or equal to: " + maxVolume );
           volumeReading = Number(prompt("Enter volumetric data below.",0));
+          //don't record if cancel was pressed
+          if (!volumeReading) return;
       }
-      // TODO: Record data to report
-
-          //TODO: set the volume in the replication store
-          dispatch(setLastVolume(volumeReading));
-          dispatch(setVolume(volumeReading));
-          dispatch(setSecondsElapsed(0));
-          dispatch(addReading(
-            
-            {volume: volumeReading, secondsElapsed: 0}
-            
-            ));
-          setKey(state.key + 1);
+      //calculate the total number of elapsed seconds
+      let secondsElapsed = (state.key+1) * timeInterval;
       
+      //set the volume and time in the replication store
+      dispatch(setLastVolume(volumeReading));
+      dispatch(setVolume(volumeReading));
+      dispatch(setSecondsElapsed(secondsElapsed));
+      
+      //add the reading using the reports slice
+      dispatch(addReading(
+            
+            {volume: volumeReading, secondsElapsed}      
+      ));
   }
 
   return (
@@ -99,19 +109,26 @@ const BaerReplicationView = () => {
           </div>
         <div class="container">
           <div class="row">
-             <button type="submit" class="btn btn-primary col-md-10" onClick = {()=>setPlaying(!state.timerIsPlaying)}>{
+             <button type="submit" class="btn btn-primary" disabled={state.timerIsPlaying} onClick = {()=>{
+              setState({
+                timerIsPlaying: true,
+                key: state.key+1}
+                );
+
+             }}>{
             
-            !state.timerIsPlaying? "Start " : "Stop "
+            !state.timerIsPlaying? "Start Replication" : "Replication Running..."
             
-            } Timer</button>
-            <button type="submit" class="btn btn-secondary col-md-10">
+            }</button>
+            <button type="submit" class="btn btn-secondary" onClick = {endProtocol}>
               End Protocol
             </button>
           </div>
            
         </div>
-        <Link to ="/Infiltrometer/baer-results">To Results View</Link>
       </div>);
+
+
 }
 
 // const rootElement = document.getElementById("root");

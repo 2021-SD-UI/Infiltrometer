@@ -6,8 +6,7 @@ const Table =()=> {
     const rawReports = useSelector(selectReports);
 
 
-    const report = filterReadings();
-    console.log(report);
+
     const initialState = { //state is by default an object
         reports: [
             {id: 1, Time: 2, Volume: 21},
@@ -15,30 +14,30 @@ const Table =()=> {
             {id: 3, Time: 6, Volume: 16},
             {id: 4, Time: 2, Volume: 25}
         ]
-
     }
+
+
+
+    const [state, setState] = useState(initialState);
     function filterReadings(){
         const readingsArr = [];
-        for(let i = 0; i< rawReports[0].length; i++){
+        for(let i = 0; i< rawReports[0].readings.length; i++){
             const readingObj = {
 
                 id: 0,
                 time: 0,
-                Volume: 0
+                volume: 0
 
             };
-            console.log(readingObj.time)
-            console.log(readingObj);
-            readingObj.id = rawReports[0].readings[i].id;
-            readingObj.time = rawReports[0].readings[i].secondsElapsed;
-            readingObj.Volume = rawReports[0].readings[i].volume;
+            readingObj.id = 0;
+            readingObj.time = 2;
+            console.log()
+            readingObj.volume = rawReports[0].readings[i].volume;
             readingsArr[i] = readingObj;
-            console.log(readingsArr);
         }
         return readingsArr;
     }
-    const [state, setState] = useState(initialState);
-    state.reports=filterReadings();
+    const filteredReadings = filterReadings()
 
     function renderTableData() {
 
@@ -49,7 +48,6 @@ const Table =()=> {
                     <td>{id}</td>
                     <td>{Time}</td>
                     <td>{Volume}</td>
-
                 </tr>
             )
         })
@@ -91,6 +89,7 @@ const Table =()=> {
                 </table>
             </div>
         )
+
 }
 
 

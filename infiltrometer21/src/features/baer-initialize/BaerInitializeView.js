@@ -95,7 +95,7 @@ const BaerInitializeView = (props) => {
 
 
   <form onSubmit = {handleSubmit}>
-    <div class="for-group row">
+    <div class="fo,r-group row">
       <label for="volume" class="col-sm-2 col-form-label" >Initial Volume</label>
       <div class="col-sm-10">
         <Field name="volume" type ="number" component={renderField} label="Initial Volume"/>
@@ -206,7 +206,8 @@ switch (values.soilType) {
   }
   //set the infitrometer data in the store
   dispatch(setInfiltrometerData(infiltrometerData));
-  
+  //set the last volume to the initial volume for the replication view
+  dispatch(setLastVolume(infiltrometerData.initialVolume));
   //send out the new report to the store
   dispatch(newReport(  {
             date: (new Date()).toString(),
