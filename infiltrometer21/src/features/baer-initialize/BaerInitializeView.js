@@ -55,6 +55,20 @@ const validate = values => {
   } else if (Number(values.radius) <= 0) { 
     errors.radius = 'Radius must be larger than 0'
   }
+
+  if (!values.nh0){
+    errors.nh0 = "Required"
+  }
+  else if (Number(values.nh0) < 0){
+    errors.nh0 = 'Must be a positive number'
+  }
+   if (!values.alpha){
+    errors.alpha = "Required"
+  }
+  else if (Number(values.alpha) < 0){
+    errors.alpha = 'Must be a positive number'
+  }
+
   return errors
 }
 
@@ -112,7 +126,8 @@ const BaerInitializeView = (props) => {
 
 
   return (
-  <div class = "col-sm">
+    
+  <div class = "col-sm-10">
   
         
   <div class="container">
@@ -142,34 +157,43 @@ const BaerInitializeView = (props) => {
     </div>
 
     <div class="form-group row">
-      <div class = "form-check">
+      <label for="radius" class="col-sm-2 col-form-label" >Radius</label>
+      <div class = "form-group col-sm-10">
+        <div class="form-group row">
+      <div class="col-sm-10">
       <Field name="infiltrometerType" component="select" onChange={handleFormChange}>
         <option value="customType" selected>Infiltrometer Type</option>
         <option value="miniDisk">MiniDisk</option>
         <option value="miniDiskV1">MiniDiskV1</option>
       </Field>
       </div>
-      <label for="radius" class="col-sm-2 col-form-label" >Radius</label>
-      <div class="col-sm-10">
       <Field name="radius" type="number" component={renderField} label="Radius"/>
       </div>
+      </div>
+
     </div>
 
     <div class="row">
-      <legend class="col-form-label col-sm-2 pt-0">Soil Type</legend>
+      <label for="soilType" class="col-sm-2 col-form-label" >Soil Type</label>
      
     <div class="col-sm-10">
 
-        <div class="form-check">
+        <div class="form-group row">
+          <div class="col-sm-10">
           <Field name="soilType" component="select" onChange={handleFormChange}>
             <option selected>Preset Soil Types</option>
             <option value="clay">Clay</option>
             <option value="loam">Loam</option>
             <option value="clayLoam">Clay Loam</option>
           </Field>
+          </div>
+          <div class="form-group col-sm-10">
+          <Field name="nh0" component={renderField} type="number" value="nh0" label="NH0"/>
+          </div>
+          <div class="form-group col-sm-10">
+          <Field name="alpha" component={renderField} type="number" value="alpha" label="Alpha"/>
+          </div>
           
-          <Field name="nh0" component="input" type="number" value="nh0" label="NH0"/>
-          <Field name="alpha" component="input" type="number" value="alpha" label="Alpha"/>
 
         </div>
 
@@ -178,8 +202,10 @@ const BaerInitializeView = (props) => {
 
     
   
-    <div>
+     <div class="form-group row col-sm-4">
       <button type="submit" class="btn btn-primary" disabled={submitting}>Start Protocol</button>
+      </div>
+      <div class="form-group row col-sm-4">
       <button type="button" class="btn btn-secondary" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
     </div>
   </form>
