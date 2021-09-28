@@ -44,7 +44,7 @@ const Table =()=> {
      * map state to table elements
      */
     function renderTableData() {
-        return state.reports.map((report, index) => {
+        return filterReadings().reports.map((report, index) => {
             const {id, Time, Volume,Rate} = report //destructuring
             return (
                 <tr key={id}>

@@ -11,6 +11,7 @@ import "./timer.css";
 import _default from 'react-overlays/esm/Modal';
 import { useEffect } from 'react';
 import { setPage } from '../page-redirection/redirector-slice';
+import  Table  from '../baer-results/table';
 
 const renderTime = ({ remainingTime }) => {
   if (remainingTime === 0) {
@@ -65,17 +66,17 @@ const BaerReplicationView = () => {
       //stop the timer from running
       setPlaying(false);
 
-      let volumeReading = Number(prompt("Enter volumetric data below.",0));
+      let volumeReading = Number(prompt("Enter volumetric data below."));
 
       //don't record if cancel was pressed
-      if (!volumeReading) return;
+      if (volumeReading === null) return;
       // Notify user of invalid input if volume reading is greater than last volume or is negative.
       while (volumeReading > maxVolume
          || volumeReading < 0) {
           window.confirm("Invalid input! Make sure your volume reading is less than or equal to: " + maxVolume );
-          volumeReading = Number(prompt("Enter volumetric data below.",0));
+          volumeReading = Number(prompt("Enter volumetric data below."));
           //don't record if cancel was pressed
-          if (!volumeReading) return;
+          if (volumeReading === null) return;
       }
       //calculate the total number of elapsed seconds
       let secondsElapsed = (state.key+1) * timeInterval;
@@ -93,8 +94,11 @@ const BaerReplicationView = () => {
   }
 
   return (
-      <div>
-        <div className="timer-wrapper">
+      <div class="container-fluid">
+                  <h1 class="container-fluid row">
+            Current Replication: {curID}
+          </h1>
+        <div class = "container-fluid timer-wrapper">
           <CountdownCircleTimer
               key={state.key}
               isPlaying = {state.timerIsPlaying}
@@ -105,14 +109,9 @@ const BaerReplicationView = () => {
             {renderTime}
           </CountdownCircleTimer>
         </div>
-          <div>
-            Last Volume: {maxVolume}
-          </div>
-          <div>
-            Current Replication: {curID}
-          </div>
-        <div class="container">
-          <div class="row">
+
+        <div class="container-fluid">
+          <div class="row container-fluid">
              <button type="submit" class="btn btn-primary" disabled={state.timerIsPlaying} onClick = {()=>{
               setState({
                 timerIsPlaying: true,
@@ -129,6 +128,9 @@ const BaerReplicationView = () => {
             </button>
           </div>
            
+        </div>
+         <div class="container-fluid">
+        <Table/>
         </div>
       </div>);
 
