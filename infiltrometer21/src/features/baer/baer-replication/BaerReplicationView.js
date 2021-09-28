@@ -4,13 +4,13 @@ import React, {useState} from 'react';
 import ReactDOM from "react-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { setVolume, setSecondsElapsed, selectLastVolume, setLastVolume } from './bear-replicationSlice';
-import reportsSlice, {addReading, selectCurId, selectReports, selectCurReadingID} from '../reports/reportsSlice';
+import reportsSlice, {addReading, selectCurId, selectReports, selectCurReadingID} from '../../reports/reportsSlice';
 import { selectTimeInterval, selectInitialVolume, setSoilType, selectSoilType } from '../baer-initialize/bear-initializeSlice';
 import {CountdownCircleTimer} from "react-countdown-circle-timer";
 import "./timer.css";
 import _default from 'react-overlays/esm/Modal';
 import { useEffect } from 'react';
-import { setPage } from '../page-redirection/redirector-slice';
+import { setPage } from '../../page-redirection/redirector-slice';
 import  Table  from '../baer-results/table';
 
 const renderTime = ({ remainingTime }) => {
@@ -71,7 +71,7 @@ const BaerReplicationView = () => {
       if (volumeReading == null) return;
       // Notify user of invalid input if volume reading is greater than last volume or is negative.
       while (volumeReading > maxVolume
-         || volumeReading < 0 || !isNumber(volumeReading)) {
+         || volumeReading < 0 /*|| !isNumber(volumeReading)*/) {
           window.confirm("Invalid input! Make sure your volume reading is a number less than or equal to: " + maxVolume );
           volumeReading = prompt("Enter volumetric data below.");
           //don't record if cancel was pressed

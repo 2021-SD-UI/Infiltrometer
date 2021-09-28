@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom';
 import React from 'react';
 import {useSelector,useDispatch} from "react-redux";
-import {selectReports} from "../reports/reportsSlice";
+import {selectReports} from "../../reports/reportsSlice";
 import Table from "./table";
 
 

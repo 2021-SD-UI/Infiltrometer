@@ -2,8 +2,8 @@
 import { Link } from 'react-router-dom';
 import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addReading, newReport } from '../reports/reportsSlice';
-import {Protocols} from '../reports/protocols'
+import { addReading, newReport } from '../../reports/reportsSlice';
+import {Protocols} from '../../reports/protocols'
 import { selectInitialVolume, selectInfiltrometerData,
   selectInfiltrometerRadius, selectInfiltrometerSuction,
 setInitialVolume,
@@ -11,10 +11,10 @@ setInfiltrometerSuction, setTimeInterval, selectTimeInterval,setSoilType,selectS
 import { Redirect } from 'react-router';
 import { useEffect } from 'react';
 import { setLastVolume, setSecondsElapsed } from '../baer-replication/bear-replicationSlice';
-import { soilTypes } from '../../app/soilTypes';
+import { soilTypes } from '../../../app/soilTypes';
 import {Field, formValueSelector, reduxForm} from 'redux-form'
 import { connect } from 'react-redux';
-import { setPage } from '../page-redirection/redirector-slice';
+import { setPage } from '../../page-redirection/redirector-slice';
 
 
 

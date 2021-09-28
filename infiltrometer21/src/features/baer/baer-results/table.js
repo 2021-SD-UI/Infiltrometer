@@ -1,6 +1,6 @@
 import React, {Component, useEffect, useState} from 'react'
 import {useSelector} from "react-redux";
-import {selectCurId, selectReports} from "../reports/reportsSlice";
+import {selectCurId, selectReports} from "../../reports/reportsSlice";
 
 const Table =()=> {
     const rawReports = useSelector(selectReports);

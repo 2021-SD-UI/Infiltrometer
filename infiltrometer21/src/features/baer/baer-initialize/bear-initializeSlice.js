@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { useDispatch } from 'react-redux';
-import { soilTypes } from '../../app/soilTypes';
+import { soilTypes } from '../../../app/soilTypes';
 
 
  const initialState = {  

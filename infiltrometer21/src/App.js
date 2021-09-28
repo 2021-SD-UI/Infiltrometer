@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
-import BaerInitializeView from './features/baer-initialize/BaerInitializeView';
-import BaerReplicationView from './features/baer-replication/BaerReplicationView';
-import BaerResultsView from './features/baer-results/BaerResultsView';
+import BaerInitializeView from './features/baer/baer-initialize/BaerInitializeView';
+import BaerReplicationView from './features/baer/baer-replication/BaerReplicationView';
+import BaerResultsView from './features/baer/baer-results/BaerResultsView';
 import { ShowReportsButton } from './features/reports/ShowReportsButon';
 import { RegressionTesting } from './features/regression/RegressionTesting';
 import { Redirector } from './features/page-redirection/Redirector';
