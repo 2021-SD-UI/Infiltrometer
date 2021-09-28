@@ -10,28 +10,6 @@ const  BaerResultsView = ()=> {
   const reports = useSelector(selectReports);
 
 
-
-    function ml_min(vol,seconds){
-        return vol * seconds * 60;
-    }
-
-  function makeTableBody(reports,i){
-
-      return (
-          <tr>
-              <td>{i}</td>
-              <td>{reports[0].readings[i].volume}</td>
-              <td>{reports[0].readings[i].secondsElapsed}</td>
-              <td>{ml_min(reports[0].readings[i].volume,reports[0].readings[i].secondsElapsed)}</td>
-
-          </tr>
-      )
-  }
-    function makeTable(reports,i){
-        Table.constructor(i,reports[0].readings[i].secondsElapsed,ml_min(reports[0].readings[i].volume,reports[0].readings[i].secondsElapsed),reports[0].readings[i].volume);
-    }
-
-
   return (<div class="container-fluid">
       <div class="row">
         <div class="col-sm-2"></div>
@@ -54,7 +32,7 @@ const  BaerResultsView = ()=> {
       <div className="row">
           <div className="col-sm-2"></div>
           <div className="col-sm-8 text-lg-center">
-              <Link class="btn btn-dark" to ="/Infiltrometer/baer-initialize">To Initialize View</Link>
+              <Link class="btn btn-dark" to ="/Infiltrometer/baer-initialize">New Test</Link>
           </div>
           <div className="col-sm-2"></div>
       </div>

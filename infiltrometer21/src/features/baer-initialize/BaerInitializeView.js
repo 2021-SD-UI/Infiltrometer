@@ -1,4 +1,4 @@
-//The Page we are displaying for the baer Initialize view
+ //The Page we are displaying for the baer Initialize view
 import { Link } from 'react-router-dom';
 import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';

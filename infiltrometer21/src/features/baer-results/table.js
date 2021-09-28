@@ -10,6 +10,10 @@ const Table =()=> {
 
     const [state, setState] = useState(filterReadings());
 
+    /**
+     * Find ml/min for a reading
+     * @param {The current reading index} i
+     */
     function findRate(i){
         if(i>0){
             return ((curReport.readings[i-1].volume) - curReport.readings[i].volume)*(60/curReport.readings[i].secondsElapsed);
@@ -18,6 +22,9 @@ const Table =()=> {
             return 0;
         }
     }
+    /**
+     * Create an array to use for a table row from reading data
+     */
     function filterReadings(){
         let readingsArr = [];
         for(let i = 0; i < curReport.readings.length; i++){
@@ -33,6 +40,9 @@ const Table =()=> {
         return {reports: readingsArr};
     }
 
+    /**
+     * map state to table elements
+     */
     function renderTableData() {
         return state.reports.map((report, index) => {
             const {id, Time, Volume,Rate} = report //destructuring
@@ -47,6 +57,9 @@ const Table =()=> {
         })
     }
 
+    /**
+     * create header for table
+     */
     function renderTableHeader() {
         let header = Object.keys(state.reports[0])
         return header.map((key, index) => {
@@ -65,7 +78,6 @@ const Table =()=> {
             if (key.toUpperCase() === "RATE") {
                 return <th key={index}>{key.toUpperCase() + " (mL/min)"}</th>
             }
-            // return <th key={index}>{key.toUpperCase()}</th>
         })
     }
 
