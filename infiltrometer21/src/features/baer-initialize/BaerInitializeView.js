@@ -1,4 +1,4 @@
- //The Page we are displaying for the baer Initialize view
+//The Page we are displaying for the baer Initialize view
 import { Link } from 'react-router-dom';
 import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -12,7 +12,7 @@ import { Redirect } from 'react-router';
 import { useEffect } from 'react';
 import { setLastVolume, setSecondsElapsed } from '../baer-replication/bear-replicationSlice';
 import { soilTypes } from '../../app/soilTypes';
-import {Field, reduxForm} from 'redux-form'
+import {Field, formValueSelector, reduxForm} from 'redux-form'
 import { connect } from 'react-redux';
 import { setPage } from '../page-redirection/redirector-slice';
 
@@ -39,8 +39,8 @@ const validate = values => {
 
   if (!values.suction) {
     errors.suction = 'Required'
-  } else if (Number(values.suction) <= 0) {
-    errors.suction = 'Must be a positive value'
+  } else if (Number(values.suction) >= 0) {
+    errors.suction = 'Must be a negative value'
   }
 
 
@@ -63,7 +63,7 @@ const validate = values => {
 
 const BaerInitializeView = (props) => {
   const infiltrometerData = useSelector(selectInfiltrometerData);
-  const { handleSubmit, pristine, reset, submitting } = props
+  const { change, soilTypeSelected, handleSubmit, pristine, reset, submitting, soilValues } = props
   
 
   //current soil type in the store
@@ -74,49 +74,81 @@ const BaerInitializeView = (props) => {
   const dispatch = useDispatch();
   /**
    * Adds a new Baer prototocol report using the reports slice
+   * 
    */
+
+  const handleFormChange = (event, value) => {
+
+    switch (value) {
+      case "clay":
+        change("nh0",soilTypes.clay.nh0);
+        change("alpha",soilTypes.clay.alpha);
+        break;
+      case "loam":
+        change("nh0",soilTypes.loam.nh0);
+        change("alpha",soilTypes.loam.alpha);
+        break;
+      case "clayLoam":
+        change("nh0",soilTypes.clayLoam.nh0);
+        change("alpha",soilTypes.clayLoam.alpha);
+        break;
+      case "miniDisk":
+        change("radius",2.25);
+        break;
+      case "miniDiskV1":
+        change("radius", 1.6);
+        break;
+      case "customType":
+        change("radius");
+        break;
+      default:
+        break;
+        
+    }
+    
+  }
 
 
 
 
   return (
   <div class = "col-sm">
-  <div>
-    <h1>
-      Initialize Baer Protocol
-    </h1>
-      <Link to ="/Infiltrometer/baer-replication">To Replication View</Link>
-    </div>
-        <div>
-
-    </div>
+  
+        
   <div class="container">
 
 
 
   <form onSubmit = {handleSubmit}>
-    <div class="fo,r-group row">
+    <div class="form-group row">
       <label for="volume" class="col-sm-2 col-form-label" >Initial Volume</label>
       <div class="col-sm-10">
         <Field name="volume" type ="number" component={renderField} label="Initial Volume"/>
       </div>
     </div>
 
-    <div class="for-group row">
+    <div class="form-group row">
       <label for="suction" class="col-sm-2 col-form-label" >Suction</label>
       <div class="col-sm-10">
       <Field name="suction" type="number" component={renderField} label="Suction"/>
       </div>
     </div>
 
-    <div class="for-group row">
+    <div class="form-group row">
       <label for="timeInterval" class="col-sm-2 col-form-label" >Time Interval</label>
       <div class="col-sm-10">
       <Field name="timeInterval" type="number" component={renderField} label="Time Interval"/>
       </div>
     </div>
 
-    <div class="for-group row">
+    <div class="form-group row">
+      <div class = "form-check">
+      <Field name="infiltrometerType" component="select" onChange={handleFormChange}>
+        <option value="customType" selected>Infiltrometer Type</option>
+        <option value="miniDisk">MiniDisk</option>
+        <option value="miniDiskV1">MiniDiskV1</option>
+      </Field>
+      </div>
       <label for="radius" class="col-sm-2 col-form-label" >Radius</label>
       <div class="col-sm-10">
       <Field name="radius" type="number" component={renderField} label="Radius"/>
@@ -125,39 +157,19 @@ const BaerInitializeView = (props) => {
 
     <div class="row">
       <legend class="col-form-label col-sm-2 pt-0">Soil Type</legend>
-      <div class="col-sm-10">
-
-        <div class="form-check">
-          <label><Field name="soilType" component="input" type="radio"  value="clay"/> Clay</label>
-
-        </div>
-
-    </div>
-
+     
     <div class="col-sm-10">
 
         <div class="form-check">
-          <label><Field name="soilType" component="input" type="radio" value="loam"/> Loam</label>
-
-        </div>
-
-    </div>
-
-    <div class="col-sm-10">
-
-        <div class="form-check">
-          <label><Field name="soilType" component="input" type="radio" value="clayLoam"/> Clay Loam</label>
-
-        </div>
-
-    </div>
-
-    <div class="col-sm-10">
-
-        <div class="form-check">
-          <label><Field name="soilType" component="input" type="radio" value="custom" /> Custom</label>
-          <Field name="nh0" component="input" type="number" value="nh0"/>
-          <Field name="alpha" component="input" type="number" value="alpha"/>
+          <Field name="soilType" component="select" onChange={handleFormChange}>
+            <option selected>Preset Soil Types</option>
+            <option value="clay">Clay</option>
+            <option value="loam">Loam</option>
+            <option value="clayLoam">Clay Loam</option>
+          </Field>
+          
+          <Field name="nh0" component="input" type="number" value="nh0" label="NH0"/>
+          <Field name="alpha" component="input" type="number" value="alpha" label="Alpha"/>
 
         </div>
 
@@ -192,6 +204,7 @@ switch (values.soilType) {
     default:
       break;
   }
+  
   let infiltrometerData = {
      initialVolume: Number(values.volume),
         
@@ -224,7 +237,17 @@ switch (values.soilType) {
   //change the page
   dispatch(setPage("/Infiltrometer/baer-replication"));
 }
-export default connect()(reduxForm({
+const formSelector = formValueSelector('baerInitializeForm')
+
+
+export default connect(
+  state=> {
+    const soilTypeSelected =  formSelector(state, 'SoilTypes')
+    return {
+      soilTypeSelected
+    }
+  }
+)(reduxForm({
   form: 'baerInitializeForm',
   validate,
   onSubmit
