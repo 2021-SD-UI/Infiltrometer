@@ -35,21 +35,28 @@ const  BaerResultsView = ()=> {
   return (<div class="container-fluid">
       <div class="row">
         <div class="col-sm-2"></div>
-        <div class="col-sm-9 text-lg-center">
+        <div class="col-sm-8 text-lg-center">
           <h1>Baer Results View</h1>
 
         </div>
-        <div class="col-sm-1"></div>
-      <Link to ="/Infiltrometer/baer-initialize">To Initialize View</Link>
+        <div class="col-sm-2"></div>
+
       </div>
       <div class="row">
         <div class="col-sm-2"></div>
-        <div class="col-sm-9">
+        <div class="col-sm-8">
           <div class="container">
               <Table></Table>
           </div>
         </div>
-        <div class="col-sm-1"></div>
+        <div class="col-sm-2"></div>
+      </div>
+      <div className="row">
+          <div className="col-sm-2"></div>
+          <div className="col-sm-8 text-lg-center">
+              <Link class="btn btn-dark" to ="/Infiltrometer/baer-initialize">To Initialize View</Link>
+          </div>
+          <div className="col-sm-2"></div>
       </div>
     </div>);
 }

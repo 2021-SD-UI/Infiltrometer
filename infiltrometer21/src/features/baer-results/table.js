@@ -11,7 +11,12 @@ const Table =()=> {
     const [state, setState] = useState(filterReadings());
 
     function findRate(i){
-        return curReport.readings[i].volume/curReport.readings[i].secondsElapsed*60;
+        if(i>0){
+            return ((curReport.readings[i-1].volume) - curReport.readings[i].volume)*(60/curReport.readings[i].secondsElapsed);
+        }
+        else{
+            return 0;
+        }
     }
     function filterReadings(){
         let readingsArr = [];
@@ -58,7 +63,7 @@ const Table =()=> {
                 return <th key={index}>{key.toUpperCase() + " (mL)"}</th>
             }
             if (key.toUpperCase() === "RATE") {
-                return <th key={index}>{key.toUpperCase() + " (mL/sec)"}</th>
+                return <th key={index}>{key.toUpperCase() + " (mL/min)"}</th>
             }
             // return <th key={index}>{key.toUpperCase()}</th>
         })
