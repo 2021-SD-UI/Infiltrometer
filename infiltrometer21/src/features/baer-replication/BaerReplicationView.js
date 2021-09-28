@@ -50,8 +50,7 @@ const BaerReplicationView = () => {
   
   const [state, setState] = useState(initializeState);
 
-  //use to set the key variable
-  const setKey = (key) => setState({...state, key});
+
   //use to set the timer is playing variable
   const setPlaying = (playing)=>setState({...state, timerIsPlaying:playing});
   const curID = useSelector(selectCurReadingID);
@@ -66,20 +65,23 @@ const BaerReplicationView = () => {
       //stop the timer from running
       setPlaying(false);
 
-      let volumeReading = Number(prompt("Enter volumetric data below."));
+      let volumeReading = prompt("Enter volumetric data below.");
 
       //don't record if cancel was pressed
-      if (volumeReading === null) return;
+      if (volumeReading == null) return;
       // Notify user of invalid input if volume reading is greater than last volume or is negative.
       while (volumeReading > maxVolume
          || volumeReading < 0) {
           window.confirm("Invalid input! Make sure your volume reading is less than or equal to: " + maxVolume );
-          volumeReading = Number(prompt("Enter volumetric data below."));
+          volumeReading = prompt("Enter volumetric data below.");
           //don't record if cancel was pressed
-          if (volumeReading === null) return;
+          if (volumeReading == null) return;
       }
+
+      if (volumeReading != null){
+          volumeReading = Number(volumeReading);
       //calculate the total number of elapsed seconds
-      let secondsElapsed = (state.key+1) * timeInterval;
+      let secondsElapsed = (curID + 1) * timeInterval;
       
       //set the volume and time in the replication store
       dispatch(setLastVolume(volumeReading));
@@ -91,6 +93,7 @@ const BaerReplicationView = () => {
             
             {volume: volumeReading, secondsElapsed}      
       ));
+      }
   }
 
   return (
