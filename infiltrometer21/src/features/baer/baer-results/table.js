@@ -16,7 +16,9 @@ const Table =()=> {
      */
     function findRate(i){
         if(i>0){
-            return ((curReport.readings[i-1].volume) - curReport.readings[i].volume)*(60/curReport.readings[i].secondsElapsed);
+
+            let deltaV = curReport.readings[i-1].volume - curReport.readings[i].volume;
+            return (deltaV)/(curReport.readings[i].secondsElapsed/60);
         }
         else{
             return 0;
