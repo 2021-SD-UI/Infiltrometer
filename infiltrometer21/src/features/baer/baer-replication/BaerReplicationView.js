@@ -64,10 +64,10 @@ const BaerReplicationView = () => {
 
       // Validate user input -------------------------------------------------------------------------
       while(validated == false) {
-          // Volume reading should be a non-negative number that is less than previous/initial volume.
+          // If user hits the cancel button
           if (volumeReading == null)
               return;
-          // If user hits the cancel button
+          // Volume reading should be a non-negative number that is less than previous/initial volume.
           else if (volumeReading > maxVolume || volumeReading < 0 || isNaN(parseFloat(volumeReading))) {
               window.confirm("Invalid input! Make sure your volume reading is a number less than or equal to: " + maxVolume);
               volumeReading = prompt("Enter volumetric data below.");
