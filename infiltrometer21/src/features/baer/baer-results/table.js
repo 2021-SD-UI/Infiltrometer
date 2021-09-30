@@ -18,7 +18,8 @@ const Table =()=> {
         if(i>0){
 
             let deltaV = curReport.readings[i-1].volume - curReport.readings[i].volume;
-            return (deltaV)/(curReport.readings[i].secondsElapsed/60);
+            let deltaT = curReport.readings[i].secondsElapsed - curReport.readings[i-1].secondsElapsed;
+            return (deltaV)/(deltaT/60);
         }
         else{
             return 0;
