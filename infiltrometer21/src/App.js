@@ -7,11 +7,14 @@ import BaerResultsView from './features/baer/baer-results/BaerResultsView';
 import { ShowReportsButton } from './features/reports/ShowReportsButon';
 import { RegressionTesting } from './features/regression/RegressionTesting';
 import { Redirector } from './features/page-redirection/Redirector';
+import { NavBar } from './features/navBar/NavBar';
 const  App = ()=> {
   return (
     <BrowserRouter>
-          <Redirector/>
+          <NavBar/>
+           <Redirector/>
           <Switch>
+           
             <Route exact path ="/Infiltrometer/">
               <div>
                 <Link to="/Infiltrometer/baer-initialize">Baer Initialize View</Link>
