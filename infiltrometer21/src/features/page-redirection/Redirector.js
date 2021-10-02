@@ -11,14 +11,13 @@ import { useEffect } from "react";
 
     const dispatch = useDispatch();
 
-    useEffect(()=>{console.log("hi")});
-    /*
+    
     //reset the page
     if (curPage == page) {
         dispatch(setPage(null));
         return null;
     }
-    */
+    
     
 
     return page!=null ? <Redirect to ={page}/> : null;
