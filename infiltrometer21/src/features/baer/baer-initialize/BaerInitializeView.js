@@ -14,7 +14,7 @@ import {Field, formValueSelector, reduxForm} from 'redux-form'
 import { connect } from 'react-redux';
 import { setPage } from '../../page-redirection/redirector-slice';
 import { Button, Form, FormLabel, Dropdown, DropdownButton } from 'react-bootstrap';
-
+import { infiltrometerTypes } from '../../../app/infiltrometerType';
 
 
 const renderField = ({ input, label, type, meta: { touched, error} }) => (
@@ -93,24 +93,9 @@ const BaerInitializeView = (props) => {
     change("nh0", soilType.nh0);
     change("alpha",soilType.alpha);
   }
-  const setInfiltrometerType = (typeAsText) =>{
-
-    switch (typeAsText) {
-      
-      case "miniDisk":
-        change("radius",2.25);
-        break;
-      case "miniDiskV1":
-        change("radius", 1.6);
-        break;
-      case "customType":
-        change("radius");
-        break;
-      default:
-        break;
-        
-    }
-    
+  const setInfiltrometerType = (infiltrometerType) =>{
+    change("radius", infiltrometerType.radius);
+   
   }
 
 
@@ -153,8 +138,12 @@ const BaerInitializeView = (props) => {
         <div class="form-group row">
       <div class="col-sm-10">
       <DropdownButton  title="Preset Infiltrometer Types" component="select" bg="dark" variant="dark">
-        <Dropdown.Item onSelect = {()=>setInfiltrometerType("miniDisk")} selected>MiniDisk</Dropdown.Item>
-        <Dropdown.Item onSelect = {()=>setInfiltrometerType("miniDiskV1")}  selected>MiniDisk Version 1</Dropdown.Item>
+        <Dropdown.Item onSelect = {()=>setInfiltrometerType(infiltrometerTypes.MiniDisk)}>
+          {infiltrometerTypes.MiniDisk.displayName}
+        </Dropdown.Item>
+        <Dropdown.Item onSelect = {()=>setInfiltrometerType(infiltrometerTypes.MiniDiskV1)}>
+          {infiltrometerTypes.MiniDiskV1.displayName}
+        </Dropdown.Item>
       </DropdownButton>
       </div>
       <Field name="radius" type="number" component={renderField} label="Radius"/>
