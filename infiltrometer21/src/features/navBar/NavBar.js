@@ -1,7 +1,7 @@
 
 import { useDispatch, useSelector } from "react-redux";
 import { selectPage, setPage } from "../page-redirection/redirector-slice";
-import { Collapse } from "react-collapse";
+import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { useState } from "react";
 export const NavBar = () => {
 
@@ -12,26 +12,33 @@ export const NavBar = () => {
 
     const [state, setState] = useState(initialState);
     return(
-        <div>
-          
-        <Collapse isOpened = {!state.collapsed}>
-            <h1 class = "dark">
-                NavBar Demo
-            </h1>
-           <button class="btn btn-dark" onClick ={
-                ()=>dispatch(setPage("/Infiltrometer/baer-initialize"))
-              }>  
-              New Baer Test</button>
-        </Collapse>
-
-          <div>
-                <button class="btn btn-dark" onClick = {()=>setState({...state, collapsed: !state.collapsed})}>
-                    {state.collapsed ? "Open" : "Close"}
-                </button>
-            </div>
-        </div>
-        
-
+    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+        <Container>
+            <Navbar.Brand>Infiltrometer</Navbar.Brand>
+            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+            <Navbar.Collapse id="responsive-navbar-nav">
+                <Nav className="me-auto">
+                    <Nav.Link onClick = {()=>dispatch(setPage("/Infiltrometer"))}>
+                        Home
+                    </Nav.Link>
+                    <Nav.Link onClick = {()=>dispatch(setPage("/Infiltrometer/how-to"))}>
+                        How To Use
+                    </Nav.Link>
+                    <NavDropdown title="New Test" id="new-test-drop-down">
+                        <NavDropdown.Item onClick ={()=>dispatch(setPage("/Infiltrometer/baer-initialize/"))}>
+                            BAER protocol</NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+                    </NavDropdown>
+                </Nav>
+                <Nav>
+                    <Nav.Link href="https://github.com/2021-SD-UI/Infiltrometer/">
+                        GitHub
+                    </Nav.Link>
+                </Nav>
+                </Navbar.Collapse>
+            </Container>
+        </Navbar>
     );
 
 

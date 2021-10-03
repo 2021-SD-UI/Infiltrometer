@@ -12,12 +12,14 @@ const  App = ()=> {
   return (
     <BrowserRouter>
           <NavBar/>
-           <Redirector/>
+          <Redirector/>
           <Switch>
            
             <Route exact path ="/Infiltrometer/">
               <div>
-                <Link to="/Infiltrometer/baer-initialize">Baer Initialize View</Link>
+                <h1>
+                  Home Page
+                </h1>
               </div>
             </Route>
             <Route exact path ="/Infiltrometer/baer-initialize">
@@ -31,6 +33,12 @@ const  App = ()=> {
             </Route>
              <Route exact path ="/Infiltrometer/testing/regression">
               <RegressionTesting/>
+            </Route>
+            
+             <Route exact path ="/Infiltrometer/how-to">
+               <h1>
+                  How-To Page
+                </h1>
             </Route>
 
           </Switch>
