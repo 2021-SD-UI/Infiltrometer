@@ -8,14 +8,13 @@ import { selectInitialVolume, selectInfiltrometerData,
   selectInfiltrometerRadius, selectInfiltrometerSuction,
 setInitialVolume,
 setInfiltrometerSuction, setTimeInterval, selectTimeInterval,setSoilType,selectSoilType, setInfiltrometerData} from './bear-initializeSlice';
-import { Redirect } from 'react-router';
-import { useEffect } from 'react';
 import { setLastVolume, setSecondsElapsed } from '../baer-replication/bear-replicationSlice';
 import { soilTypes } from '../../../app/soilTypes';
 import {Field, formValueSelector, reduxForm} from 'redux-form'
 import { connect } from 'react-redux';
 import { setPage } from '../../page-redirection/redirector-slice';
-
+import { Button, Form, FormLabel, Dropdown, DropdownButton } from 'react-bootstrap';
+import { infiltrometerTypes } from '../../../app/infiltrometerType';
 
 
 const renderField = ({ input, label, type, meta: { touched, error} }) => (
@@ -90,36 +89,13 @@ const BaerInitializeView = (props) => {
    * Adds a new Baer prototocol report using the reports slice
    * 
    */
-
-  const handleFormChange = (event, value) => {
-
-    switch (value) {
-      case "clay":
-        change("nh0",soilTypes.clay.nh0);
-        change("alpha",soilTypes.clay.alpha);
-        break;
-      case "loam":
-        change("nh0",soilTypes.loam.nh0);
-        change("alpha",soilTypes.loam.alpha);
-        break;
-      case "clayLoam":
-        change("nh0",soilTypes.clayLoam.nh0);
-        change("alpha",soilTypes.clayLoam.alpha);
-        break;
-      case "miniDisk":
-        change("radius",2.25);
-        break;
-      case "miniDiskV1":
-        change("radius", 1.6);
-        break;
-      case "customType":
-        change("radius");
-        break;
-      default:
-        break;
-        
-    }
-    
+  const setSoilType = (soilType)=>{
+    change("nh0", soilType.nh0);
+    change("alpha",soilType.alpha);
+  }
+  const setInfiltrometerType = (infiltrometerType) =>{
+    change("radius", infiltrometerType.radius);
+   
   }
 
 
@@ -134,7 +110,7 @@ const BaerInitializeView = (props) => {
 
 
 
-  <form onSubmit = {handleSubmit}>
+  <Form onSubmit = {handleSubmit} expand="lg" bg="dark" variant="dark">
     <div class="form-group row">
       <label for="volume" class="col-sm-2 col-form-label" >Initial Volume</label>
       <div class="col-sm-10">
@@ -143,29 +119,32 @@ const BaerInitializeView = (props) => {
     </div>
 
     <div class="form-group row">
-      <label for="suction" class="col-sm-2 col-form-label" >Suction</label>
+      <FormLabel for="suction" class="col-sm-2 col-form-label" >Suction</FormLabel>
       <div class="col-sm-10">
       <Field name="suction" type="number" component={renderField} label="Suction"/>
       </div>
     </div>
 
     <div class="form-group row">
-      <label for="timeInterval" class="col-sm-2 col-form-label" >Time Interval</label>
+      <FormLabel for="timeInterval" class="col-sm-2 col-form-label" >Time Interval</FormLabel>
       <div class="col-sm-10">
       <Field name="timeInterval" type="number" component={renderField} label="Time Interval"/>
       </div>
     </div>
 
     <div class="form-group row">
-      <label for="radius" class="col-sm-2 col-form-label" >Radius</label>
+      <FormLabel for="radius" class="col-sm-2 col-form-label" >Radius</FormLabel>
       <div class = "form-group col-sm-10">
         <div class="form-group row">
       <div class="col-sm-10">
-      <Field name="infiltrometerType" component="select" onChange={handleFormChange}>
-        <option value="customType" selected>Infiltrometer Type</option>
-        <option value="miniDisk">MiniDisk</option>
-        <option value="miniDiskV1">MiniDiskV1</option>
-      </Field>
+      <DropdownButton  title="Preset Infiltrometer Types" component="select" bg="dark" variant="dark">
+        <Dropdown.Item onSelect = {()=>setInfiltrometerType(infiltrometerTypes.MiniDisk)}>
+          {infiltrometerTypes.MiniDisk.displayName}
+        </Dropdown.Item>
+        <Dropdown.Item onSelect = {()=>setInfiltrometerType(infiltrometerTypes.MiniDiskV1)}>
+          {infiltrometerTypes.MiniDiskV1.displayName}
+        </Dropdown.Item>
+      </DropdownButton>
       </div>
       <Field name="radius" type="number" component={renderField} label="Radius"/>
       </div>
@@ -180,12 +159,22 @@ const BaerInitializeView = (props) => {
 
         <div class="form-group row">
           <div class="col-sm-10">
-          <Field name="soilType" component="select" onChange={handleFormChange}>
-            <option selected>Preset Soil Types</option>
-            <option value="clay">Clay</option>
-            <option value="loam">Loam</option>
-            <option value="clayLoam">Clay Loam</option>
-          </Field>
+
+
+           <DropdownButton  title="Preset Soil Types" component="select" bg="dark" variant="dark">
+              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.clay)} >Clay</Dropdown.Item>
+              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.clayLoam)} >Clay Loam</Dropdown.Item>
+              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.loam)} >Loam</Dropdown.Item>
+              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.loamySand)} >Loamy Sand</Dropdown.Item>
+              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.sand)} >Sand</Dropdown.Item>
+              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.sandyClay)} >Sandy Clay</Dropdown.Item>
+              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.sandyLoam)} >Sandy Loam</Dropdown.Item>
+              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.silt)} >Silt</Dropdown.Item>
+              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.siltLoam)} >Silt Loam</Dropdown.Item>
+              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.siltyClay)} >Silty Clay</Dropdown.Item>
+              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.siltyClayLoam)} >Silty Clay Loam</Dropdown.Item>
+            </DropdownButton>
+
           </div>
           <div class="form-group col-sm-10">
           <Field name="nh0" component={renderField} type="number" value="nh0" label="NH0"/>
@@ -203,12 +192,12 @@ const BaerInitializeView = (props) => {
     
   
      <div class="form-group row col-sm-4">
-      <button type="submit" class="btn btn-primary" disabled={submitting}>Start Protocol</button>
+      <Button type="submit" bg="dark" variant="dark" disabled={submitting}>Start Protocol</Button>
       </div>
       <div class="form-group row col-sm-4">
-      <button type="button" class="btn btn-secondary" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
+      <Button type="button" class="btn btn-secondary"  disabled={pristine || submitting} onClick={reset}>Clear Values</Button>
     </div>
-  </form>
+  </Form>
 
     </div>
   </div>

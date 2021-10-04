@@ -29,18 +29,6 @@ export const baerInitializeSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    //Update the appropritate values to the provided infiltrometer type  
-    
-    setInfiltrometerType: (state, action) => {
-      
-      switch (action.payload.infiltrometerType){
-        default:
-          //set the radius to 0
-          state.infiltrometerR = 0;
-          break;
-
-      }
-    },
     setInitialVolume: (state, action)=>{
 
       state.initialVolume = action.payload;
@@ -72,7 +60,6 @@ export const baerInitializeSlice = createSlice({
  * @param {*} state 
  * @returns 
  */
-export const selectInfiltrometerType = (state) => state.baerInitialize.infiltrometerType;
 
 export const selectInfiltrometerRadius = (state) => state.baerInitialize.infiltrometerR;
 
@@ -88,7 +75,7 @@ export const selectTimeInterval = (state) => state.baerInitialize.timeInterval;
 
 
 //export the actions
-export const { setInfiltrometerType, setInitialVolume, setInfiltrometerSuction, setTimeInterval, setSoilType,setInfiltrometerData } = baerInitializeSlice.actions;
+export const {  setInitialVolume, setInfiltrometerSuction, setTimeInterval, setSoilType,setInfiltrometerData } = baerInitializeSlice.actions;
 
 
 

@@ -28,37 +28,31 @@ const renderTime = ({ remainingTime }) => {
 
 const BaerReplicationView = () => {
 
- 
-
   //Gets the current reading in the baer-replicationSlice
   const timeInterval = useSelector(selectTimeInterval);
   const initialVolume = Number(useSelector(selectInitialVolume));
   const lastVolume = Number(useSelector(selectLastVolume));
 
-
   //the max allowed volume
   const maxVolume = Math.min(initialVolume, lastVolume);
-
   const dispatch = useDispatch();
 
-
-   const initializeState = {
+  const initializeState = {
     timerIsPlaying: false,
     key: 0,
   };
-  
-  
-  const [state, setState] = useState(initializeState);
 
+  const [state, setState] = useState(initializeState);
 
   //use to set the timer is playing variable
   const setPlaying = (playing)=>setState({...state, timerIsPlaying:playing});
   const curID = useSelector(selectCurReadingID);
-  function endProtocol(){
 
+  function endProtocol(){
     //go to the results page
     dispatch(setPage("/Infiltrometer/baer-results"))
   }
+
   // This function will be called when the timer reaches zero.
   function getVolumeReading() {
 
@@ -66,39 +60,35 @@ const BaerReplicationView = () => {
       setPlaying(false);
 
       let volumeReading = prompt("Enter volumetric data below.");
+      let validated = false;
 
-      //don't record if cancel was pressed
-      if (volumeReading == null) return;
-      // Notify user of invalid input if volume reading is greater than last volume or is negative.
-      while (volumeReading > maxVolume
-         || volumeReading < 0 /*|| !isNumber(volumeReading)*/) {
-          window.confirm("Invalid input! Make sure your volume reading is a number less than or equal to: " + maxVolume );
-          volumeReading = prompt("Enter volumetric data below.");
-          //don't record if cancel was pressed
-          if (volumeReading == null) return;
+      // Validate user input -------------------------------------------------------------------------
+      while(validated == false) {
+          // If user hits the cancel button
+          if (volumeReading == null)
+              return;
+          // Volume reading should be a non-negative number that is less than previous/initial volume.
+          else if (volumeReading > maxVolume || volumeReading < 0 || isNaN(parseFloat(volumeReading))) {
+              window.confirm("Invalid input! Make sure your volume reading is a number less than or equal to: " + maxVolume);
+              volumeReading = prompt("Enter volumetric data below.");
+          }
+          else
+              validated = true;
       }
+      // ---------------------------------------------------------------------------------------------
 
-      if (volumeReading != null){
-          volumeReading = Number(volumeReading);
-          if (volumeReading === NaN) return;
-        //calculate the total number of elapsed seconds
-        let secondsElapsed = (curID + 1) * timeInterval;
+      //calculate the total number of elapsed seconds
+      let secondsElapsed = (curID + 1) * timeInterval;
       
-        //set the volume and time in the replication store
-        dispatch(setLastVolume(volumeReading));
-        dispatch(setVolume(volumeReading));
-        dispatch(setSecondsElapsed(secondsElapsed));
+      //set the volume and time in the replication store
+      dispatch(setLastVolume(volumeReading));
+      dispatch(setVolume(volumeReading));
+      dispatch(setSecondsElapsed(secondsElapsed));
       
-        //add the reading using the reports slice
-        dispatch(addReading(
-            
-            {volume: volumeReading, secondsElapsed}      
-        ));
-      }
+      //add the reading using the reports slice
+      dispatch(addReading({volume: volumeReading, secondsElapsed}));
   }
-  function isNumber(value){
-    return typeof value === 'number' && isFinite(value);
-  }
+
   return (
       <div class="container-fluid">
                   <h1 class="container-fluid row">
