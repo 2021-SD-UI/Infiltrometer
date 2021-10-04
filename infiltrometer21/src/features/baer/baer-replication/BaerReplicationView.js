@@ -4,7 +4,7 @@ import React, {useState} from 'react';
 import ReactDOM from "react-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { setVolume, setSecondsElapsed, selectLastVolume, setLastVolume } from './bear-replicationSlice';
-import reportsSlice, {addReading, selectCurId, selectReports, selectCurReadingID} from '../../reports/reportsSlice';
+import reportsSlice, {addReading, selectCurId, selectReports, selectCurReadingID, setGatheringData} from '../../reports/reportsSlice';
 import { selectTimeInterval, selectInitialVolume, setSoilType, selectSoilType } from '../baer-initialize/bear-initializeSlice';
 import {CountdownCircleTimer} from "react-countdown-circle-timer";
 import "./timer.css";
@@ -49,6 +49,11 @@ const BaerReplicationView = () => {
   const curID = useSelector(selectCurReadingID);
 
   function endProtocol(){
+
+    //mark that we are done gathering data on this report
+    dispatch(setGatheringData(false));
+
+
     //go to the results page
     dispatch(setPage("/Infiltrometer/baer-results"))
   }

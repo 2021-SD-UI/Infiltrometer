@@ -7,6 +7,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 const initialState = {
     reports:[],
     curId: -1
+    
 };
 
 export const reportsSlice = createSlice({
@@ -23,7 +24,8 @@ export const reportsSlice = createSlice({
             date: action.payload.date,
             protocol: action.payload.protocol,
             readings: [],
-            infiltrometerData: action.payload.infiltrometerData
+            infiltrometerData: action.payload.infiltrometerData,
+            gatheringData: true,
         }
       )];
 
@@ -40,12 +42,17 @@ export const reportsSlice = createSlice({
         state.reports[state.curId].readings =
         [...state.reports[state.curId].readings, 
         action.payload]; 
+    },
+    //sets the current gathering data report
+    setGatheringData: (state, action)=>{
+      state.reports[state.curId].gatheringData = action.payload;
     }
   }
 });
 
-export const { newReport, addReading } = reportsSlice.actions;
+export const { newReport, addReading, setGatheringData } = reportsSlice.actions;
 export const selectReports = (state) => state.reports.reports;
 export const selectCurId = (state) => state.reports.curId;
 export const selectCurReadingID = (state) => state.reports.reports[state.reports.curId].readings.length - 1;
+export const selectGatheringData = (state) => state.reports.reports[state.reports.curId].gatheringData;
 export default reportsSlice.reducer;

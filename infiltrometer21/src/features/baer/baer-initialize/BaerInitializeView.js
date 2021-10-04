@@ -146,7 +146,7 @@ const BaerInitializeView = (props) => {
         </Dropdown.Item>
       </DropdownButton>
       </div>
-      <Field name="radius" type="number" component={renderField} label="Radius"/>
+      <Field name="radius" type="number"  component={renderField} label="Radius"/>
       </div>
       </div>
 
