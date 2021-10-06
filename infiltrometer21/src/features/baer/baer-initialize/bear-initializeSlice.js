@@ -11,10 +11,13 @@ import { soilTypes } from '../../../app/soilTypes';
           long: 0,
         },
 
-        soilType: soilTypes.clay,
+        soilType: {
+          nh0: 0,
+          alpha: 0
+        },
         
         infiltrometerRadius: 0,
-        
+        infiltrometerSuction: 0,
         timeInterval: 30
 
 };

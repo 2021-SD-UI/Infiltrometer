@@ -2,7 +2,7 @@
 import { Link } from 'react-router-dom';
 import React, {useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addReading, newReport } from '../../reports/reportsSlice';
+import { addReading, newReport, selectCurId, selectReports } from '../../reports/reportsSlice';
 import {Protocols} from '../../reports/protocols'
 import { selectInitialVolume, selectInfiltrometerData,
   selectInfiltrometerRadius, selectInfiltrometerSuction,
@@ -15,6 +15,7 @@ import { connect } from 'react-redux';
 import { setPage } from '../../page-redirection/redirector-slice';
 import { Button, Form, FormLabel, Dropdown, DropdownButton } from 'react-bootstrap';
 import { infiltrometerTypes } from '../../../app/infiltrometerType';
+import { useEffect } from 'react';
 
 
 const renderField = ({ input, label, type, meta: { touched, error} }) => (
@@ -77,32 +78,59 @@ const validate = values => {
 const BaerInitializeView = (props) => {
   const infiltrometerData = useSelector(selectInfiltrometerData);
   const { change, soilTypeSelected, handleSubmit, pristine, reset, submitting, soilValues } = props
-  
+
 
   //current soil type in the store
   const curSoilType = useSelector(selectSoilType);
-  
-  
+  const curInfiltrometerData = useSelector(selectInfiltrometerData);
 
   const dispatch = useDispatch();
   /**
    * Adds a new Baer prototocol report using the reports slice
    * 
    */
-  const setSoilType = (soilType)=>{
-    change("nh0", soilType.nh0);
-    change("alpha",soilType.alpha);
+  const setFormSoilType = (soilType)=>{
+    if (soilType){
+      change("nh0", soilType.nh0);
+      change("alpha",soilType.alpha);
+
+      dispatch(setSoilType({
+          nh0: soilType.nh0,
+          alpha:soilType.alpha
+      }));
+    }
+    
   }
   const setInfiltrometerType = (infiltrometerType) =>{
     change("radius", infiltrometerType.radius);
    
   }
 
+  //the empty second array means "Only execute once"
+  useEffect(()=>{
+    loadDataAtStart();
+  }, []);
 
 
+  function loadDataAtStart(){
+    
+    //this is a check to say "if not initial"
+    if (curInfiltrometerData.infiltrometerRadius != 0){
+      //get the current report and populate data
+      change("radius", curInfiltrometerData.infiltrometerRadius);
+      change("nh0", curSoilType.nh0);
+      change("alpha",curSoilType.alpha);
+      change("volume", curInfiltrometerData.initialVolume);
+      change("suction", curInfiltrometerData.infiltrometerSuction);
+      change("timeInterval", curInfiltrometerData.timeInterval);
+    }  
+
+    
+
+
+  }
 
   return (
-    
   <div class = "col-sm-10">
   
         
@@ -112,28 +140,28 @@ const BaerInitializeView = (props) => {
 
   <Form onSubmit = {handleSubmit} expand="lg" bg="dark" variant="dark">
     <div class="form-group row">
-      <label for="volume" class="col-sm-2 col-form-label" >Initial Volume</label>
+      <label for="volume" class="col-sm-2 col-form-label" >Initial Volume (mL)</label>
       <div class="col-sm-10">
         <Field name="volume" type ="number" component={renderField} label="Initial Volume"/>
       </div>
     </div>
 
     <div class="form-group row">
-      <FormLabel for="suction" class="col-sm-2 col-form-label" >Suction</FormLabel>
+      <FormLabel for="suction" class="col-sm-2 col-form-label" >Suction (cm)</FormLabel>
       <div class="col-sm-10">
       <Field name="suction" type="number" component={renderField} label="Suction"/>
       </div>
     </div>
 
     <div class="form-group row">
-      <FormLabel for="timeInterval" class="col-sm-2 col-form-label" >Time Interval</FormLabel>
+      <FormLabel for="timeInterval" class="col-sm-2 col-form-label" >Time Interval (sec)</FormLabel>
       <div class="col-sm-10">
       <Field name="timeInterval" type="number" component={renderField} label="Time Interval"/>
       </div>
     </div>
 
     <div class="form-group row">
-      <FormLabel for="radius" class="col-sm-2 col-form-label" >Radius</FormLabel>
+      <FormLabel for="radius" class="col-sm-2 col-form-label" >Radius (cm)</FormLabel>
       <div class = "form-group col-sm-10">
         <div class="form-group row">
       <div class="col-sm-10">
@@ -162,25 +190,28 @@ const BaerInitializeView = (props) => {
 
 
            <DropdownButton  title="Preset Soil Types" component="select" bg="dark" variant="dark">
-              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.clay)} >Clay</Dropdown.Item>
-              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.clayLoam)} >Clay Loam</Dropdown.Item>
-              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.loam)} >Loam</Dropdown.Item>
-              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.loamySand)} >Loamy Sand</Dropdown.Item>
-              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.sand)} >Sand</Dropdown.Item>
-              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.sandyClay)} >Sandy Clay</Dropdown.Item>
-              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.sandyLoam)} >Sandy Loam</Dropdown.Item>
-              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.silt)} >Silt</Dropdown.Item>
-              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.siltLoam)} >Silt Loam</Dropdown.Item>
-              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.siltyClay)} >Silty Clay</Dropdown.Item>
-              <Dropdown.Item onSelect = {()=>setSoilType(soilTypes.siltyClayLoam)} >Silty Clay Loam</Dropdown.Item>
+              <Dropdown.Item onSelect = {()=>setFormSoilType(soilTypes.clay)} >Clay</Dropdown.Item>
+              <Dropdown.Item onSelect = {()=>setFormSoilType(soilTypes.clayLoam)} >Clay Loam</Dropdown.Item>
+              <Dropdown.Item onSelect = {()=>setFormSoilType(soilTypes.loam)} >Loam</Dropdown.Item>
+              <Dropdown.Item onSelect = {()=>setFormSoilType(soilTypes.loamySand)} >Loamy Sand</Dropdown.Item>
+              <Dropdown.Item onSelect = {()=>setFormSoilType(soilTypes.sand)} >Sand</Dropdown.Item>
+              <Dropdown.Item onSelect = {()=>setFormSoilType(soilTypes.sandyClay)} >Sandy Clay</Dropdown.Item>
+              <Dropdown.Item onSelect = {()=>setFormSoilType(soilTypes.sandyLoam)} >Sandy Loam</Dropdown.Item>
+              <Dropdown.Item onSelect = {()=>setFormSoilType(soilTypes.silt)} >Silt</Dropdown.Item>
+              <Dropdown.Item onSelect = {()=>setFormSoilType(soilTypes.siltLoam)} >Silt Loam</Dropdown.Item>
+              <Dropdown.Item onSelect = {()=>setFormSoilType(soilTypes.siltyClay)} >Silty Clay</Dropdown.Item>
+              <Dropdown.Item onSelect = {()=>setFormSoilType(soilTypes.siltyClayLoam)} >Silty Clay Loam</Dropdown.Item>
             </DropdownButton>
 
           </div>
-          <div class="form-group col-sm-10">
-          <Field name="nh0" component={renderField} type="number" value="nh0" label="NH0"/>
+         
+          <div  class="col-sm-10">
+            <FormLabel for="nh0" class="row" >(NH/O)</FormLabel>
+            <Field name="nh0" component={renderField} type="number" value="nh0" label="NH0"/>
           </div>
-          <div class="form-group col-sm-10">
-          <Field name="alpha" component={renderField} type="number" value="alpha" label="Alpha"/>
+          <div class="form-group row">
+            <FormLabel for="alpha" class = "row">(Alpha)</FormLabel>
+            <Field name="alpha" component={renderField} type="number" value="alpha" label="Alpha"/>
           </div>
           
 
@@ -205,20 +236,6 @@ const BaerInitializeView = (props) => {
 }
 const onSubmit = (values, dispatch) => {
 
-let soilType = soilTypes.default;
-switch (values.soilType) {
-    case "clay":
-      soilType = soilTypes.clay;
-      break;
-    case "clayLoam":
-       soilType = soilTypes.clayLoam;
-      break;
-    case "loam":
-       soilType = soilTypes.loam;
-      break;
-    default:
-      break;
-  }
   
   let infiltrometerData = {
      initialVolume: Number(values.volume),
@@ -227,7 +244,11 @@ switch (values.soilType) {
                 lat:0,
                 long: 0,
                 },
-                soilType,
+                soilType:
+                  {
+                    nh0: values.nh0,
+                    alpha: values.alpha
+                  },
                 infiltrometerRadius: values.radius,       
                 timeInterval: Number(values.timeInterval),
                 infiltrometerSuction: Number(values.suction),
@@ -252,17 +273,9 @@ switch (values.soilType) {
   //change the page
   dispatch(setPage("/Infiltrometer/baer-replication"));
 }
-const formSelector = formValueSelector('baerInitializeForm')
 
 
-export default connect(
-  state=> {
-    const soilTypeSelected =  formSelector(state, 'SoilTypes')
-    return {
-      soilTypeSelected
-    }
-  }
-)(reduxForm({
+export default connect()(reduxForm({
   form: 'baerInitializeForm',
   validate,
   onSubmit
