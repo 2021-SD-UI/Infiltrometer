@@ -21,14 +21,20 @@ export const NavBar = () => {
                     <Nav.Link onClick = {()=>dispatch(setPage("/Infiltrometer"))}>
                         Home
                     </Nav.Link>
-                    <Nav.Link onClick = {()=>dispatch(setPage("/Infiltrometer/how-to"))}>
-                        How To Use
-                    </Nav.Link>
                     <NavDropdown title="New Test" id="new-test-drop-down">
                         <NavDropdown.Item onClick ={()=>dispatch(setPage("/Infiltrometer/baer-initialize/"))}>
                             BAER protocol</NavDropdown.Item>
                         <NavDropdown.Divider />
-                        <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+                    </NavDropdown>
+                     <NavDropdown title="Manuals" id="manuals-drop-down">
+                         <NavDropdown.Divider />
+                        <NavDropdown.Item onClick ={()=>dispatch(setPage("/Infiltrometer/manuals-baer/"))}>
+                            BAER
+                        </NavDropdown.Item>
+                        <NavDropdown.Divider />
+                        <NavDropdown.Item onClick ={()=>dispatch(setPage("/Infiltrometer/manuals-infiltrometer/"))}>
+                            Infiltrometer</NavDropdown.Item>
+                        <NavDropdown.Divider />
                     </NavDropdown>
                 </Nav>
                 <Nav>

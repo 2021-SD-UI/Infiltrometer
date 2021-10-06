@@ -34,10 +34,14 @@ const  App = ()=> {
              <Route exact path ="/Infiltrometer/testing/regression">
               <RegressionTesting/>
             </Route>
-            
-             <Route exact path ="/Infiltrometer/how-to">
+             <Route exact path ="/Infiltrometer/manuals-baer">
                <h1>
-                  How-To Page
+                    TODO: Baer Manual
+                </h1>
+            </Route>
+             <Route exact path ="/Infiltrometer/manuals-infiltrometer">
+               <h1>
+                  TODO: infiltrometer Manual
                 </h1>
             </Route>
 
