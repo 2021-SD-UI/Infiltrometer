@@ -131,38 +131,46 @@ const BaerInitializeView = (props) => {
   }
 
   return (
-  <div class = "col-sm-10">
+
   
         
-  <div class="container">
-
-
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-12 bg-light rounded border shadow">
 
   <Form onSubmit = {handleSubmit} expand="lg" bg="dark" variant="dark">
-    <div class="form-group row">
-      <label for="volume" class="col-sm-2 col-form-label" >Initial Volume (mL)</label>
-      <div class="col-sm-10">
+    <div class="form-group row pt-4">
+      <div class="col-4"></div>
+      <label for="volume" class="col-sm-2 col-form-label align-content-center" >Initial Volume (mL)</label>
+      <div class="col-sm-2">
         <Field name="volume" type ="number" component={renderField} label="Initial Volume"/>
       </div>
+      <div class="col-4"></div>
     </div>
 
     <div class="form-group row">
+      <div className="col-4"></div>
       <FormLabel for="suction" class="col-sm-2 col-form-label" >Suction (cm)</FormLabel>
-      <div class="col-sm-10">
+      <div class="col-sm-2">
       <Field name="suction" type="number" component={renderField} label="Suction"/>
       </div>
+      <div className="col-4"></div>
     </div>
 
     <div class="form-group row">
+      <div className="col-4"></div>
       <FormLabel for="timeInterval" class="col-sm-2 col-form-label" >Time Interval (sec)</FormLabel>
-      <div class="col-sm-10">
+      <div class="col-sm-2">
       <Field name="timeInterval" type="number" component={renderField} label="Time Interval"/>
       </div>
+      <div className="col-4"></div>
     </div>
 
     <div class="form-group row">
+      <div className="col-4"></div>
       <FormLabel for="radius" class="col-sm-2 col-form-label" >Radius (cm)</FormLabel>
-      <div class = "form-group col-sm-10">
+      <div class = "form-group col-sm-2">
+        <div className="col-4"></div>
         <div class="form-group row">
       <div class="col-sm-10">
       <DropdownButton  title="Preset Infiltrometer Types" component="select" bg="dark" variant="dark">
@@ -173,17 +181,19 @@ const BaerInitializeView = (props) => {
           {infiltrometerTypes.MiniDiskV1.displayName}
         </Dropdown.Item>
       </DropdownButton>
-      </div>
-      <Field name="radius" type="number"  component={renderField} label="Radius"/>
-      </div>
+        </div>
+          <Field name="radius" type="number"  component={renderField} label="Radius"/>
+        </div>
       </div>
 
     </div>
 
-    <div class="row">
+
+    <div class="row pt-2">
+      <div className="col-4"></div>
       <label for="soilType" class="col-sm-2 col-form-label" >Soil Type</label>
      
-    <div class="col-sm-10">
+    <div class="col-sm-2">
 
         <div class="form-group row">
           <div class="col-sm-10">
@@ -218,20 +228,32 @@ const BaerInitializeView = (props) => {
         </div>
 
     </div>
+      <div className="col-4"></div>
     </div>
 
-    
-  
-     <div class="form-group row col-sm-4">
-      <Button type="submit" bg="dark" variant="dark" disabled={submitting}>Start Protocol</Button>
+
+
+     <div class="form-group row pt-4 ">
+       <div class="col-4"></div>
+       <div class="col-sm-4">
+          <button class="btn btn-dark w-100"  type="submit"  disabled={submitting}>Start Protocol</button>
+       </div>
+       <div class="col-4"></div>
+     </div>
+      <div class="form-group row pb-4">
+        <div class="col-4"></div>
+        <div class="col-sm-4">
+          <button type="button" class="btn btn-secondary w-100"  disabled={pristine || submitting} onClick={reset}>Clear Values</button>
+        </div>
+        <div className="col-4"></div>
       </div>
-      <div class="form-group row col-sm-4">
-      <Button type="button" class="btn btn-secondary"  disabled={pristine || submitting} onClick={reset}>Clear Values</Button>
-    </div>
+
   </Form>
 
+      </div>
     </div>
   </div>
+
      );
 }
 const onSubmit = (values, dispatch) => {
