@@ -141,7 +141,7 @@ const BaerInitializeView = (props) => {
   <Form onSubmit = {handleSubmit} expand="lg" bg="dark" variant="dark">
     <div class="form-group row pt-4">
       <div class="col-4"></div>
-      <label for="volume" class="col-sm-2 col-form-label align-content-center" >Initial Volume (mL)</label>
+      <label for="volume" class="col-sm-2 col-form-label align-content-center fw-bolder">Initial Volume (mL)</label>
       <div class="col-sm-2">
         <Field name="volume" type ="number" component={renderField} label="Initial Volume"/>
       </div>
@@ -150,7 +150,7 @@ const BaerInitializeView = (props) => {
 
     <div class="form-group row">
       <div className="col-4"></div>
-      <FormLabel for="suction" class="col-sm-2 col-form-label" >Suction (cm)</FormLabel>
+      <FormLabel for="suction" class="col-sm-2 col-form-label fw-bolder" >Suction (cm)</FormLabel>
       <div class="col-sm-2">
       <Field name="suction" type="number" component={renderField} label="Suction"/>
       </div>
@@ -159,7 +159,7 @@ const BaerInitializeView = (props) => {
 
     <div class="form-group row">
       <div className="col-4"></div>
-      <FormLabel for="timeInterval" class="col-sm-2 col-form-label" >Time Interval (sec)</FormLabel>
+      <FormLabel for="timeInterval" class="col-sm-2 col-form-label fw-bolder" >Time Interval (sec)</FormLabel>
       <div class="col-sm-2">
       <Field name="timeInterval" type="number" component={renderField} label="Time Interval"/>
       </div>
@@ -168,7 +168,7 @@ const BaerInitializeView = (props) => {
 
     <div class="form-group row">
       <div className="col-4"></div>
-      <FormLabel for="radius" class="col-sm-2 col-form-label" >Radius (cm)</FormLabel>
+      <FormLabel for="radius" class="col-sm-2 col-form-label fw-bolder" >Radius (cm)</FormLabel>
       <div class = "form-group col-sm-2">
         <div className="col-4"></div>
         <div class="form-group row">
@@ -191,7 +191,7 @@ const BaerInitializeView = (props) => {
 
     <div class="row pt-2">
       <div className="col-4"></div>
-      <label for="soilType" class="col-sm-2 col-form-label" >Soil Type</label>
+      <label for="soilType" class="col-sm-2 col-form-label fw-bolder" >Soil Type</label>
      
     <div class="col-sm-2">
 
