@@ -31,7 +31,7 @@ const  App = ()=> {
             <Route exact path ="/Infiltrometer/baer-results">
               <BaerResultsView/>
             </Route>
-             <Route exact path ="/Infiltrometer/testing/regression">
+            <Route exact path ="/Infiltrometer/testing/regression">
               <RegressionTesting/>
             </Route>
              <Route exact path ="/Infiltrometer/manuals-baer">
@@ -39,9 +39,14 @@ const  App = ()=> {
                     TODO: Baer Manual
                 </h1>
             </Route>
-             <Route exact path ="/Infiltrometer/manuals-infiltrometer">
+            <Route exact path ="/Infiltrometer/manuals-infiltrometer">
                <h1>
                   TODO: infiltrometer Manual
+                </h1>
+            </Route>
+            <Route exact path ="Infiltrometer/reports">
+               <h1>
+                  TODO: Reports Page
                 </h1>
             </Route>
 

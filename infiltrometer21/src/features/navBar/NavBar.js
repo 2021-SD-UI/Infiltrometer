@@ -19,13 +19,15 @@ export const NavBar = () => {
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto">
                     <Nav.Link onClick = {()=>dispatch(setPage("/Infiltrometer"))}>
-                        Home
+                        About Us
                     </Nav.Link>
                     <NavDropdown title="New Test" id="new-test-drop-down">
                         <NavDropdown.Item onClick ={()=>dispatch(setPage("/Infiltrometer/baer-initialize/"))}>
                             BAER protocol</NavDropdown.Item>
-                        <NavDropdown.Divider />
                     </NavDropdown>
+                    <Nav.Link onCkilck={()=>dispatch(setPage("Infiltrometer/reports"))}>
+                        My Reports
+                    </Nav.Link>
                      <NavDropdown title="Manuals" id="manuals-drop-down">
                          <NavDropdown.Divider />
                         <NavDropdown.Item onClick ={()=>dispatch(setPage("/Infiltrometer/manuals-baer/"))}>

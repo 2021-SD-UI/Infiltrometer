@@ -101,10 +101,14 @@ const BaerReplicationView = () => {
   }
   return (
       <div class="container-fluid">
-                  <h1 class="container-fluid row">
+        
+        <div class = "col-4"/>
+        <div class="col-8">
             Current Replication: {curID}
-          </h1>
-        <div class = "container-fluid timer-wrapper">
+        </div>
+        <div class = "col-4"/>
+
+        <div class = "container-fluid timer-wrapper col-4">
           <CountdownCircleTimer
               key={state.key}
               isPlaying = {state.timerIsPlaying}

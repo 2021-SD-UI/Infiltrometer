@@ -5,7 +5,6 @@ import {useSelector,useDispatch} from "react-redux";
 import {selectReports} from "../reports/reportsSlice";
 import Table from "./table";
 
-
 const  BaerResultsView = ()=> {
   const reports = useSelector(selectReports);
 

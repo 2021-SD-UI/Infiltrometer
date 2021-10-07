@@ -128,89 +128,89 @@ const BaerInitializeView = (props) => {
   return (
     
   <div class = "col-sm-10">
-  
-        
-  <div class="container">
-
-
-
-  <form onSubmit = {handleSubmit}>
-    <div class="form-group row">
-      <label for="volume" class="col-sm-2 col-form-label" >Initial Volume</label>
-      <div class="col-sm-10">
-        <Field name="volume" type ="number" component={renderField} label="Initial Volume"/>
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <label for="suction" class="col-sm-2 col-form-label" >Suction</label>
-      <div class="col-sm-10">
-      <Field name="suction" type="number" component={renderField} label="Suction"/>
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <label for="timeInterval" class="col-sm-2 col-form-label" >Time Interval</label>
-      <div class="col-sm-10">
-      <Field name="timeInterval" type="number" component={renderField} label="Time Interval"/>
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <label for="radius" class="col-sm-2 col-form-label" >Radius</label>
-      <div class = "form-group col-sm-10">
-        <div class="form-group row">
-      <div class="col-sm-10">
-      <Field name="infiltrometerType" component="select" onChange={handleFormChange}>
-        <option value="customType" selected>Infiltrometer Type</option>
-        <option value="miniDisk">MiniDisk</option>
-        <option value="miniDiskV1">MiniDiskV1</option>
-      </Field>
-      </div>
-      <Field name="radius" type="number" component={renderField} label="Radius"/>
-      </div>
-      </div>
-
-    </div>
-
-    <div class="row">
-      <label for="soilType" class="col-sm-2 col-form-label" >Soil Type</label>
-     
-    <div class="col-sm-10">
-
-        <div class="form-group row">
-          <div class="col-sm-10">
-          <Field name="soilType" component="select" onChange={handleFormChange}>
-            <option selected>Preset Soil Types</option>
-            <option value="clay">Clay</option>
-            <option value="loam">Loam</option>
-            <option value="clayLoam">Clay Loam</option>
-          </Field>
-          </div>
-          <div class="form-group col-sm-10">
-          <Field name="nh0" component={renderField} type="number" value="nh0" label="NH0"/>
-          </div>
-          <div class="form-group col-sm-10">
-          <Field name="alpha" component={renderField} type="number" value="alpha" label="Alpha"/>
-          </div>
+    
           
+    <div class="container">
 
+
+
+      <form onSubmit = {handleSubmit}>
+        <div class="form-group row">
+          <label for="volume" class="col-sm-2 col-form-label" >Initial Volume</label>
+          <div class="col-sm-10">
+            <Field name="volume" type ="number" component={renderField} label="Initial Volume"/>
+          </div>
         </div>
 
-    </div>
-    </div>
+        <div class="form-group row">
+          <label for="suction" class="col-sm-2 col-form-label" >Suction</label>
+          <div class="col-sm-10">
+          <Field name="suction" type="number" component={renderField} label="Suction"/>
+          </div>
+        </div>
 
-    
-  
-     <div class="form-group row col-sm-4">
-      <button type="submit" class="btn btn-primary" disabled={submitting}>Start Protocol</button>
+        <div class="form-group row">
+          <label for="timeInterval" class="col-sm-2 col-form-label" >Time Interval</label>
+          <div class="col-sm-10">
+          <Field name="timeInterval" type="number" component={renderField} label="Time Interval"/>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="radius" class="col-sm-2 col-form-label" >Radius</label>
+          <div class = "form-group col-sm-10">
+            <div class="form-group row">
+          <div class="col-sm-10">
+          <Field name="infiltrometerType" component="select" onChange={handleFormChange}>
+            <option value="customType" selected>Infiltrometer Type</option>
+            <option value="miniDisk">MiniDisk</option>
+            <option value="miniDiskV1">MiniDiskV1</option>
+          </Field>
+          </div>
+          <Field name="radius" type="number" component={renderField} label="Radius"/>
+          </div>
+          </div>
+
       </div>
-      <div class="form-group row col-sm-4">
-      <button type="button" class="btn btn-secondary" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
-    </div>
-  </form>
 
-    </div>
+      <div class="row">
+        <label for="soilType" class="col-sm-2 col-form-label" >Soil Type</label>
+      
+      <div class="col-sm-10">
+
+          <div class="form-group row">
+            <div class="col-sm-10">
+            <Field name="soilType" component="select" onChange={handleFormChange}>
+              <option selected>Preset Soil Types</option>
+              <option value="clay">Clay</option>
+              <option value="loam">Loam</option>
+              <option value="clayLoam">Clay Loam</option>
+            </Field>
+            </div>
+            <div class="form-group col-sm-10">
+            <Field name="nh0" component={renderField} type="number" value="nh0" label="NH0"/>
+            </div>
+            <div class="form-group col-sm-10">
+            <Field name="alpha" component={renderField} type="number" value="alpha" label="Alpha"/>
+            </div>
+            
+
+          </div>
+
+      </div>
+      </div>
+
+      
+    
+      <div class="form-group row col-sm-4">
+        <button type="submit" class="btn btn-primary" disabled={submitting}>Start Protocol</button>
+        </div>
+        <div class="form-group row col-sm-4">
+        <button type="button" class="btn btn-secondary" disabled={pristine || submitting} onClick={reset}>Clear Values</button>
+      </div>
+    </form>
+
+      </div>
   </div>
      );
 }
