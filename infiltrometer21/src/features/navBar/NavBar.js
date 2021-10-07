@@ -25,7 +25,7 @@ export const NavBar = () => {
                         <NavDropdown.Item onClick ={()=>dispatch(setPage("/Infiltrometer/baer-initialize/"))}>
                             BAER protocol</NavDropdown.Item>
                     </NavDropdown>
-                    <Nav.Link onCkilck={()=>dispatch(setPage("Infiltrometer/reports"))}>
+                    <Nav.Link onClick={()=>dispatch(setPage("/Infiltrometer/reports/"))}>
                         My Reports
                     </Nav.Link>
                      <NavDropdown title="Manuals" id="manuals-drop-down">

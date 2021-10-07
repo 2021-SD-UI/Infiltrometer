@@ -44,7 +44,7 @@ const  App = ()=> {
                   TODO: infiltrometer Manual
                 </h1>
             </Route>
-            <Route exact path ="Infiltrometer/reports">
+            <Route exact path ="/Infiltrometer/reports">
                <h1>
                   TODO: Reports Page
                 </h1>
