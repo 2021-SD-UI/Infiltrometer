@@ -1,6 +1,7 @@
 import React, {Component, useEffect, useState} from 'react'
 import {useSelector} from "react-redux";
 import {selectCurId, selectReports} from "../../reports/reportsSlice";
+import {SeverityRatings} from "../../reports/severityRatings";
 
 const Table =()=> {
     const rawReports = useSelector(selectReports);
@@ -25,6 +26,37 @@ const Table =()=> {
             return 0;
         }
     }
+
+    /**
+     * Find average rate (ml/min)
+     * Relies on findRate(i) to get rates for calculating the average
+     * @param {The current reading index} i
+     */
+    function findAverageRate() {
+        let sum = 0;
+
+        for(let i = 0; i < curReport.readings.length; i++) {
+            sum += findRate(i);
+        }
+
+        return sum/(curReport.readings.length - 1);
+    }
+
+    /**
+     * Returns severity rating based on average rate
+     * See severityRatings.js for severity rating values
+     * @param {Average flow rate} avgRate
+     */
+    function findSeverityRating(avgRate) {
+        if (avgRate >= SeverityRatings.None.min)
+            return <td className="text-center">None</td>
+        if (avgRate >= SeverityRatings.Strong.min && avgRate < SeverityRatings.Strong.max)
+            return <td className="text-center">Strong</td>
+        if (avgRate >= SeverityRatings.Weak.min && avgRate < SeverityRatings.Weak.max)
+            return <td className="text-center">Weak</td>
+        else return <td className="text-center">N/A</td>
+    }
+
     /**
      * Create an array to use for a table row from reading data
      */
@@ -54,7 +86,7 @@ const Table =()=> {
                     <td>{id}</td>
                     <td>{Time}</td>
                     <td>{Volume}</td>
-                    <td>{Rate}</td>
+                    <td>{Rate.toPrecision(4)}</td>
                 </tr>
             )
         })
@@ -84,8 +116,6 @@ const Table =()=> {
         })
     }
 
-
-
      //Whenever our class runs, render method will be called automatically, it may have already defined in the constructor behind the scene.
         return (
             <div>
@@ -95,9 +125,20 @@ const Table =()=> {
                     {renderTableData()}
                     </tbody>
                 </table>
+                <table class="table table-light table-striped table-hover">
+                    <tbody>
+                        <tr class="table-dark">
+                            <th class="text-center">AVERAGE (mL/min)</th>
+                            <th className="text-center">SEVERITY RATING</th>
+                        </tr>
+                        <tr class="table-striped">
+                            <td className="text-center">{findAverageRate().toPrecision(4)}</td>
+                            {findSeverityRating(findAverageRate())}
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         )
-
 }
 
 
