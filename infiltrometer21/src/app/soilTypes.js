@@ -6,7 +6,7 @@ export const soilTypes = {
     clayLoam:  {
         nh0:1.31,
          /* positive number, of n/h0*/ 
-         alpha: 1.31 /* positive number,*/},
+         alpha: 0.019 /* positive number,*/},
     loam:  {nh0:1.56,
          /* positive number, of n/h0*/ 
          alpha: .036 /* positive number,*/},
