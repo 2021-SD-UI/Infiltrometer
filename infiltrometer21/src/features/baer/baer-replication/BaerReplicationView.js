@@ -97,18 +97,19 @@ const BaerReplicationView = () => {
   return (
        
       <div class="container-fluid">
-        <div class = "row">
-          <div class = "col-4"/>
-            <div class="col-8">
+        <div class = "container row">
+            <div class = "row mt-5"/>
+            <div class="display-4 text-center w-100">
               Current Replication: {curID}
             </div>
-          </div>
-        <div class = "col-4"/>
-
-        <div class = "container-fluid timer-wrapper">
-          <div class = "row-4"/>
-          <div class ="row-4">
-              <CountdownCircleTimer
+            <div class = "row mt-5"/>
+        </div>
+          
+        <div class="row-12">
+            
+          <div class="col-4"/>
+          <div class ="timer-wrapper">
+            <CountdownCircleTimer
                 key={state.key}
                 isPlaying = {state.timerIsPlaying}
                 duration={Number(timeInterval)}
@@ -116,26 +117,45 @@ const BaerReplicationView = () => {
                 onComplete={() => getVolumeReading()}
               >
                 {renderTime}
-              </CountdownCircleTimer>
+            </CountdownCircleTimer>
           </div>
-          <div class = "row-4"/>
-           <div class="btn btn-dark"
+          <div class="col-4"/>
+        </div>
+
+        <div class = "container">
+          <div class = "row mt-4"/>
+          <div class = "row-8 text-center">
+            <div class="btn btn-dark w-50"
               disabled={state.timerIsPlaying}
               onClick = {()=>{
               setState({
                 timerIsPlaying: true,
                 key: state.key+1}
                 );
-
-             }}>{
-              !state.timerIsPlaying? "Start Replication" : "Replication Running..." 
-            }</div>
-            <div class="btn btn-secondary" onClick = {endProtocol}>
+                }}> {
+                  !state.timerIsPlaying? "Start Replication" : "Replication Running..." 
+                    }
+            </div>
+          </div>
+          <div class = "row mt-2"/>
+          <div class = "row-8 text-center">
+            <div class="btn btn-secondary w-50" onClick = {endProtocol}>
               End Protocol
             </div>
-
-            <Table/>
+          </div>
+          <div class = "row mt-2"/>
         </div>
+
+          <div class ="container">
+            <div class="row-4">
+              <div class = "row mt-4"/>
+                <Table  class="col-8"/>
+              <div class = "row mt-4"/>
+            </div>
+          </div>
+
+            
+         <div class = "col-10"/>
       </div>);
 
 }

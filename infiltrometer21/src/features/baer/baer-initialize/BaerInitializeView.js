@@ -238,6 +238,7 @@ const BaerInitializeView = (props) => {
        <div class="col-sm-4">
           <button class="btn btn-dark w-100"  type="submit"  disabled={submitting}>Start Protocol</button>
        </div>
+       <div class = "row mt-2"/>
        <div class="col-4"></div>
      </div>
       <div class="form-group row pb-4">
