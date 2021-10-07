@@ -95,46 +95,48 @@ const BaerReplicationView = () => {
   }
 
   return (
+       
       <div class="container-fluid">
-                  <h1 class="container-fluid row">
-            Current Replication: {curID}
-          </h1>
-        <div class = "container-fluid timer-wrapper">
-          <CountdownCircleTimer
-              key={state.key}
-              isPlaying = {state.timerIsPlaying}
-              duration={Number(timeInterval)}
-              colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
-              onComplete={() => getVolumeReading()}
-          >
-            {renderTime}
-          </CountdownCircleTimer>
-        </div>
+        <div class = "row">
+          <div class = "col-4"/>
+            <div class="col-8">
+              Current Replication: {curID}
+            </div>
+          </div>
+        <div class = "col-4"/>
 
-        <div class="container-fluid">
-          <div class="row container-fluid">
-             <button type="submit" class="btn btn-primary" disabled={state.timerIsPlaying} onClick = {()=>{
+        <div class = "container-fluid timer-wrapper">
+          <div class = "row-4"/>
+          <div class ="row-4">
+              <CountdownCircleTimer
+                key={state.key}
+                isPlaying = {state.timerIsPlaying}
+                duration={Number(timeInterval)}
+                colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
+                onComplete={() => getVolumeReading()}
+              >
+                {renderTime}
+              </CountdownCircleTimer>
+          </div>
+          <div class = "row-4"/>
+           <div class="btn btn-dark"
+              disabled={state.timerIsPlaying}
+              onClick = {()=>{
               setState({
                 timerIsPlaying: true,
                 key: state.key+1}
                 );
 
              }}>{
-            
-            !state.timerIsPlaying? "Start Replication" : "Replication Running..."
-            
-            }</button>
-            <button type="submit" class="btn btn-secondary" onClick = {endProtocol}>
+              !state.timerIsPlaying? "Start Replication" : "Replication Running..." 
+            }</div>
+            <div class="btn btn-secondary" onClick = {endProtocol}>
               End Protocol
-            </button>
-          </div>
-           
-        </div>
-         <div class="container-fluid">
-        <Table/>
+            </div>
+
+            <Table/>
         </div>
       </div>);
-
 
 }
 
