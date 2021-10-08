@@ -140,18 +140,18 @@ const BaerInitializeView = (props) => {
 
   <Form onSubmit = {handleSubmit} expand="lg" bg="dark" variant="dark">
     <div class="form-group row pt-4">
-      <div class="col-4"></div>
-      <label for="volume" class="col-sm-2 col-form-label align-content-center fw-bolder">Initial Volume (mL)</label>
-      <div class="col-sm-2">
+      <div class="col-sm-4"></div>
+      <label for="volume" class="col-sm-2 col-form-label text-center fw-bolder">Initial Volume (mL)</label>
+      <div class="col-sm-2 text-center">
         <Field name="volume" type ="number" component={renderField} label="Initial Volume"/>
       </div>
-      <div class="col-4"></div>
+      <div class="col-sm-4"></div>
     </div>
 
     <div class="form-group row">
       <div className="col-4"></div>
-      <FormLabel for="suction" class="col-sm-2 col-form-label fw-bolder" >Suction (cm)</FormLabel>
-      <div class="col-sm-2">
+      <FormLabel for="suction" class="col-sm-2 col-form-label text-center fw-bolder" >Suction (cm)</FormLabel>
+      <div class="col-sm-2 text-center ">
       <Field name="suction" type="number" component={renderField} label="Suction"/>
       </div>
       <div className="col-4"></div>
@@ -159,8 +159,8 @@ const BaerInitializeView = (props) => {
 
     <div class="form-group row">
       <div className="col-4"></div>
-      <FormLabel for="timeInterval" class="col-sm-2 col-form-label fw-bolder" >Time Interval (sec)</FormLabel>
-      <div class="col-sm-2">
+      <FormLabel for="timeInterval" class="col-sm-2 col-form-label text-center fw-bolder" >Time Interval (sec)</FormLabel>
+      <div class="col-sm-2 text-center ">
       <Field name="timeInterval" type="number" component={renderField} label="Time Interval"/>
       </div>
       <div className="col-4"></div>
@@ -168,8 +168,8 @@ const BaerInitializeView = (props) => {
 
     <div class="form-group row">
       <div className="col-4"></div>
-      <FormLabel for="radius" class="col-sm-2 col-form-label fw-bolder" >Radius (cm)</FormLabel>
-      <div class = "form-group col-sm-2">
+      <FormLabel for="radius" class="col-sm-2 col-form-label text-center fw-bolder" >Radius (cm)</FormLabel>
+      <div class = "form-group col-sm-2 text-center ">
         <div className="col-4"></div>
         <div class="form-group row">
       <div class="col-sm-10">
@@ -191,12 +191,12 @@ const BaerInitializeView = (props) => {
 
     <div class="row pt-2">
       <div className="col-4"></div>
-      <label for="soilType" class="col-sm-2 col-form-label fw-bolder" >Soil Type</label>
+      <label for="soilType" class="col-sm-2 col-form-label text-center fw-bolder" >Soil Type</label>
      
     <div class="col-sm-2">
 
         <div class="form-group row">
-          <div class="col-sm-10">
+          <div class="col-sm-10 text-center ">
 
 
            <DropdownButton  title="Preset Soil Types" component="select" bg="dark" variant="dark">
@@ -215,12 +215,12 @@ const BaerInitializeView = (props) => {
 
           </div>
          
-          <div  class="col-sm-10">
-            <FormLabel for="nh0" class="row" >(NH/O)</FormLabel>
+          <div  class="col-sm-10 text-center ">
+            <FormLabel for="nh0" class="mt-2 mb-2 fw-bolder" >(NH/O)</FormLabel>
             <Field name="nh0" component={renderField} type="number" value="nh0" label="NH0"/>
           </div>
-          <div class="form-group row">
-            <FormLabel for="alpha" class = "row">(Alpha)</FormLabel>
+          <div class="col-sm-10 text-center ">
+            <FormLabel for="alpha" class="mt-2 mb-2 fw-bolder">(Alpha)</FormLabel>
             <Field name="alpha" component={renderField} type="number" value="alpha" label="Alpha"/>
           </div>
           
