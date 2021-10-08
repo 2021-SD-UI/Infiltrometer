@@ -14,7 +14,17 @@ export const NavBar = () => {
     return(
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container>
-            <Navbar.Brand>Infiltrometer</Navbar.Brand>
+
+            <Navbar.Brand>
+                 <img
+                    src="https://github.com/2021-SD-UI/Infiltrometer/blob/dev/infiltrometer21/src/features/navBar/MTU_Logo.png"
+                    width="30"
+                    height="30"
+                    className="d-inline-block align-top"
+                    alt="MTU logo"
+                    />
+                    Infiltrometer Companion
+            </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto">
