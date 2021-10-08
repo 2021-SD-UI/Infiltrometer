@@ -140,12 +140,12 @@ const BaerInitializeView = (props) => {
 
   <Form onSubmit = {handleSubmit} expand="lg" bg="dark" variant="dark">
     <div class="form-group row pt-4">
-      <div class="col-sm-4"></div>
+      <div class="col-4"></div>
       <label for="volume" class="col-sm-2 col-form-label text-center fw-bolder">Initial Volume (mL)</label>
       <div class="col-sm-2 text-center">
         <Field name="volume" type ="number" component={renderField} label="Initial Volume"/>
       </div>
-      <div class="col-sm-4"></div>
+      <div class="col-4"></div>
     </div>
 
     <div class="form-group row">
