@@ -15,15 +15,13 @@ export const NavBar = () => {
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container>
 
-            <Navbar.Brand>
+            <Navbar.Brand href="https://www.mtu.edu/computing/" >
                  <img
-                    src="https://github.com/2021-SD-UI/Infiltrometer/blob/dev/infiltrometer21/src/features/navBar/MTU_Logo.png"
-                    width="30"
-                    height="30"
+                    src="https://www.mtu.edu/mtu_resources/images/download-central/logos/husky-icon/white.png"
+                    width="56"
                     className="d-inline-block align-top"
                     alt="MTU logo"
                     />
-                    Infiltrometer Companion
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
