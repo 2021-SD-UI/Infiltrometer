@@ -14,7 +14,15 @@ export const NavBar = () => {
     return(
     <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
         <Container>
-            <Navbar.Brand>Infiltrometer</Navbar.Brand>
+
+            <Navbar.Brand href="https://www.mtu.edu/computing/" >
+                 <img
+                    src="https://www.mtu.edu/mtu_resources/images/download-central/logos/husky-icon/white.png"
+                    width="56"
+                    className="d-inline-block align-top"
+                    alt="MTU logo"
+                    />
+            </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="me-auto">

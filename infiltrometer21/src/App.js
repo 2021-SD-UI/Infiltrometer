@@ -10,7 +10,9 @@ import { Redirector } from './features/page-redirection/Redirector';
 import { NavBar } from './features/navBar/NavBar';
 const  App = ()=> {
   return (
+    
     <BrowserRouter>
+    <title>Infiltrometer Companion</title>
           <NavBar/>
           <Redirector/>
           <Switch>
