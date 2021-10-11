@@ -8,6 +8,9 @@ import { ShowReportsButton } from './features/reports/ShowReportsButon';
 import { RegressionTesting } from './features/regression/RegressionTesting';
 import { Redirector } from './features/page-redirection/Redirector';
 import { NavBar } from './features/navBar/NavBar';
+import SinglePagePDFView from "./features/pdfviewer/pdf-viewer";
+import FieldGuide from './app/FieldGuide.pdf';
+import MiniDiskManual from './app/MiniDiskManual.pdf';
 const  App = ()=> {
   return (
     
@@ -37,14 +40,10 @@ const  App = ()=> {
               <RegressionTesting/>
             </Route>
              <Route exact path ="/Infiltrometer/manuals-baer">
-               <h1>
-                    TODO: Baer Manual
-                </h1>
+              <SinglePagePDFView pdf={FieldGuide}/>
             </Route>
             <Route exact path ="/Infiltrometer/manuals-infiltrometer">
-               <h1>
-                  TODO: infiltrometer Manual
-                </h1>
+              <SinglePagePDFView pdf={MiniDiskManual}/>
             </Route>
             <Route exact path ="/Infiltrometer/reports">
                <h1>
