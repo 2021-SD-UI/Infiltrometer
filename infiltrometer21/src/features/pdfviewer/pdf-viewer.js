@@ -28,9 +28,9 @@ export default function SinglePagePDFView(props) {
         <div class="container-fluid">
             
             <div class = "row mt-2"/>
-            <div class = "row">
-                <div class = "col-2"></div>
-                <div class = "col-8 text-center">
+            <div class = "row text-center">
+                <div class = "col-sm-4"></div>
+                <div class = "col-sm-4" >
                       <Document
                     file={pdf}
                     options = {{workerSrc :"/pdf.worker.js"}}
@@ -39,7 +39,7 @@ export default function SinglePagePDFView(props) {
                     <Page pageNumber= {pageNumber}/>
                     </Document>
                 </div>
-                <div class = "col-2"></div>
+                <div class = "col-sm-4" ></div>
                 <div class = "row mt-2"/>
                 <div class = "row">
                     <p>
