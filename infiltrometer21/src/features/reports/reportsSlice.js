@@ -1,12 +1,12 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-
+import {v4 as uuidv4} from 'uuid';
 
 
 
 //empty array of reports
 const initialState = {
-    reports:[],
-    curId: -1
+    reports:{},
+    curId: "-1"
     
 };
 
@@ -17,8 +17,9 @@ export const reportsSlice = createSlice({
   reducers: {
      newReport: (state, action) => {
       // Push a new report onto the report stack and increment the id
-      state.curId++;
-      state.reports = [...state.reports,(
+      state.curId = uuidv4();
+      
+      let newReport = 
         {
             id: state.curId,
             date: action.payload.date,
@@ -27,7 +28,8 @@ export const reportsSlice = createSlice({
             infiltrometerData: action.payload.infiltrometerData,
             gatheringData: true,
         }
-      )];
+      //add it to the reports
+      state.reports[newReport.id] = newReport; 
 
     },
 

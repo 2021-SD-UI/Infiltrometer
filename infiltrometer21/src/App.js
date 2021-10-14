@@ -11,6 +11,7 @@ import { NavBar } from './features/navBar/NavBar';
 import SinglePagePDFView from "./features/pdfviewer/pdf-viewer";
 import FieldGuide from './app/FieldGuide.pdf';
 import MiniDiskManual from './app/MiniDiskManual.pdf';
+import ReportsTable from './features/reports/ReportsTable';
 const  App = ()=> {
   return (
     
@@ -46,9 +47,7 @@ const  App = ()=> {
               <SinglePagePDFView pdf={MiniDiskManual}/>
             </Route>
             <Route exact path ="/Infiltrometer/reports">
-               <h1>
-                  TODO: Reports Page
-                </h1>
+               <ReportsTable/>
             </Route>
 
           </Switch>
