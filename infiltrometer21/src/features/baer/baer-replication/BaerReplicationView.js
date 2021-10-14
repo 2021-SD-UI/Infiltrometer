@@ -86,12 +86,12 @@ const BaerReplicationView = () => {
       let secondsElapsed = (curID + 1) * timeInterval;
       
       //set the volume and time in the replication store
-      dispatch(setLastVolume(volumeReading));
-      dispatch(setVolume(volumeReading));
+      dispatch(setLastVolume(volumeReading.replace(/\D/g, "")));
+      dispatch(setVolume(volumeReading.replace(/\D/g, "")));
       dispatch(setSecondsElapsed(secondsElapsed));
       
       //add the reading using the reports slice
-      dispatch(addReading({volume: volumeReading, secondsElapsed}));
+      dispatch(addReading({volume: volumeReading.replace(/\D/g, ""), secondsElapsed}));
   }
 
   return (
