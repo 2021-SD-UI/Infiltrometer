@@ -73,7 +73,7 @@ const BaerReplicationView = () => {
           if (volumeReading == null)
               return;
           // Volume reading should be a non-negative number that is less than previous/initial volume.
-          else if (volumeReading > maxVolume || volumeReading < 0 || isNaN(parseFloat(volumeReading))) {
+          else if (volumeReading.replace(/\D/g, "") > maxVolume || volumeReading.replace(/\D/g, "") < 0 || isNaN(parseFloat(volumeReading.replace(/\D/g, "")))) {
               window.confirm("Invalid input! Make sure your volume reading is a number less than or equal to: " + maxVolume);
               volumeReading = prompt("Enter volumetric data below.");
           }
