@@ -61,6 +61,10 @@ const Table =()=> {
      * Create an array to use for a table row from reading data
      */
     function filterReadings(){
+        
+
+        if (curReport == undefined) return{reports: []};
+
         let readingsArr = [];
         for(let i = 0; i < curReport.readings.length; i++){
             readingsArr[i] = {
@@ -96,7 +100,8 @@ const Table =()=> {
      * create header for table
      */
     function renderTableHeader() {
-        let header = Object.keys(state.reports[0])
+        try{
+            let header = Object.keys(state.reports[0])
         return header.map((key, index) => {
             console.log(key.toUpperCase())
             if (key.toUpperCase() === "ID") {
@@ -114,8 +119,14 @@ const Table =()=> {
                 return <th key={index}>{key.toUpperCase() + " (mL/min)"}</th>
             }
         })
+        }
+        catch (e){
+            return <th key = {0}>No Readings To Display</th>;
+        }
+        
     }
 
+    
      //Whenever our class runs, render method will be called automatically, it may have already defined in the constructor behind the scene.
         return (
             <div>

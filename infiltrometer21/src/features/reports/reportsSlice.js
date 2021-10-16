@@ -48,11 +48,28 @@ export const reportsSlice = createSlice({
     //sets the current gathering data report
     setGatheringData: (state, action)=>{
       state.reports[state.curId].gatheringData = action.payload;
+    },
+    removeReport: (state, action)=>{
+      
+
+      //remove the report with the id provided in action.payload
+      delete state.reports[action.payload];
+
+      //if the current report is the one we are trying to delete, set a new current id
+      if (state.curId == action.payload){
+        state.curId = Object.keys(state.reports)[0];
+      }
+      
+
+      
+    },
+    setCurId: (state, action)=>{
+      state.curId = action.payload;
     }
   }
 });
 
-export const { newReport, addReading, setGatheringData } = reportsSlice.actions;
+export const { newReport, addReading, setGatheringData,removeReport,setCurId } = reportsSlice.actions;
 export const selectReports = (state) => state.reports.reports;
 export const selectCurId = (state) => state.reports.curId;
 export const selectCurReadingID = (state) => state.reports.reports[state.reports.curId].readings.length - 1;
