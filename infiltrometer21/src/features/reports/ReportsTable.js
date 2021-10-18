@@ -28,7 +28,7 @@ const ReportsTable = () =>{
                                     </div>
                                 </div>
                                 <div class = "col">
-                                    <div class="btn btn-primary w-100"
+                                    <div class="btn btn-success w-100"
                                     onClick = {()=>{}}>
                                         Download
                                     </div>

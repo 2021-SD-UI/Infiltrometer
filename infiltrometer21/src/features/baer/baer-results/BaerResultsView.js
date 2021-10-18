@@ -40,14 +40,16 @@ const  BaerResultsView = ()=> {
                 New Test
               </div>
               <div class = "row mt-2"></div>
-              <div class="btn btn-primary w-50">  
-                Download
-              </div>
-              <div class = "row mt-2"></div>
+           
+              
               <div class="btn btn-secondary w-50" onClick ={
                 ()=>dispatch(setPage("/Infiltrometer/reports"))
                 }>  
                 Reports
+              </div>
+              <div class = "row mt-4"></div>
+              <div class="btn btn-success w-25">  
+                Download
               </div>
           </div>
           <div class = "col-2"></div>
