@@ -30,17 +30,30 @@ const  BaerResultsView = ()=> {
         </div>
         <div class="col-sm-2"></div>
       </div>
-      <div className="row">
-          <div className="col-sm-2"></div>
-          <div className="col-sm-8 text-center">
-              <button class="btn btn-dark" onClick ={
+      <div class="container">
+        <div class="row">
+          <div class = "col-2"></div>
+          <div class="col text-center">
+              <div class="btn btn-dark w-50" onClick ={
                 ()=>dispatch(setPage("/Infiltrometer/baer-initialize"))
-              }>  
-              New Test</button>
-          
+                }>  
+                New Test
+              </div>
+              <div class = "row mt-2"></div>
+              <div class="btn btn-primary w-50">  
+                Download
+              </div>
+              <div class = "row mt-2"></div>
+              <div class="btn btn-secondary w-50" onClick ={
+                ()=>dispatch(setPage("/Infiltrometer/reports"))
+                }>  
+                Reports
+              </div>
           </div>
-          <div className="col-sm-2"></div>
+          <div class = "col-2"></div>
+        </div>
       </div>
+ 
     </div>);
 }
 export default BaerResultsView;
