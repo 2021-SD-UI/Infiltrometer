@@ -8,9 +8,8 @@ import { RegressionTesting } from './features/regression/RegressionTesting';
 import { Redirector } from './features/page-redirection/Redirector';
 import { NavBar } from './features/navBar/NavBar';
 import SinglePagePDFView from "./features/pdfviewer/pdf-viewer";
-import FieldGuide from './app/FieldGuide.pdf';
-import MiniDiskManual from './app/MiniDiskManual.pdf';
 import ReportsTable from './features/reports/ReportsTable';
+import { MiniDiskManualView, FieldGuideManualView } from './features/pdfviewer/Manuals';
 const  App = ()=> {
   return (
     
@@ -40,10 +39,11 @@ const  App = ()=> {
               <RegressionTesting/>
             </Route>
              <Route exact path ="/Infiltrometer/manuals-baer">
-              <SinglePagePDFView pdf={FieldGuide}/>
+              <FieldGuideManualView/>
+            
             </Route>
             <Route exact path ="/Infiltrometer/manuals-infiltrometer">
-              <SinglePagePDFView pdf={MiniDiskManual}/>
+              <MiniDiskManualView/>
             </Route>
             <Route exact path ="/Infiltrometer/reports">
                <ReportsTable/>
