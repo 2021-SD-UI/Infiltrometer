@@ -1,5 +1,4 @@
 //The Page we are displaying for the baer Initialize view
-import { Link } from 'react-router-dom';
 import React, {useState} from 'react';
 import ReactDOM from "react-dom";
 import { useSelector, useDispatch } from 'react-redux';
@@ -9,11 +8,9 @@ import { selectTimeInterval, selectInitialVolume, setSoilType, selectSoilType } 
 import {CountdownCircleTimer} from "react-countdown-circle-timer";
 import "./timer.css";
 import _default from 'react-overlays/esm/Modal';
-import { useEffect } from 'react';
 import { setPage } from '../../page-redirection/redirector-slice';
 import  Table  from '../baer-results/table';
-import { Modal, Button, FormControl, Form, FormGroup, FormLabel, InputGroup } from 'react-bootstrap';
-import { Component } from 'react';
+import { Modal, Button, Form, } from 'react-bootstrap';
 
 const renderTime = ({ remainingTime }) => {
   if (remainingTime === 0) {
@@ -75,6 +72,7 @@ const BaerReplicationView = () => {
       }
       else {
         handleClose();
+        setValidated(false);
         //calculate the total number of elapsed seconds
         let secondsElapsed = (curID + 1) * timeInterval;
       
@@ -163,29 +161,33 @@ const BaerReplicationView = () => {
           centered
         >        
           <Modal.Header>
-            <Modal.Title>Enter data below</Modal.Title>
+            <Modal.Title>Enter volumetric data for replication: {curID+1}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form noValidate validated={validated} onSubmit={handleSubmit}>
               <Form.Group>
+                <Form.Text muted>
+                Previous volume: {maxVolume} mL
+                </Form.Text>
                 <Form.Control
                 required
                 type="number"
                 step="any"
+                size="lg"
                 min="0"
                 max={maxVolume}
                 id="volumeReading"
                 placeholder="Volume (mL)"
                 />
                 <Form.Control.Feedback type="invalid">
-                  Please enter a valid reading, or click "Cancel".
+                  Please enter a valid reading, or hit "Cancel".
                 </Form.Control.Feedback>
               </Form.Group>
               <Modal.Footer>
-                <Button variant="btn btn-secondary" onClick={handleClose}>
+                <Button variant="outline-secondary" size="lg" onClick={handleClose}>
                   Cancel
                 </Button>
-                <Button type="submit" variant="btn btn-dark">
+                <Button type="submit" variant="dark" size="lg">
                   Submit
                 </Button>
               </Modal.Footer>
