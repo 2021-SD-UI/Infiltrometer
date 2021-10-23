@@ -39,10 +39,10 @@
      */
     export function findSeverityRating(avgRate) {
         if (avgRate >= SeverityRatings.None.min)
-            return <td className="text-center">None</td>
-        if (avgRate >= SeverityRatings.Strong.min && avgRate < SeverityRatings.Strong.max)
-            return <td className="text-center">Strong</td>
+            return SeverityRatings.None; 
+        if (avgRate>= SeverityRatings.Strong.min && avgRate < SeverityRatings.Strong.max)
+            return SeverityRatings.Strong;
         if (avgRate >= SeverityRatings.Weak.min && avgRate < SeverityRatings.Weak.max)
-            return <td className="text-center">Weak</td>
-        else return <td className="text-center">N/A</td>
+            return SeverityRatings.Weak;
+        else return null;
     }

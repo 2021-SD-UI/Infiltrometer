@@ -100,7 +100,7 @@ const Table =()=> {
                         </tr>
                         <tr class="table-striped">
                             <td className="text-center">{findAverageRate(curReport).toPrecision(4)}</td>
-                            {findSeverityRating(findAverageRate(curReport))}
+                            <td class="text-center">{findSeverityRating(findAverageRate(curReport)).name}</td>
                         </tr>
                     </tbody>
                 </table>
