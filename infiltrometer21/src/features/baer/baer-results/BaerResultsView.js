@@ -12,8 +12,6 @@ const  BaerResultsView = ()=> {
   const curReport = reports[useSelector(selectCurId)];
   const dispatch = useDispatch();
 
-  const csv = makeCSV(curReport);
-
   return (<div class="container-fluid">
       <div class="row">
         <div class="col-sm-2"></div>
@@ -51,9 +49,10 @@ const  BaerResultsView = ()=> {
                 Reports
               </div>
               <div class = "row mt-4"></div>
-              <div class="btn btn-success w-25">
-                  <CSVLink {...csv}>Download CSV</CSVLink>
-              </div>
+              <CSVLink {...makeCSV(curReport)} class="btn btn-success w-25">
+                  Download
+              </CSVLink>
+
           </div>
           <div class = "col-2"></div>
         </div>

@@ -2,11 +2,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { setPage } from "../page-redirection/redirector-slice";
 import { Protocols } from "./protocols";
 import { removeReport, selectReports, setCurId } from "./reportsSlice";
+import {CSVLink} from "react-csv";
+import {makeCSV} from "./reportsDataPackager";
+import {selectCurId} from "./reportsSlice";
 
 const ReportsTable = () =>{
     const reports = useSelector(selectReports);
+    const curReport = reports[useSelector(selectCurId)]
     const dispatch = useDispatch();
-
     /**
      * map state to table elements
      */
@@ -28,10 +31,9 @@ const ReportsTable = () =>{
                                     </div>
                                 </div>
                                 <div class = "col">
-                                    <div class="btn btn-success w-100"
-                                    onClick = {()=>{}}>
+                                    <CSVLink {...makeCSV(curReport)} class="btn btn-success w-100">
                                         Download
-                                    </div>
+                                    </CSVLink>
                                 </div>
                                 <div class = "col">
                                     <div class="btn btn-danger  w-100"
