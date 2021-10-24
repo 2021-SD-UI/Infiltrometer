@@ -1,6 +1,48 @@
-    
-    
-    import { SeverityRatings } from "./severityRatings";
+import { SeverityRatings } from "./severityRatings";
+
+
+
+export function makeCSV(curReport){
+
+    const data = [];
+
+
+    for(let i = 0; i < curReport.readings.length;i++){
+        let row = {
+
+            index: i,
+            time: curReport.readings[i].secondsElapsed,
+            volume: curReport.readings[i].volume,
+            rate: findRate(i,curReport),
+            averageRate: findAverageRate(curReport),
+            severity: findSeverityRating(findAverageRate(curReport))
+
+        };
+        data.push(row);
+    }
+
+    const headers = [
+        {label: 'Index', key: 'index'},
+        {label: 'Seconds_Elapsed', key: 'time'},
+        {label: 'Volume', key: 'volume'},
+        {label: 'Rate', key: 'rate'},
+        {label: 'Average_Rate', key: 'averageRate'},
+        {label: 'Severity', key: 'severity'}
+
+    ];
+
+    const csv = {
+        fileName: 'report.csv',
+        headers: headers,
+        data: data
+    };
+
+
+
+
+    return csv;
+}
+
     /**
      * Find ml/min for a reading
      * @param {The current reading index} i
@@ -46,3 +88,4 @@
             return SeverityRatings.Weak;
         else return null;
     }
+

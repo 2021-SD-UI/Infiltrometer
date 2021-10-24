@@ -2,14 +2,17 @@
 import { Link } from 'react-router-dom';
 import React from 'react';
 import {useSelector,useDispatch} from "react-redux";
-import {selectReports} from "../../reports/reportsSlice";
+import {selectCurId, selectReports} from "../../reports/reportsSlice";
 import Table from "./table";
 import { setPage } from '../../page-redirection/redirector-slice';
-
-
+import {CSVLink} from "react-csv";
+import {makeCSV} from "../../reports/reportsDataPackager";
 const  BaerResultsView = ()=> {
   const reports = useSelector(selectReports);
+  const curReport = reports[useSelector(selectCurId)];
   const dispatch = useDispatch();
+
+  const csv = makeCSV(curReport);
 
   return (<div class="container-fluid">
       <div class="row">
@@ -44,12 +47,12 @@ const  BaerResultsView = ()=> {
               
               <div class="btn btn-secondary w-50" onClick ={
                 ()=>dispatch(setPage("/Infiltrometer/reports"))
-                }>  
+                }>
                 Reports
               </div>
               <div class = "row mt-4"></div>
-              <div class="btn btn-success w-25">  
-                Download
+              <div class="btn btn-success w-25">
+                  <CSVLink {...csv}>Download CSV</CSVLink>
               </div>
           </div>
           <div class = "col-2"></div>
