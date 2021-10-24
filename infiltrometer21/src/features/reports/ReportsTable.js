@@ -31,7 +31,7 @@ const ReportsTable = () =>{
                                     </div>
                                 </div>
                                 <div class = "col">
-                                    <CSVLink {...makeCSV(curReport)} class="btn btn-success w-100">
+                                    <CSVLink {...makeCSV(report)} class="btn btn-success w-100">
                                         Download
                                     </CSVLink>
                                 </div>

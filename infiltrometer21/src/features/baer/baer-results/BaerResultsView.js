@@ -49,7 +49,7 @@ const  BaerResultsView = ()=> {
                 Reports
               </div>
               <div class = "row mt-4"></div>
-              <CSVLink {...makeCSV(curReport)} class="btn btn-success w-25">
+              <CSVLink {...makeCSV(curReport)}  class="btn btn-success w-25">
                   Download
               </CSVLink>
 

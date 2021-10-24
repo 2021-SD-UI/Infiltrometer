@@ -6,44 +6,29 @@ import { SeverityRatings } from "./severityRatings";
  * @param {The current report} i
  */
 export function makeCSV(curReport){
-
-    const data = [];
-
-
+    let data = [['Report Data:']];
+    data.push(['Date', 'Protocol','Report ID','Average Rate (mL/min)', 'Severity']);
+    data.push([curReport.date, curReport.protocol,
+         curReport.id, findAverageRate(curReport),findSeverityRating(findAverageRate(curReport)).name]);
+    //empty line
+    data.push(['']);
+    //readings data
+    data.push(['Readings Data:',]);
+    data.push(['Time', 'Volume (mL)', 'Rate (mL/min)']);
     for(let i = 0; i < curReport.readings.length;i++){
-        let row = {
 
-            index: i,
-            time: curReport.readings[i].secondsElapsed,
-            volume: curReport.readings[i].volume,
-            rate: findRate(i,curReport),
-            averageRate: findAverageRate(curReport),
-            severity: findSeverityRating(findAverageRate(curReport))
 
-        };
+        //reading data
+        let row = [
+            curReport.readings[i].secondsElapsed,
+            curReport.readings[i].volume,
+            findRate(i,curReport)
+        ];
         data.push(row);
     }
 
-    const headers = [
-        {label: 'Index', key: 'index'},
-        {label: 'Seconds_Elapsed', key: 'time'},
-        {label: 'Volume', key: 'volume'},
-        {label: 'Rate', key: 'rate'},
-        {label: 'Average_Rate', key: 'averageRate'},
-        {label: 'Severity', key: 'severity'}
+    return {data, filename: curReport.id + ".csv"}
 
-    ];
-
-    const csv = {
-        fileName: 'report.csv',
-        headers: headers,
-        data: data
-    };
-
-
-
-
-    return csv;
 }
 
     /**
@@ -89,6 +74,6 @@ export function makeCSV(curReport){
             return SeverityRatings.Strong;
         if (avgRate >= SeverityRatings.Weak.min && avgRate < SeverityRatings.Weak.max)
             return SeverityRatings.Weak;
-        else return null;
+        else return SeverityRatings.None;
     }
 
