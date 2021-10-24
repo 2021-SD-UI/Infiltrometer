@@ -1,7 +1,10 @@
 import { SeverityRatings } from "./severityRatings";
 
 
-
+/**
+ * create a csv of the current report
+ * @param {The current report} i
+ */
 export function makeCSV(curReport){
 
     const data = [];
