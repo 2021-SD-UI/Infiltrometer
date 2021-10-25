@@ -172,7 +172,7 @@ const BaerInitializeView = (props) => {
       <div class = "form-group col-sm-2 text-center ">
         <div className="col-4"></div>
         <div class="form-group row">
-      <div class="col-sm-10">
+      <div class="col-sm-10 mb-2">
       <DropdownButton  title="Preset Infiltrometer Types" component="select" bg="dark" variant="dark">
         <Dropdown.Item onSelect = {()=>setInfiltrometerType(infiltrometerTypes.MiniDisk)}>
           {infiltrometerTypes.MiniDisk.displayName}
