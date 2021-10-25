@@ -143,7 +143,7 @@ const BaerInitializeView = (props) => {
       <div class="col-4"></div>
       <label for="volume" class="col-sm-2 col-form-label text-center fw-bolder">Initial Volume (mL)</label>
       <div class="col-sm-2 text-center">
-        <Field name="volume" type ="number" component={renderField} label="Initial Volume"/>
+        <Field name="volume" type="number" step="any" component={renderField} label="Initial Volume"/>
       </div>
       <div class="col-4"></div>
     </div>
@@ -152,7 +152,7 @@ const BaerInitializeView = (props) => {
       <div className="col-4"></div>
       <FormLabel for="suction" class="col-sm-2 col-form-label text-center fw-bolder" >Suction (cm)</FormLabel>
       <div class="col-sm-2 text-center ">
-      <Field name="suction" type="number" component={renderField} label="Suction"/>
+      <Field name="suction" type="number" step="any" component={renderField} label="Suction"/>
       </div>
       <div className="col-4"></div>
     </div>
@@ -161,7 +161,7 @@ const BaerInitializeView = (props) => {
       <div className="col-4"></div>
       <FormLabel for="timeInterval" class="col-sm-2 col-form-label text-center fw-bolder" >Time Interval (sec)</FormLabel>
       <div class="col-sm-2 text-center ">
-      <Field name="timeInterval" type="number" component={renderField} label="Time Interval"/>
+      <Field name="timeInterval" type="number" step="any" component={renderField} label="Time Interval"/>
       </div>
       <div className="col-4"></div>
     </div>
@@ -172,7 +172,7 @@ const BaerInitializeView = (props) => {
       <div class = "form-group col-sm-2 text-center ">
         <div className="col-4"></div>
         <div class="form-group row">
-      <div class="col-sm-10 mb-2">
+      <div class="col-sm-10">
       <DropdownButton  title="Preset Infiltrometer Types" component="select" bg="dark" variant="dark">
         <Dropdown.Item onSelect = {()=>setInfiltrometerType(infiltrometerTypes.MiniDisk)}>
           {infiltrometerTypes.MiniDisk.displayName}
@@ -182,7 +182,7 @@ const BaerInitializeView = (props) => {
         </Dropdown.Item>
       </DropdownButton>
         </div>
-          <Field name="radius" type="number"  component={renderField} label="Radius"/>
+          <Field name="radius" type="number" step="any"  component={renderField} label="Radius"/>
         </div>
       </div>
 
@@ -217,11 +217,11 @@ const BaerInitializeView = (props) => {
          
           <div  class="col-sm-10 text-center ">
             <FormLabel for="nh0" class="mt-2 mb-2 fw-bolder" >(NH/O)</FormLabel>
-            <Field name="nh0" component={renderField} type="number" value="nh0" label="NH0"/>
+            <Field name="nh0" component={renderField} type="number" step="any" value="nh0" label="NH0"/>
           </div>
           <div class="col-sm-10 text-center ">
             <FormLabel for="alpha" class="mt-2 mb-2 fw-bolder">(Alpha)</FormLabel>
-            <Field name="alpha" component={renderField} type="number" value="alpha" label="Alpha"/>
+            <Field name="alpha" component={renderField} type="number" step="any" value="alpha" label="Alpha"/>
           </div>
           
 
