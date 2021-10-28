@@ -30,6 +30,15 @@ export function makeCSV(curReport){
     return {data, filename: curReport.id + ".csv"}
 
 }
+/**
+ * 
+ * @param {Object of key-report pairs} reportGroup 
+ * @returns 
+ */
+export function makeCSVFromGroupOfReports(reportGroup){
+   
+
+}
 
     /**
      * Find ml/min for a reading

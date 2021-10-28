@@ -96,7 +96,7 @@ const BaerReplicationView = () => {
                 <div class="col-2"></div>
                 <div class="col-8 text-center">
                     <div class="display-4 ">
-                      Current Replication: {curID}
+                      Current Replication: {curID+1}
                     </div>
                 </div>
                 <div class="col-2"></div>

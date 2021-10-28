@@ -4,7 +4,7 @@ import { soilTypes } from '../../../app/soilTypes';
 
 
  const initialState = {  
-        initialVolume: 0,
+        initialVolume: 95,
         
         coordinates: {
           lat:0,
@@ -12,13 +12,13 @@ import { soilTypes } from '../../../app/soilTypes';
         },
 
         soilType: {
-          nh0: 0,
-          alpha: 0
+          nh0: 2.28,
+          alpha: 0.124
         },
         
-        infiltrometerRadius: 0,
-        infiltrometerSuction: 0,
-        timeInterval: 30
+        infiltrometerRadius: 2.25,
+        infiltrometerSuction: -1,
+        timeInterval: 60
 
 };
 
@@ -28,7 +28,9 @@ import { soilTypes } from '../../../app/soilTypes';
  * We need slices to 
  */
 export const baerInitializeSlice = createSlice({
-    name: 'baerInitialize',
+  
+  name: 'baerInitialize',
+  
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {

@@ -76,7 +76,6 @@ const validate = values => {
 
 
 const BaerInitializeView = (props) => {
-  const infiltrometerData = useSelector(selectInfiltrometerData);
   const { change, soilTypeSelected, handleSubmit, pristine, reset, submitting, soilValues } = props
 
 
@@ -115,7 +114,7 @@ const BaerInitializeView = (props) => {
   function loadDataAtStart(){
     
     //this is a check to say "if not initial"
-    if (curInfiltrometerData.infiltrometerRadius != 0){
+    
       //get the current report and populate data
       change("radius", curInfiltrometerData.infiltrometerRadius);
       change("nh0", curSoilType.nh0);
@@ -123,11 +122,6 @@ const BaerInitializeView = (props) => {
       change("volume", curInfiltrometerData.initialVolume);
       change("suction", curInfiltrometerData.infiltrometerSuction);
       change("timeInterval", curInfiltrometerData.timeInterval);
-    }  
-
-    
-
-
   }
 
   return (
@@ -181,6 +175,7 @@ const BaerInitializeView = (props) => {
           {infiltrometerTypes.MiniDiskV1.displayName}
         </Dropdown.Item>
       </DropdownButton>
+        <div class="row mt-1"/>
         </div>
           <Field name="radius" type="number" step="any"  component={renderField} label="Radius"/>
         </div>

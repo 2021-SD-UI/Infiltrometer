@@ -5,8 +5,12 @@ import { removeReport, selectReports, setCurId } from "./reportsSlice";
 import {CSVLink} from "react-csv";
 import {makeCSV} from "./reportsDataPackager";
 import {selectCurId} from "./reportsSlice";
-
+import React, { useState } from "react";
 const ReportsTable = () =>{
+
+    const [selectedReports, setSelectedReports] = useState({});
+    const numberOfSelectedReports = Object.keys(selectedReports).length;
+    
     const reports = useSelector(selectReports);
     const curReport = reports[useSelector(selectCurId)]
     const dispatch = useDispatch();
@@ -19,9 +23,33 @@ const ReportsTable = () =>{
             const report = reports[reportID]
             return (
                 <tr key={report.id} >
-                    <td >{report.date}</td>
+                    <td >
+                        <div class = "container">
+                            <div class="row">
+                                <div class = "col-1">
+                                    <input class="form-check-input" type="checkbox" value=""
+                                        onClick = {
+                                            ()=>{
+                                                if (selectedReports[report.id] != undefined){
+                                                   deselectReport(report);
+                                                }
+                                                else{
+                                                   selectReport(report);
+                                                }
+                                               
+                                            }
+                                        }
+                                        />
+                                </div>
+                                <div class = "col-5">
+                                    {formatDate(report.date)}
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </td>
                     <td>{report.protocol}</td>
-                    <td class>
+                    <td>
                         <div class = "container">
                             <div class = "row">
                                 <div class = "col">
@@ -30,17 +58,20 @@ const ReportsTable = () =>{
                                         View
                                     </div>
                                 </div>
-                                <div class = "col">
-                                    <CSVLink {...makeCSV(report)} class="btn btn-success w-100">
-                                        Download
-                                    </CSVLink>
-                                </div>
+                                
                                 <div class = "col">
                                     <div class="btn btn-danger  w-100"
-                                    onClick = {()=>dispatch(removeReport(report.id))}>
+                                    onClick = {()=>{
+                                        //delete the report from selected if it is in selected
+                                        if (selectedReports[report.id]!=undefined) deselectReport(report);
+                                    
+                                        //remove the report from the store
+                                        dispatch(removeReport(report.id))        
+                                    }}>
                                         Delete
                                     </div>
                                 </div>
+                               
                                
                             </div>
                         </div>
@@ -49,7 +80,28 @@ const ReportsTable = () =>{
             )
         })
     }
+    /**
+     * Removes the report from the selected reports
+     * @param {} report 
+     */
+    function deselectReport(report){
+        var _repo = {...selectedReports};
+        delete _repo[report.id];
+        setSelectedReports(_repo);
+        console.log("Removed " + report.id);
+    }
+    /**
+     * Adds the report to the selected reports
+     * @param {} report 
+     */
+    function selectReport(report){
+        var _repo = {...selectedReports};
+        _repo[report.id] = report;
+        setSelectedReports(_repo);
+        console.log("Added " + report.id)
+    }
 
+    
 
     function showReport(report){
         switch(report.protocol){
@@ -63,6 +115,15 @@ const ReportsTable = () =>{
 
         }
         
+    }
+
+
+    function formatDate(date){
+        let d = new Date(date);
+        if (d.toDateString() === new Date().toDateString()){
+            return "Today";
+        }
+        return (d.toDateString());
     }
 
     /**
@@ -104,6 +165,16 @@ const ReportsTable = () =>{
                     </div>
                     <div class = "col-1"></div>
                 </div>
+                <div class="row">
+                    <div class = "col-2"></div>
+                    <div class = "col-8 text-center">
+                        <div class="btn btn-success w-25">
+                            Download Selected ({numberOfSelectedReports})
+                        </div>
+                    </div>
+                    <div class = "col-2"></div>
+                </div>
+               
             </div>
         )
     }
