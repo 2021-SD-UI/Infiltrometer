@@ -3,7 +3,7 @@ import { setPage } from "../page-redirection/redirector-slice";
 import { Protocols } from "./protocols";
 import { removeReport, selectReports, setCurId } from "./reportsSlice";
 import {CSVLink} from "react-csv";
-import {makeCSV} from "./reportsDataPackager";
+import {makeCSV, makeCSVFromGroupOfReports} from "./reportsDataPackager";
 import {selectCurId} from "./reportsSlice";
 import React, { useState } from "react";
 const ReportsTable = () =>{
@@ -27,7 +27,7 @@ const ReportsTable = () =>{
                         <div class = "container">
                             <div class="row">
                                 <div class = "col-1">
-                                    <input class="form-check-input" type="checkbox" value=""
+                                    <input class="form-check-input" type="checkbox" value="" checked={selectedReports[report.id] != undefined}
                                         onClick = {
                                             ()=>{
                                                 if (selectedReports[report.id] != undefined){
@@ -58,19 +58,13 @@ const ReportsTable = () =>{
                                         View
                                     </div>
                                 </div>
-                                
                                 <div class = "col">
-                                    <div class="btn btn-danger  w-100"
-                                    onClick = {()=>{
-                                        //delete the report from selected if it is in selected
-                                        if (selectedReports[report.id]!=undefined) deselectReport(report);
-                                    
-                                        //remove the report from the store
-                                        dispatch(removeReport(report.id))        
-                                    }}>
-                                        Delete
-                                    </div>
+                                <div class="btn btn-danger  w-100"
+                                    onClick = {()=>{deleteReport(report)}}>
+                                    Delete
                                 </div>
+                            </div>
+                               
                                
                                
                             </div>
@@ -80,6 +74,34 @@ const ReportsTable = () =>{
             )
         })
     }
+
+    /**
+     * Deselects and deletes the provided report
+     * @param {
+     * } report 
+     */
+    function deleteReport(report){
+        //delete the report from selected if it is in selected
+        if (selectedReports[report.id]!=undefined) deselectReport(report);
+                                   
+        //remove the report from the store
+        dispatch(removeReport(report.id))        
+    }
+
+
+
+    /**
+     * Deletes all the currently selected reports
+     * 
+     */
+    function deleteAllSelected(){
+        
+        let reportKeys = Object.keys(selectedReports);
+        for (var i = 0; i < reportKeys.length; i++) {
+            deleteReport(selectedReports[reportKeys[i]]);
+        }
+    }
+
     /**
      * Removes the report from the selected reports
      * @param {} report 
@@ -88,7 +110,6 @@ const ReportsTable = () =>{
         var _repo = {...selectedReports};
         delete _repo[report.id];
         setSelectedReports(_repo);
-        console.log("Removed " + report.id);
     }
     /**
      * Adds the report to the selected reports
@@ -98,10 +119,29 @@ const ReportsTable = () =>{
         var _repo = {...selectedReports};
         _repo[report.id] = report;
         setSelectedReports(_repo);
-        console.log("Added " + report.id)
     }
-
-    
+    /**
+     * Selects all the reports
+     */
+    function selectAll(){
+        let reportKeys = Object.keys(reports);
+        var _repo = {...selectedReports};
+        for (var i = 0; i < reportKeys.length; i++) {
+            _repo[reportKeys[i]] = reports[reportKeys[i]];
+        }
+        setSelectedReports(_repo);
+    }
+    /**
+     * Unselects all reports
+     */
+    function unselectAll(){
+      let reportKeys = Object.keys(reports);
+        var _repo = {...selectedReports};
+        for (var i = 0; i < reportKeys.length; i++) {
+            delete _repo[reportKeys[i]];
+        }
+        setSelectedReports(_repo);
+    }
 
     function showReport(report){
         switch(report.protocol){
@@ -152,6 +192,36 @@ const ReportsTable = () =>{
         //Whenever our class runs, render method will be called automatically, it may have already defined in the constructor behind the scene.
         return (
             <div class = "container">
+                <div class = "row mt-4" ></div>
+                <div class = "row">
+                    <div class = "col-2"></div>
+                    <div class = "col-2 text-center">
+                        <div class="btn btn-dark  w-100"
+                            onClick = {()=>{selectAll()}}>
+                            Select all
+                        </div>
+                    </div>
+                     <div class = "col-2 text-center">
+                        <div class="btn btn-secondary  w-100"
+                            onClick = {()=>{unselectAll()}}>
+                            Unselect all
+                        </div>
+                    </div>
+                    <div class = "col-2 text-center">
+                        <div class="btn btn-danger  w-100"
+                            onClick = {()=>{deleteAllSelected()}}>
+                            Delete Selected ( {numberOfSelectedReports} )
+                        </div>
+                    </div>
+                    
+                    <div class = "col-2 text-center">
+                        <CSVLink {...makeCSVFromGroupOfReports(selectedReports)} class="btn btn-success w-100">
+                            Download Selected ( {numberOfSelectedReports} )
+                        </CSVLink>
+                    </div>
+                    <div class = "col-2"></div>
+                </div>
+
                 <div class = "row mt-2" ></div>
                 <div class = "row">
                     <div class = "col-1"></div>
@@ -165,15 +235,7 @@ const ReportsTable = () =>{
                     </div>
                     <div class = "col-1"></div>
                 </div>
-                <div class="row">
-                    <div class = "col-2"></div>
-                    <div class = "col-8 text-center">
-                        <div class="btn btn-success w-25">
-                            Download Selected ({numberOfSelectedReports})
-                        </div>
-                    </div>
-                    <div class = "col-2"></div>
-                </div>
+                
                
             </div>
         )

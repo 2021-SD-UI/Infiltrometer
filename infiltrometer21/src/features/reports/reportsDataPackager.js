@@ -14,7 +14,7 @@ export function makeCSV(curReport){
     data.push(['']);
     //readings data
     data.push(['Readings Data:',]);
-    data.push(['Time', 'Volume (mL)', 'Rate (mL/min)']);
+    data.push(['Time (sec)', 'Volume (mL)', 'Rate (mL/min)']);
     for(let i = 0; i < curReport.readings.length;i++){
 
 
@@ -36,8 +36,36 @@ export function makeCSV(curReport){
  * @returns 
  */
 export function makeCSVFromGroupOfReports(reportGroup){
-   
+    let data = [['Report Data:']];
+    let i = 1;
+    
+    Object.keys(reportGroup).forEach(reportID => {
+        let curReport = reportGroup[reportID];
+        data.push(['Report ' + i]);
+        data.push(['Date', 'Protocol','Report ID','Average Rate (mL/min)', 'Severity']);
+        data.push([curReport.date, curReport.protocol,
+         curReport.id, findAverageRate(curReport),findSeverityRating(findAverageRate(curReport)).name]);
+        //empty line
+        data.push(['']);
+        //readings data
+        data.push(['Readings Data:',]);
+        data.push(['Time (sec)', 'Volume (mL)', 'Rate (mL/min)']);
+        for(let i = 0; i < curReport.readings.length;i++){
 
+
+            //reading data
+            let row = [
+                curReport.readings[i].secondsElapsed,
+                curReport.readings[i].volume,
+                findRate(i,curReport)
+            ];
+            data.push(row);
+        }
+
+        
+        i++;
+    });
+    return {data, filename: new Date().toDateString() + ".csv"}
 }
 
     /**
