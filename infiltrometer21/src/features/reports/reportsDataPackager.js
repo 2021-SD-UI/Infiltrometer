@@ -36,25 +36,23 @@ export function makeCSV(curReport){
  * @returns 
  */
 export function makeCSVFromGroupOfReports(reportGroup){
-    let data = [['Report Data:']];
+    let data = [['Report Metadata:']];
     let i = 1;
     
     Object.keys(reportGroup).forEach(reportID => {
         let curReport = reportGroup[reportID];
-        data.push(['Report ' + i]);
-        data.push(['Date', 'Protocol','Report ID','Average Rate (mL/min)', 'Severity']);
-        data.push([curReport.date, curReport.protocol,
-         curReport.id, findAverageRate(curReport),findSeverityRating(findAverageRate(curReport)).name]);
-        //empty line
-        data.push(['']);
+        data.push(['Report ' + i + ' Metadata:']);
+        data.push(['Date', 'Protocol','Soil Alpha', 'Soil NH/O','Average Rate (mL/min)', 'Severity Rating','', ''
+        ,'Time (sec)', 'Volume (mL)', 'Rate (mL/min)']);
+        data.push([curReport.date, curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.Nho,
+        findAverageRate(curReport),findSeverityRating(findAverageRate(curReport)).name]);
         //readings data
-        data.push(['Readings Data:',]);
-        data.push(['Time (sec)', 'Volume (mL)', 'Rate (mL/min)']);
         for(let i = 0; i < curReport.readings.length;i++){
 
 
             //reading data
-            let row = [
+            let row = [            
+                '','','','','','','','Reading ' + i + ": ",
                 curReport.readings[i].secondsElapsed,
                 curReport.readings[i].volume,
                 findRate(i,curReport)
