@@ -6,7 +6,8 @@ import {v4 as uuidv4} from 'uuid';
 //empty array of reports
 const initialState = {
     reports:{},
-    curId: "-1"
+    curId: "-1",
+    notes: ""
     
 };
 
@@ -27,6 +28,7 @@ export const reportsSlice = createSlice({
             readings: [],
             infiltrometerData: action.payload.infiltrometerData,
             gatheringData: true,
+            notes: "",
         }
       //add it to the reports
       state.reports[newReport.id] = newReport; 
@@ -65,13 +67,17 @@ export const reportsSlice = createSlice({
     },
     setCurId: (state, action)=>{
       state.curId = action.payload;
+    },
+    setNotes: (state, action)=>{
+        state.notes = action.payload;
     }
   }
 });
 
-export const { newReport, addReading, setGatheringData,removeReport,setCurId } = reportsSlice.actions;
+export const { newReport, addReading, setGatheringData,removeReport,setCurId,setNotes } = reportsSlice.actions;
 export const selectReports = (state) => state.reports.reports;
 export const selectCurId = (state) => state.reports.curId;
+export const selectNotes = (state) => state.reports.reports[state.reports.curId].notes;
 export const selectCurReadingID = (state) => state.reports.reports[state.reports.curId].readings.length - 1;
 export const selectGatheringData = (state) => state.reports.reports[state.reports.curId].gatheringData;
 export default reportsSlice.reducer;

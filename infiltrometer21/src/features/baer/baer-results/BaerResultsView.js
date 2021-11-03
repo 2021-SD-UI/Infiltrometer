@@ -1,6 +1,6 @@
 //The Page we are displaying for the baer Initialize view
 import { Link } from 'react-router-dom';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useSelector,useDispatch} from "react-redux";
 import {selectCurId, selectReports} from "../../reports/reportsSlice";
 import Table from "./table";
@@ -8,18 +8,21 @@ import { setPage } from '../../page-redirection/redirector-slice';
 import {CSVLink} from "react-csv";
 import {makeCSV} from "../../reports/reportsDataPackager";
 import TextareaAutosize from 'react-textarea-autosize';
-import {selectNotes, setNotes} from "./bear-resultsSlice";
+import {selectNotes,setNotes} from "../../reports/reportsSlice";
 
 const  BaerResultsView = ()=> {
-    const notes = useSelector(selectNotes);
+
   const reports = useSelector(selectReports);
   const curReport = reports[useSelector(selectCurId)];
+  const notes = useSelector(selectNotes);
+
   const dispatch = useDispatch();
-  const [state, setState] = useState(true);
+  const [state, setState] = useState(notes);
   const changeNotes = (event) => {
     dispatch(setNotes(event));
+    setState(event);
   }
-
+  useEffect(()=>setState(notes),[]);
   return (<div class="container-fluid">
       <div class="row">
         <div class="col-sm-2"></div>
@@ -45,7 +48,7 @@ const  BaerResultsView = ()=> {
           <div class="col-sm-2"></div>
           <div class="col-sm-8 text-center mb-2">
               <div className="container">
-                    <TextareaAutosize class="w-100" value={notes} onChange={(e)=>changeNotes(e.target.value)}/>
+                    <TextareaAutosize class="w-100" value={state} onChange={(e)=>changeNotes(e.target.value)}/>
               </div>
           </div>
           <div class="col-sm-2"></div>

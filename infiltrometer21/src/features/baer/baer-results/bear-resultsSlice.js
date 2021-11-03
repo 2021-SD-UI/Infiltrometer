@@ -25,6 +25,4 @@ export const baerResultsSlice = createSlice({
 
   }
 });
-export const selectNotes = (state) => state.baerResults.notes;
-export const {setNotes} = baerResultsSlice.actions;
 export default baerResultsSlice.reducer;

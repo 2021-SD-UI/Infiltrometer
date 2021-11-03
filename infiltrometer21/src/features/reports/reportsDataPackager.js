@@ -70,7 +70,7 @@ export function makeCSVFromGroupOfReports(reportGroup){
         
         i++;
     });
-    return {data, filename: Object.keys(reportGroup)[0].infiltrometerData.observation + ".csv"}
+    return {data, filename:  "dummy.csv"}
 }
 
     /**
