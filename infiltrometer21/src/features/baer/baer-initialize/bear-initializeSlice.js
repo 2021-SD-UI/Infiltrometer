@@ -18,7 +18,9 @@ import { soilTypes } from '../../../app/soilTypes';
         
         infiltrometerRadius: 2.25,
         infiltrometerSuction: -1,
-        timeInterval: 60
+        timeInterval: 60,
+        site: "Site",
+        observation: "Observation",
 
 };
 
@@ -55,6 +57,8 @@ export const baerInitializeSlice = createSlice({
       state.timeInterval = action.payload.timeInterval;
       state.infiltrometerRadius = action.payload.infiltrometerRadius;
       state.infiltrometerSuction = action.payload.infiltrometerSuction;
+      state.site = action.payload.site;
+      state.observation = action.payload.observation;
     }
 
   }

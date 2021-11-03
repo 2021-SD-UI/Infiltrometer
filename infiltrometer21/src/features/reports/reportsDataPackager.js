@@ -30,6 +30,12 @@ export function makeCSV(curReport){
     return {data, filename: curReport.id + ".csv"}
 
 }
+
+
+function handleTextForCSV(text){
+    return text;
+}
+
 /**
  * 
  * @param {Object of key-report pairs} reportGroup 
@@ -42,10 +48,11 @@ export function makeCSVFromGroupOfReports(reportGroup){
     Object.keys(reportGroup).forEach(reportID => {
         let curReport = reportGroup[reportID];
         data.push(['Report ' + i + ' Metadata:']);
-        data.push(['Date', 'Protocol','Soil Alpha', 'Soil NH/O','Average Rate (mL/min)', 'Severity Rating','', ''
+        data.push(['Date', 'Protocol','Soil Alpha', 'Soil NH/O','Average Rate (mL/min)', 'Severity Rating','Site', 'Observation'
         ,'Time (sec)', 'Volume (mL)', 'Rate (mL/min)']);
         data.push([curReport.date, curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.Nho,
-        findAverageRate(curReport),findSeverityRating(findAverageRate(curReport)).name]);
+        findAverageRate(curReport),findSeverityRating(findAverageRate(curReport)).name,handleTextForCSV(curReport.infiltrometerData.site),
+         handleTextForCSV(curReport.infiltrometerData.observation)]);
         //readings data
         for(let i = 0; i < curReport.readings.length;i++){
 
@@ -63,7 +70,7 @@ export function makeCSVFromGroupOfReports(reportGroup){
         
         i++;
     });
-    return {data, filename: new Date().toDateString() + ".csv"}
+    return {data, filename: Object.keys(reportGroup)[0].infiltrometerData.observation + ".csv"}
 }
 
     /**
