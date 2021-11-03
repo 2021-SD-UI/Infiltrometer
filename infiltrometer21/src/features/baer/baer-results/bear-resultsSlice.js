@@ -1,10 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import {baerInitializeSlice} from "../baer-initialize/bear-initializeSlice";
 
 
 
 const initialState = {
-    volume: 0,
-    secondsElapsed: 0,
+    notes: "hi im a note"
 };
 
 export const baerResultsSlice = createSlice({
@@ -13,6 +13,11 @@ export const baerResultsSlice = createSlice({
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
 
+      setNotes: (state, action)=>{
+
+          state.notes = action.payload;
+          console.log(state.notes);
+      }
 
 
 
@@ -20,4 +25,6 @@ export const baerResultsSlice = createSlice({
 
   }
 });
+export const selectNotes = (state) => state.baerResults.notes;
+export const {setNotes} = baerResultsSlice.actions;
 export default baerResultsSlice.reducer;
