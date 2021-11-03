@@ -7,7 +7,7 @@ import { selectInitialVolume, selectInfiltrometerData,
   selectInfiltrometerRadius, selectInfiltrometerSuction,
   setInitialVolume, setInfiltrometerSuction, setTimeInterval, 
   selectTimeInterval,setSoilType,selectSoilType, setInfiltrometerData} from './bear-initializeSlice';
-import { setLastVolume, setSecondsElapsed } from '../baer-replication/bear-replicationSlice';
+import { setLastVolume, setSecondsElapsed, setVolume } from '../baer-replication/bear-replicationSlice';
 import { soilTypes } from '../../../app/soilTypes';
 import { setPage } from '../../page-redirection/redirector-slice';
 import { Button, Form, Dropdown, DropdownButton, Container, Row, Col } from 'react-bootstrap';
@@ -48,7 +48,7 @@ const BaerInitializeView = () => {
     let alpha = document.getElementById("alpha").value;
 
     if (form.checkValidity() === false) {
-      setValidated(false);
+      setValidated(true);
       event.stopPropagation();
     }
     else {
@@ -66,6 +66,8 @@ const BaerInitializeView = () => {
 
       //set the last volume to the initial volume for the replication view
       dispatch(setInitialVolume(volume));
+      dispatch(setVolume(volume));
+      dispatch(setLastVolume(volume));
 
       //send out the new report to the store
       dispatch(newReport(  {
