@@ -110,7 +110,6 @@ const BaerInitializeView = () => {
             <Col>
               <Form.Group>
                 <Form.Control
-                  required
                   id="site"
                   type="text"
                   size="lg"
@@ -119,7 +118,6 @@ const BaerInitializeView = () => {
                   />
                   <div className="pt-2"/>
                 <Form.Control
-                  required
                   id="observation"
                   type="text"
                   step="any"
@@ -127,9 +125,6 @@ const BaerInitializeView = () => {
                   placeholder="Observation/Plot"
                   defaultValue={curInfiltrometerData.observation}
                 />
-                <Form.Control.Feedback type="invalid">
-                  Required!
-                </Form.Control.Feedback>
               </Form.Group>
             </Col>
           </Row>
@@ -169,6 +164,7 @@ const BaerInitializeView = () => {
                 type="number"
                 step="any"
                 size="lg"
+                max="0"
                 defaultValue={curInfiltrometerData.infiltrometerSuction}
                 placeholder="Suction (cm)"
                 />
