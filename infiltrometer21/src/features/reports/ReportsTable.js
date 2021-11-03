@@ -48,7 +48,7 @@ const ReportsTable = () =>{
                             </div>
                         </div>
                     </td>
-                    <td>{report.protocol}</td>
+                    <td>{report.infiltrometerData.site}</td>
                     <td>
                         <div class = "container">
                             <div class = "row">
@@ -63,10 +63,7 @@ const ReportsTable = () =>{
                                     onClick = {()=>{deleteReport(report)}}>
                                     Delete
                                 </div>
-                            </div>
-                               
-                               
-                               
+                            </div>       
                             </div>
                         </div>
                     </td>
@@ -170,11 +167,11 @@ const ReportsTable = () =>{
      * create header for table
      */
     function renderTableHeader() {
-        let header = ['Date','Protocol' , 'Options'];
+        let header = ['Date','Site' , 'Options'];
         return header.map((key, index) => {
             console.log(key.toUpperCase())
-            if (key.toLowerCase() === "protocol") {
-                return <th key={index}>Protocol</th>
+            if (key.toLowerCase() === "site") {
+                return <th key={index}>Site</th>
             }
             if (key.toLowerCase() === "date") {
                 return <th key={index}>Date</th>

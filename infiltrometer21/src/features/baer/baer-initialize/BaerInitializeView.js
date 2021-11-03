@@ -59,6 +59,8 @@ const BaerInitializeView = () => {
         infiltrometerRadius: radius,       
         timeInterval: timeInterval,
         infiltrometerSuction: suction,
+        site,
+        observation
       }
 
       //set the infitrometer data in the store
@@ -113,6 +115,7 @@ const BaerInitializeView = () => {
                   type="text"
                   size="lg"
                   placeholder="Site Name"
+                  defaultValue={curInfiltrometerData.site}
                   />
                   <div className="pt-2"/>
                 <Form.Control
@@ -122,6 +125,7 @@ const BaerInitializeView = () => {
                   step="any"
                   size="lg"
                   placeholder="Observation/Plot"
+                  defaultValue={curInfiltrometerData.observation}
                 />
                 <Form.Control.Feedback type="invalid">
                   Required!
