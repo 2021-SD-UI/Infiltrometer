@@ -33,8 +33,7 @@ export function makeCSV(curReport){
 
 
 function handleTextForCSV(text){
-    return text;
-}
+    return '"' + text + '"';
 
 /**
  * 
@@ -70,9 +69,9 @@ export function makeCSVFromGroupOfReports(reportGroup){
         
         i++;
     });
-    return {data, filename:  "dummy.csv"}
+    return {data, filename: Object.keys(reportGroup)[0].infiltrometerData.observation + ".csv"}
 }
-
+    
     /**
      * Find ml/min for a reading
      * @param {The current reading index} i
