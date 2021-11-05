@@ -1,12 +1,14 @@
 //The Page we are displaying for the baer Initialize view
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addReading, newReport, selectCurId, selectReports } from '../../reports/reportsSlice';
-import {Protocols} from '../../reports/protocols'
-import { selectInitialVolume, selectInfiltrometerData,
+import { Protocols } from '../../reports/protocols'
+import {
+  selectInitialVolume, selectInfiltrometerData,
   selectInfiltrometerRadius, selectInfiltrometerSuction,
-  setInitialVolume, setInfiltrometerSuction, setTimeInterval, 
-  selectTimeInterval,setSoilType,selectSoilType, setInfiltrometerData} from './bear-initializeSlice';
+  setInitialVolume, setInfiltrometerSuction, setTimeInterval,
+  selectTimeInterval, setSoilType, selectSoilType, setInfiltrometerData
+} from './bear-initializeSlice';
 import { setLastVolume, setSecondsElapsed, setVolume } from '../baer-replication/bear-replicationSlice';
 import { soilTypes } from '../../../app/soilTypes';
 import { setPage } from '../../page-redirection/redirector-slice';
@@ -54,9 +56,9 @@ const BaerInitializeView = () => {
     else {
       let infiltrometerData = {
         initialVolume: volume,
-        coordinates: { lat:0, long: 0,},
+        coordinates: { lat: 0, long: 0, },
         soilType: { nh0: nh0, alpha: alpha },
-        infiltrometerRadius: radius,       
+        infiltrometerRadius: radius,
         timeInterval: timeInterval,
         infiltrometerSuction: suction,
         site,
@@ -72,12 +74,12 @@ const BaerInitializeView = () => {
       dispatch(setLastVolume(volume));
 
       //send out the new report to the store
-      dispatch(newReport(  {
+      dispatch(newReport({
         date: (new Date()).toString(),
         protocol: Protocols.Baer,
         infiltrometerData
       }));
-   
+
       //add the intial reading
       dispatch(addReading({
         volume: volume,
@@ -102,180 +104,181 @@ const BaerInitializeView = () => {
 
   return (
     <>
-    <Container className="mt-3">
-      <div class="rounded border shadow">
-        <h1 className="pt-5">Initialize BAER Protocol</h1>
-        <Form className="p-5" noValidate validated={validated} onSubmit={handleSubmit}>
-          <Row>
-            <Col>
-              <Form.Group>
-                <Form.Control
-                  id="site"
-                  type="text"
-                  size="lg"
-                  placeholder="Site Name"
-                  defaultValue={curInfiltrometerData.site}
+      <Container className="mt-3">
+        <div class="rounded border shadow">
+          <h1 className="pt-5" class="display-4">Initialize BAER Protocol</h1>
+          <Form className="p-5" noValidate validated={validated} onSubmit={handleSubmit}>
+            <Row>
+              <Col>
+                <Form.Group>
+                  <Form.Control
+                    id="site"
+                    type="text"
+                    size="lg"
+                    placeholder="Site Name"
+                    defaultValue={curInfiltrometerData.site}
                   />
-                  <div className="pt-2"/>
-                <Form.Control
-                  id="observation"
-                  type="text"
-                  step="any"
-                  size="lg"
-                  placeholder="Observation/Plot"
-                  defaultValue={curInfiltrometerData.observation}
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row className="pt-5">
-            <Col>
-              <Form.Group>
-                <Form.Label>Volume (mL)</Form.Label>
-                <Form.Control
-                required
-                id="volume"
-                type="number"
-                step="any"
-                size="lg"
-                min="0"
-                defaultValue={curInfiltrometerData.initialVolume}
-                placeholder="Initial Volume (mL)"
-                />
-                <Form.Control.Feedback type="invalid">
-                  Required!
-                </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group>
-                <Form.Label className="pt-3">Suction (cm)</Form.Label>
-                <DropdownButton variant="dark" title="Preset Suction Values">
-                  <Dropdown.Item onSelect = {()=>setSuctionPreset(-0.5)}> -0.5 </Dropdown.Item>
-                  <Dropdown.Item onSelect = {()=>setSuctionPreset(-1)}> -1 </Dropdown.Item>
-                  <Dropdown.Item onSelect = {()=>setSuctionPreset(-2)}> -2 </Dropdown.Item>
-                  <Dropdown.Item onSelect = {()=>setSuctionPreset(-3)}> -3 </Dropdown.Item>
-                  <Dropdown.Item onSelect = {()=>setSuctionPreset(-4)}> -4 </Dropdown.Item>
-                  <Dropdown.Item onSelect = {()=>setSuctionPreset(-5)}> -5 </Dropdown.Item>
-                  <Dropdown.Item onSelect = {()=>setSuctionPreset(-6)}> -6 </Dropdown.Item>
-                  <Dropdown.Item onSelect = {()=>setSuctionPreset(-7)}> -7 </Dropdown.Item>
-                </DropdownButton>
-                <Form.Control
-                required
-                id="suction"
-                type="number"
-                step="any"
-                size="lg"
-                max="0"
-                defaultValue={curInfiltrometerData.infiltrometerSuction}
-                placeholder="Suction (cm)"
-                />
-                <Form.Control.Feedback type="invalid">
-                  Required!
-                </Form.Control.Feedback>
-              </Form.Group>
-            </Col>
-            <Col>
-              <Form.Group>
-                <Form.Label>Time (seconds)</Form.Label>
-                <Form.Control
-                required
-                id="timeInterval"
-                type="number"
-                step="any"
-                size="lg"
-                min="1"
-                defaultValue={curInfiltrometerData.timeInterval}
-                placeholder="Time (sec)"
-                />
-                <Form.Control.Feedback type="invalid">
-                  Required!
-                </Form.Control.Feedback>
-              </Form.Group>
-              <Form.Group>
-                <Form.Label className="pt-3">Radius (cm)</Form.Label>
-                <DropdownButton variant="dark" title="Preset Infiltrometer Types">
-                <Dropdown.Item onSelect = {()=>setRadiusPreset(infiltrometerTypes.MiniDisk.radius)}>
-                  {infiltrometerTypes.MiniDisk.displayName}
-                </Dropdown.Item>
-                <Dropdown.Item onSelect = {()=>setRadiusPreset(infiltrometerTypes.MiniDiskV1.radius)}>
-                  {infiltrometerTypes.MiniDiskV1.displayName}
-                </Dropdown.Item>
-                </DropdownButton>
-                <Form.Control
-                required
-                id="radius"
-                type="number"
-                step="any"
-                size="lg"
-                min="0"
-                defaultValue={infiltrometerTypes.MiniDisk.radius}
-                placeholder="Radius (cm)"
-                />
-                <Form.Control.Feedback type="invalid">
-                  Required!
-                </Form.Control.Feedback>
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-            <Form.Group>
-                <Form.Label className="pt-3">Soil Type</Form.Label>
-                <DropdownButton variant="dark" title="Preset Soil Types">
-                  <Dropdown.Item onSelect = {()=>setSoilPreset(soilTypes.clay)}> Clay </Dropdown.Item>
-                  <Dropdown.Item onSelect = {()=>setSoilPreset(soilTypes.clayLoam)}> Clay Loam </Dropdown.Item>
-                  <Dropdown.Item onSelect = {()=>setSoilPreset(soilTypes.loam)}> Loam </Dropdown.Item>
-                  <Dropdown.Item onSelect = {()=>setSoilPreset(soilTypes.loamySand)}> Loamy Sand </Dropdown.Item>
-                  <Dropdown.Item onSelect = {()=>setSoilPreset(soilTypes.sand)}> Sand </Dropdown.Item>
-                  <Dropdown.Item onSelect = {()=>setSoilPreset(soilTypes.sandyClay)}> Sandy Clay </Dropdown.Item>
-                  <Dropdown.Item onSelect = {()=>setSoilPreset(soilTypes.sandyLoam)}> Sandy Loam </Dropdown.Item>
-                  <Dropdown.Item onSelect = {()=>setSoilPreset(soilTypes.silt)}> Silt </Dropdown.Item>
-                  <Dropdown.Item onSelect = {()=>setSoilPreset(soilTypes.siltLoam)}> Silt Loam </Dropdown.Item>
-                  <Dropdown.Item onSelect = {()=>setSoilPreset(soilTypes.siltyClay)}> Silty Clay </Dropdown.Item>
-                  <Dropdown.Item onSelect = {()=>setSoilPreset(soilTypes.siltyClayLoam)}> Silty Clay Loam </Dropdown.Item>
-                </DropdownButton>
-                <Form.Control
-                required
-                id="nh0"
-                type="number"
-                step="any"
-                size="lg"
-                min="0"
-                defaultValue={soilTypes.clayLoam.nh0}
-                placeholder="N/H0"
-                />
-                <div className="pt-2"/>
-                <Form.Control
-                required
-                id="alpha"
-                type="number"
-                step="any"
-                size="lg"
-                min="0"
-                defaultValue={soilTypes.clayLoam.alpha}
-                placeholder="Alpha"
-                />
-                <Form.Control.Feedback type="invalid">
-                  Required!
-                </Form.Control.Feedback>
-              </Form.Group>
-            </Col>
-          </Row>
-          <Row className="mt-4">
-            <Col>
-              <Button type="submit" variant="dark" size="lg" className="w-100">Start Protocol</Button>
-            </Col>
-          </Row>
-          <Row className="mt-2">
-            <Col>
-              <Button variant="danger" size="sm" className="w-100" onClick={handleReset}>Clear Values</Button>
-            </Col>
-          </Row>
-        </Form>
-      </div>
-    </Container>
-  </>
+                  <div className="pt-2" />
+                  <Form.Control
+                    id="observation"
+                    type="text"
+                    step="any"
+                    size="lg"
+                    placeholder="Observation/Plot"
+                    defaultValue={curInfiltrometerData.observation}
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row className="pt-5">
+              <Col>
+                <Form.Group>
+                  <Form.Label>Volume (mL)</Form.Label>
+                  <Form.Control
+                    required
+                    id="volume"
+                    type="number"
+                    step="any"
+                    size="lg"
+                    min="0"
+                    defaultValue={curInfiltrometerData.initialVolume}
+                    placeholder="Initial Volume (mL)"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Required!
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label className="pt-3">Suction (cm)</Form.Label>
+                  <DropdownButton variant="dark" title="Preset Suction Values">
+                    <Dropdown.Item onSelect={() => setSuctionPreset(-0.5)}> -0.5 </Dropdown.Item>
+                    <Dropdown.Item onSelect={() => setSuctionPreset(-1)}> -1 </Dropdown.Item>
+                    <Dropdown.Item onSelect={() => setSuctionPreset(-2)}> -2 </Dropdown.Item>
+                    <Dropdown.Item onSelect={() => setSuctionPreset(-3)}> -3 </Dropdown.Item>
+                    <Dropdown.Item onSelect={() => setSuctionPreset(-4)}> -4 </Dropdown.Item>
+                    <Dropdown.Item onSelect={() => setSuctionPreset(-5)}> -5 </Dropdown.Item>
+                    <Dropdown.Item onSelect={() => setSuctionPreset(-6)}> -6 </Dropdown.Item>
+                    <Dropdown.Item onSelect={() => setSuctionPreset(-7)}> -7 </Dropdown.Item>
+                  </DropdownButton>
+                  <Form.Control
+                    required
+                    id="suction"
+                    type="number"
+                    step="any"
+                    size="lg"
+                    max="0"
+                    defaultValue={curInfiltrometerData.infiltrometerSuction}
+                    placeholder="Suction (cm)"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Required!
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+              <Col>
+                <Form.Group>
+                  <Form.Label>Time (seconds)</Form.Label>
+                  <Form.Control
+                    required
+                    id="timeInterval"
+                    type="number"
+                    step="any"
+                    size="lg"
+                    min="1"
+                    defaultValue={curInfiltrometerData.timeInterval}
+                    placeholder="Time (sec)"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Required!
+                  </Form.Control.Feedback>
+                </Form.Group>
+                <Form.Group>
+                  <Form.Label className="pt-3">Radius (cm)</Form.Label>
+                  <DropdownButton variant="dark" title="Preset Infiltrometer Types">
+                    <Dropdown.Item onSelect={() => setRadiusPreset(infiltrometerTypes.MiniDisk.radius)}>
+                      {infiltrometerTypes.MiniDisk.displayName}
+                    </Dropdown.Item>
+                    <Dropdown.Item onSelect={() => setRadiusPreset(infiltrometerTypes.MiniDiskV1.radius)}>
+                      {infiltrometerTypes.MiniDiskV1.displayName}
+                    </Dropdown.Item>
+                  </DropdownButton>
+                  <Form.Control
+                    required
+                    id="radius"
+                    type="number"
+                    step="any"
+                    size="lg"
+                    min="0"
+                    defaultValue={infiltrometerTypes.MiniDisk.radius}
+                    placeholder="Radius (cm)"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Required!
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row>
+              <Col>
+                <Form.Group>
+                  <Form.Label className="pt-3">Soil Type</Form.Label>
 
-     );
+                  <DropdownButton variant="dark" title="Preset Soil Types">
+                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.clay)}> Clay </Dropdown.Item>
+                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.clayLoam)}> Clay Loam </Dropdown.Item>
+                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.loam)}> Loam </Dropdown.Item>
+                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.loamySand)}> Loamy Sand </Dropdown.Item>
+                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.sand)}> Sand </Dropdown.Item>
+                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.sandyClay)}> Sandy Clay </Dropdown.Item>
+                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.sandyLoam)}> Sandy Loam </Dropdown.Item>
+                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.silt)}> Silt </Dropdown.Item>
+                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.siltLoam)}> Silt Loam </Dropdown.Item>
+                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.siltyClay)}> Silty Clay </Dropdown.Item>
+                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.siltyClayLoam)}> Silty Clay Loam </Dropdown.Item>
+                  </DropdownButton>
+                  <Form.Control
+                    required
+                    id="nh0"
+                    type="number"
+                    step="any"
+                    size="lg"
+                    min="0"
+                    defaultValue={soilTypes.clayLoam.nh0}
+                    placeholder="N/H0"
+                  />
+                  <div className="pt-2" />
+                  <Form.Control
+                    required
+                    id="alpha"
+                    type="number"
+                    step="any"
+                    size="lg"
+                    min="0"
+                    defaultValue={soilTypes.clayLoam.alpha}
+                    placeholder="Alpha"
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Required!
+                  </Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Row className="mt-4">
+              <Col>
+                <Button type="submit" variant="dark" size="lg" className="w-100">Start Protocol</Button>
+              </Col>
+            </Row>
+            <Row className="mt-2">
+              <Col>
+                <Button variant="danger" size="sm" className="w-100" onClick={handleReset}>Clear Values</Button>
+              </Col>
+            </Row>
+          </Form>
+        </div>
+      </Container>
+    </>
+
+  );
 }
 
 export default BaerInitializeView;
