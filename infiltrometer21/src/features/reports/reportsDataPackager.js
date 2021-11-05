@@ -16,6 +16,7 @@ export function makeCSV(curReport) {
 
 
 function handleTextForCSV(text) {
+    if (text == undefined) return ("");
     return text.toString().replaceAll('"', '""');
 
 }
