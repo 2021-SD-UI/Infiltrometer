@@ -33,8 +33,19 @@ export function makeCSV(curReport){
 
 
 function handleTextForCSV(text){
-    return '"' + text + '"';
+    let safeText = "";
 
+    text.toString().split('"').forEach(str=>{
+        safeText += '"' + str + '"';
+    });
+    let safeText2 = "";
+
+    safeText.toString().split(',').forEach(str=>{
+        safeText2 += str + '","';
+    });
+    
+    return safeText2;
+}
 /**
  * 
  * @param {Object of key-report pairs} reportGroup 
@@ -47,18 +58,18 @@ export function makeCSVFromGroupOfReports(reportGroup){
     Object.keys(reportGroup).forEach(reportID => {
         let curReport = reportGroup[reportID];
         data.push(['Report ' + i + ' Metadata:']);
-        data.push(['Date', 'Protocol','Soil Alpha', 'Soil NH/O','Average Rate (mL/min)', 'Severity Rating','Site', 'Observation'
-        ,'Time (sec)', 'Volume (mL)', 'Rate (mL/min)']);
+        data.push(['Date', 'Protocol','Soil Alpha', 'Soil NH/O','Average Rate (mL/min)', 'Severity Rating','Site', 'Observation',
+        'Notes','','','Time (sec)', 'Volume (mL)', 'Rate (mL/min)']);
         data.push([curReport.date, curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.Nho,
         findAverageRate(curReport),findSeverityRating(findAverageRate(curReport)).name,handleTextForCSV(curReport.infiltrometerData.site),
-         handleTextForCSV(curReport.infiltrometerData.observation)]);
+         handleTextForCSV(curReport.infiltrometerData.observation), curReport.notes]);
         //readings data
         for(let i = 0; i < curReport.readings.length;i++){
 
 
             //reading data
             let row = [            
-                '','','','','','','','Reading ' + i + ": ",
+                '','','','','','','','','','','Reading ' + i + ": ",
                 curReport.readings[i].secondsElapsed,
                 curReport.readings[i].volume,
                 findRate(i,curReport)
@@ -69,7 +80,7 @@ export function makeCSVFromGroupOfReports(reportGroup){
         
         i++;
     });
-    return {data, filename: Object.keys(reportGroup)[0].infiltrometerData.observation + ".csv"}
+    return {data, filename: "reports.csv"}
 }
     
     /**
