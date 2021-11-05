@@ -106,7 +106,7 @@ const BaerInitializeView = () => {
     <>
       <Container className="mt-3">
         <div class="rounded border shadow">
-          <h1 className="pt-5" class="display-4">Initialize BAER Protocol</h1>
+          <h1 className="pt-5 display-4">Initialize BAER Protocol</h1>
           <Form className="p-5" noValidate validated={validated} onSubmit={handleSubmit}>
             <Row>
               <Col>
@@ -118,7 +118,7 @@ const BaerInitializeView = () => {
                     placeholder="Site Name"
                     defaultValue={curInfiltrometerData.site}
                   />
-                  <div className="pt-2" />
+                  <div className="pt-2"/>
                   <Form.Control
                     id="observation"
                     type="text"
@@ -160,6 +160,7 @@ const BaerInitializeView = () => {
                     <Dropdown.Item onSelect={() => setSuctionPreset(-6)}> -6 </Dropdown.Item>
                     <Dropdown.Item onSelect={() => setSuctionPreset(-7)}> -7 </Dropdown.Item>
                   </DropdownButton>
+                  <div className="pt-2"/>
                   <Form.Control
                     required
                     id="suction"
@@ -202,6 +203,7 @@ const BaerInitializeView = () => {
                       {infiltrometerTypes.MiniDiskV1.displayName}
                     </Dropdown.Item>
                   </DropdownButton>
+                  <div className="pt-2"/>
                   <Form.Control
                     required
                     id="radius"
@@ -236,6 +238,7 @@ const BaerInitializeView = () => {
                     <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.siltyClay)}> Silty Clay </Dropdown.Item>
                     <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.siltyClayLoam)}> Silty Clay Loam </Dropdown.Item>
                   </DropdownButton>
+                  <div className="pt-2" />
                   <Form.Control
                     required
                     id="nh0"
@@ -243,10 +246,10 @@ const BaerInitializeView = () => {
                     step="any"
                     size="lg"
                     min="0"
-                    defaultValue={soilTypes.clayLoam.nh0}
+                    defaultValue={soilTypes.loamySand.nh0}
                     placeholder="N/H0"
                   />
-                  <div className="pt-2" />
+                  <div className="pt-2"/>
                   <Form.Control
                     required
                     id="alpha"
@@ -254,7 +257,7 @@ const BaerInitializeView = () => {
                     step="any"
                     size="lg"
                     min="0"
-                    defaultValue={soilTypes.clayLoam.alpha}
+                    defaultValue={soilTypes.loamySand.alpha}
                     placeholder="Alpha"
                   />
                   <Form.Control.Feedback type="invalid">
