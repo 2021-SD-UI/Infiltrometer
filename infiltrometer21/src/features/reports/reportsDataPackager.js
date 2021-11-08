@@ -32,7 +32,7 @@ export function makeCSVFromGroupOfReports(reportGroup) {
     Object.keys(reportGroup).forEach(reportID => {
         let curReport = reportGroup[reportID];
         data.push(['Report ' + i + ' Metadata:']);
-        data.push(['Date', 'Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'Severity Rating', 'Site', 'Observation',
+        data.push(['Date', 'Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'Severity Rating', 'Site Name', 'Observation Name',
             'Notes', '', '', 'Time (sec)', 'Volume (mL)', 'Rate (mL/min)']);
         data.push([curReport.date, curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
         findAverageRate(curReport), findSeverityRating(findAverageRate(curReport)).name, handleTextForCSV(curReport.infiltrometerData.site),
