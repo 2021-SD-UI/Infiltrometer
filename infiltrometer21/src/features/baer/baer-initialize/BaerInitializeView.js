@@ -111,21 +111,23 @@ const BaerInitializeView = () => {
             <Row>
               <Col>
                 <Form.Group>
+                  <Form.Label>Site Name</Form.Label>
                   <Form.Control
                     id="site"
                     type="text"
                     size="lg"
-                    placeholder="Site Name"
                     defaultValue={curInfiltrometerData.site}
+                    placeholder="Enter site name..."
                   />
                   <div className="pt-2"/>
+                  <Form.Label>Observation Name</Form.Label>
                   <Form.Control
                     id="observation"
                     type="text"
                     step="any"
                     size="lg"
-                    placeholder="Observation/Plot"
                     defaultValue={curInfiltrometerData.observation}
+                    placeholder="Enter observation..."
                   />
                 </Form.Group>
               </Col>
@@ -224,7 +226,6 @@ const BaerInitializeView = () => {
               <Col>
                 <Form.Group>
                   <Form.Label className="pt-3">Soil Type</Form.Label>
-
                   <DropdownButton variant="dark" title="Preset Soil Types">
                     <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.clay)}> Clay </Dropdown.Item>
                     <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.clayLoam)}> Clay Loam </Dropdown.Item>
@@ -239,6 +240,7 @@ const BaerInitializeView = () => {
                     <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.siltyClayLoam)}> Silty Clay Loam </Dropdown.Item>
                   </DropdownButton>
                   <div className="pt-2" />
+                  <Form.Label>N/H0</Form.Label>
                   <Form.Control
                     required
                     id="nh0"
@@ -250,6 +252,7 @@ const BaerInitializeView = () => {
                     placeholder="N/H0"
                   />
                   <div className="pt-2"/>
+                  <Form.Label>Alpha</Form.Label>
                   <Form.Control
                     required
                     id="alpha"
