@@ -8,7 +8,7 @@ import reportsSlice from '../features/reports/reportsSlice';
 import {reducer as reduxFormReducer} from 'redux-form'
 import  redirectReducer  from '../features/page-redirection/redirector-slice';
 import { persistReducer } from "redux-persist";
-import storage from 'redux-persist/lib/storage';
+import storage from 'redux-persist-indexeddb-storage';
 
 const reducers = combineReducers({
   baerInitialize: baerInitializeReducer,
@@ -23,7 +23,7 @@ const reducers = combineReducers({
 
 const persistConfig = {
   key: 'root',
-  storage,
+  storage :storage('myDB'),
 };
 
 const persistedReducer = persistReducer(persistConfig,reducers);

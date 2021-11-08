@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectPage, setPage } from "../page-redirection/redirector-slice";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { useState } from "react";
+import { BaerLogo } from "./baerLogo";
 export const NavBar = () => {
 
     const dispatch = useDispatch();
@@ -16,12 +17,25 @@ export const NavBar = () => {
         <Container>
 
             <Navbar.Brand href="https://www.mtu.edu/computing/" >
-                 <img
-                    src="https://www.mtu.edu/mtu_resources/images/download-central/logos/husky-icon/white.png"
-                    width="56"
-                    className="d-inline-block align-top"
-                    alt="MTU logo"
-                    />
+                <div class="container">
+                    <div class = "row">
+                         <div class = "col">
+                            <BaerLogo width = {1} height = {110}>
+                            </BaerLogo>
+                        </div>
+                        <div class = "col">
+                             <img
+                                src="https://www.mtu.edu/mtu_resources/images/download-central/logos/husky-icon/white.png"
+                                width="56"
+                                className="d-inline-block align-top"
+                                alt="MTU logo"
+                                />
+                               
+                        </div>
+                       
+                    </div>
+                </div>
+                
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
