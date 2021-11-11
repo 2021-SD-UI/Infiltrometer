@@ -52,18 +52,20 @@ const ReportsTable = () => {
                     <td>
                         <div class="container">
                             <div class="row">
-                                <div class="col">
+                                <div class="col-sm">
                                     <div class="btn btn-dark  w-100"
                                         onClick={() => showReport(report)}>
                                         View
                                     </div>
                                 </div>
-                                <div class="col">
+
+                                <div class="col-sm">
                                     <div class="btn btn-danger  w-100"
                                         onClick={() => { deleteReport(report) }}>
                                         Delete
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </td>
@@ -190,14 +192,14 @@ const ReportsTable = () => {
         if (numberOfSelectedReports > 0) {
             return (
                 <>
-                    <div class="col-2 text-center">
+                    <div class="col-6 col-md-3 col-lg-2 text-center">
                         <div class="btn btn-danger  w-100"
                             onClick={() => { deleteAllSelected() }}>
                             Delete ( {numberOfSelectedReports} )
                         </div>
                     </div>
 
-                    <div class="col-2 text-center">
+                    <div class="col-6 col-md-3 col-lg-2 text-center">
                         <CSVLink {...makeCSVFromGroupOfReports(selectedReports)} class="btn btn-success w-100">
                             Download ( {numberOfSelectedReports} )
                         </CSVLink>
@@ -207,13 +209,13 @@ const ReportsTable = () => {
         else {
             return (
                 <>
-                    <div class="col-2 text-center">
+                    <div class="col-6 col-md-3 col-lg-2 text-center">
                         <div class="btn btn-secondary disabled w-100">
                             Delete ( {numberOfSelectedReports} )
                         </div>
                     </div>
 
-                    <div class="col-2 text-center">
+                    <div class="col-6 col-md-3 col-lg-2 text-center">
                         <div class="btn btn-secondary disabled w-100">
                             Download ( {numberOfSelectedReports} )
                         </div>
@@ -230,21 +232,22 @@ const ReportsTable = () => {
             <div class="container">
                 <div class="row mt-4" ></div>
                 <div class="row">
-                    <div class="col-2"></div>
-                    <div class="col-2 text-center">
+                    <div class="col-lg-2"></div>
+                    <div class="col-6 col-md-3 col-lg-2 text-center">
                         <div class="btn btn-dark  w-100"
                             onClick={() => { selectAll() }}>
                             Select all
                         </div>
                     </div>
-                    <div class="col-2 text-center">
+                    <div class="col-6 col-md-3 col-lg-2 text-center">
                         <div class="btn btn-secondary  w-100"
                             onClick={() => { unselectAll() }}>
                             Unselect all
                         </div>
                     </div>
+
                     <SelectButtons />
-                    <div class="col-2"></div>
+                    <div class="col-lg-2"></div>
                 </div>
 
                 <div class="row mt-2" ></div>
