@@ -10,12 +10,13 @@ import "./timer.css";
 import _default from 'react-overlays/esm/Modal';
 import { setPage } from '../../page-redirection/redirector-slice';
 import  Table  from '../baer-results/table';
-import { Modal, Button, Form, } from 'react-bootstrap';
+import { Modal, Button, Form, Container, Row, Col, } from 'react-bootstrap';
 
 const renderTime = ({ remainingTime }) => {
   if (remainingTime === 0) {
     return <div className="timer">Time is up!</div>;
   }
+  
   return (
       <div className="timer">
         <div className="text">Time remaining:</div>
@@ -26,32 +27,24 @@ const renderTime = ({ remainingTime }) => {
 };
 
 const BaerReplicationView = () => {
-
-  //Gets the current reading in the baer-replicationSlice
   const timeInterval = useSelector(selectTimeInterval);
   const initialVolume = Number(useSelector(selectInitialVolume));
   const lastVolume = Number(useSelector(selectLastVolume));
-
-  //the max allowed volume
   const maxVolume = Math.min(initialVolume, lastVolume);
+  const curID = useSelector(selectCurReadingID);
+  const setPlaying = (playing)=>setState({...state, timerIsPlaying:playing});
   const dispatch = useDispatch();
 
   const initializeState = {
     timerIsPlaying: false,
     key: 0,
   };
-
   const [state, setState] = useState(initializeState);
 
-  //use to set the timer is playing variable
-  const setPlaying = (playing)=>setState({...state, timerIsPlaying:playing});
-  const curID = useSelector(selectCurReadingID);
-
-  function endProtocol(){
+  function endProtocol() {
 
     //mark that we are done gathering data on this report
     dispatch(setGatheringData(false));
-
 
     //go to the results page
     dispatch(setPage("/Infiltrometer/baer-results"))
@@ -88,72 +81,58 @@ const BaerReplicationView = () => {
     /* --------------------------------------------------------------------- */
 
   return (
-       
-      <div class="container-fluid">
-        <div class = "container">
-            <div class = "row mt-5"/>
-            <div class ="row">
-                <div class="col-2"></div>
-                <div class="col-8 text-center">
-                    <div class="display-4 ">
-                      Current Replication: {curID+1}
-                    </div>
-                </div>
-                <div class="col-2"></div>
-            </div>
-            <div class = "row mt-5"/>
-        </div>
-          
-        <div class="row-12">
-            
-          <div class="col-4"/>
-          <div class ="timer-wrapper">
-            <CountdownCircleTimer
-                key={state.key}
-                isPlaying = {state.timerIsPlaying}
-                duration={Number(timeInterval)}
-                colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
-                onComplete={() => handleShow()}
-              >
-                {renderTime}
-            </CountdownCircleTimer>
-          </div>
-          <div class="col-4"/>
-        </div>
-
-        <div class = "container">
-          <div class = "row mt-4"/>
-          <div class = "row-8 text-center">
-            <div class="btn btn-dark w-50"
-              disabled={state.timerIsPlaying}
-              onClick = {()=>{
-              setState({
-                timerIsPlaying: true,
-                key: state.key+1}
-                );
-                }}> {
-                  !state.timerIsPlaying? "Start Replication" : "Replication Running..." 
-                    }
-            </div>
-          </div>
-          <div class = "row mt-2"/>
-          <div class = "row-8 text-center">
-            <div class="btn btn-secondary w-50" onClick = {endProtocol}>
-              End Protocol
-            </div>
-          </div>
-          <div class = "row mt-2"/>
-        </div>
-
-          <div class ="container">
-            <div class="row-4">
-              <div class = "row mt-4"/>
-                <Table  class="col-8"/>
-              <div class = "row mt-4"/>
-            </div>
-          </div>
-
       <>
+        <Container className="mt-3">
+          <div class="rounded border shadow">
+            <h1 className="pt-5 display-4">Current Replication: {curID+1}</h1>
+            <Row>
+              <Col>
+                <div className="mt-4 timer-wrapper">
+                  <CountdownCircleTimer
+                    key={state.key}
+                    isPlaying = {state.timerIsPlaying}
+                    duration={Number(timeInterval)}
+                    colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
+                    onComplete={() => handleShow()}
+                  >
+                    {renderTime}
+                  </CountdownCircleTimer>
+                </div>
+              </Col>
+            </Row>
+            <Row className="text-center">
+              <Col className="mt-4">
+                <Button 
+                  variant="dark" 
+                  className="w-50"
+                  size="lg"
+                  disabled={state.timerIsPlaying}
+                  onClick = {()=>{ setState({timerIsPlaying: true, key: state.key+1});}}
+                >
+                  {!state.timerIsPlaying? "Start Replication" : "Replication Running..."}
+                </Button>
+              </Col>
+            </Row>
+            <Row className="text-center">
+              <Col className="mt-2">
+                <Button 
+                  variant="secondary" 
+                  className="w-50"
+                  size="lg"
+                  onClick={endProtocol}
+                >
+                    End Protocol
+                </Button>
+              </Col>
+            </Row>
+            <Row className="mt-4">
+              <Col>
+                <Table>{/* This table is rendered from table.js */}</Table>
+              </Col>
+            </Row>
+          </div>
+        </Container>
+
         <Modal
           show={show}
           onHide={handleClose}
@@ -164,10 +143,14 @@ const BaerReplicationView = () => {
             <Modal.Title>Enter volumetric data for replication: {curID+1}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+            <Form 
+              noValidate 
+              validated={validated} 
+              onSubmit={handleSubmit}
+            >
               <Form.Group>
                 <Form.Text muted>
-                Previous volume: {maxVolume} mL
+                  Previous volume: {maxVolume} mL
                 </Form.Text>
                 <Form.Control
                 required
@@ -184,10 +167,18 @@ const BaerReplicationView = () => {
                 </Form.Control.Feedback>
               </Form.Group>
               <Modal.Footer>
-                <Button variant="outline-secondary" size="lg" onClick={handleClose}>
+                <Button 
+                  variant="outline-secondary" 
+                  size="lg" 
+                  onClick={handleClose}
+                >
                   Cancel
                 </Button>
-                <Button type="submit" variant="dark" size="lg">
+                <Button 
+                  type="submit" 
+                  variant="dark" 
+                  size="lg"
+                >
                   Submit
                 </Button>
               </Modal.Footer>
@@ -195,12 +186,8 @@ const BaerReplicationView = () => {
           </Modal.Body>
         </Modal>
       </>
-            
-         <div class = "col-10"/>
-      </div>);
+    );
 
 }
 
-// const rootElement = document.getElementById("root");
-// ReactDOM.render(<BaerReplicationView />, rootElement);
 export default BaerReplicationView;
