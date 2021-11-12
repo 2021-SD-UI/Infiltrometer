@@ -6,6 +6,7 @@ import { CSVLink } from "react-csv";
 import { makeCSV, makeCSVFromGroupOfReports } from "./reportsDataPackager";
 import { selectCurId } from "./reportsSlice";
 import React, { useState } from "react";
+import { Container, Row, Col, Form, Button, Table, Alert } from "react-bootstrap";
 const ReportsTable = () => {
 
     const [selectedReports, setSelectedReports] = useState({});
@@ -15,21 +16,24 @@ const ReportsTable = () => {
     const curReport = reports[useSelector(selectCurId)]
     const dispatch = useDispatch();
     /**
-     * map state to table elements
+     * Map state to table elements
      */
     function renderTableData() {
         return Object.keys(reports).map(reportID => {
 
             const report = reports[reportID]
             return (
-                <tr key={report.id} >
-                    <td >
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-1">
-                                    <input class="form-check-input" type="checkbox" value="" checked={selectedReports[report.id] != undefined}
-                                        onClick={
-                                            () => {
+                <>
+                <tr key={report.id}>
+                    <td>
+                        <Container className="my-2">
+                            <Row>
+                                <Col>
+                                    <Form>
+                                    <Form.Check
+                                        label={formatDate(report.date)}
+                                        checked={selectedReports[report.id] != undefined}
+                                        onChange={() => {
                                                 if (selectedReports[report.id] != undefined) {
                                                     deselectReport(report);
                                                 }
@@ -40,36 +44,47 @@ const ReportsTable = () => {
                                             }
                                         }
                                     />
-                                </div>
-                                <div class="col-5">
-                                    {formatDate(report.date)}
-                                </div>
-
-                            </div>
-                        </div>
+                                    </Form>
+                                    
+                                </Col>
+                            </Row>
+                        </Container>
                     </td>
-                    <td>{report.infiltrometerData.site}</td>
                     <td>
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-sm">
-                                    <div class="btn btn-dark  w-100"
-                                        onClick={() => showReport(report)}>
+                        <Container className="my-2">
+                            <Row>
+                                {report.infiltrometerData.site}
+                            </Row>
+                        </Container>
+                    </td>
+                    <td>
+                        <Container>
+                            <Row>
+                                <Col>
+                                    <Button
+                                        variant="dark"
+                                        className="w-100 my-1"
+                                        onClick={() => { showReport(report) }}
+                                    >
                                         View
-                                    </div>
-                                </div>
-
-                                <div class="col-sm">
-                                    <div class="btn btn-danger  w-100"
-                                        onClick={() => { deleteReport(report) }}>
+                                    </Button>
+                                </Col>
+                                
+                                <Col>
+                                    <Button
+                                        variant="danger"
+                                        className="w-100 my-1"
+                                        onClick={() => { deleteReport(report) }}
+                                    >
                                         Delete
-                                    </div>
-                                </div>
+                                    </Button>
+                                </Col>
 
-                            </div>
-                        </div>
+                            </Row>
+                        </Container>
                     </td>
                 </tr>
+                </>
             )
         })
     }
@@ -87,11 +102,8 @@ const ReportsTable = () => {
         dispatch(removeReport(report.id))
     }
 
-
-
     /**
      * Deletes all the currently selected reports
-     * 
      */
     function deleteAllSelected() {
 
@@ -166,20 +178,20 @@ const ReportsTable = () => {
     }
 
     /**
-     * create header for table
+     * Create header for table
      */
     function renderTableHeader() {
         let header = ['Date', 'Site', 'Options'];
         return header.map((key, index) => {
             console.log(key.toUpperCase())
             if (key.toLowerCase() === "site") {
-                return <th key={index}>Site</th>
+                return <th class="table-dark text-center" key={index}>Site</th>
             }
             if (key.toLowerCase() === "date") {
-                return <th key={index}>Date</th>
+                return <th class="table-dark text-center" key={index}>Date</th>
             }
             if (key.toLowerCase() == "options") {
-                return <th key={index}></th>
+                return <th class="table-dark text-center" key={index}>Options</th>
             }
 
         })
@@ -192,35 +204,48 @@ const ReportsTable = () => {
         if (numberOfSelectedReports > 0) {
             return (
                 <>
-                    <div class="col-6 col-md-3 col-lg-2 text-center">
-                        <div class="btn btn-danger  w-100"
-                            onClick={() => { deleteAllSelected() }}>
-                            Delete ( {numberOfSelectedReports} )
-                        </div>
-                    </div>
+                    <Col className="m-2">
+                        <Button 
+                            variant="danger"
+                            className="w-100"
+                            onClick={() => { deleteAllSelected() }}
+                        >
+                            Delete ({numberOfSelectedReports})
+                        </Button>
+                    </Col>
 
-                    <div class="col-6 col-md-3 col-lg-2 text-center">
+                    <Col className="m-2">
                         <CSVLink {...makeCSVFromGroupOfReports(selectedReports)} class="btn btn-success w-100">
-                            Download ( {numberOfSelectedReports} )
+                            Download ({numberOfSelectedReports})
                         </CSVLink>
-                    </div>
-                </>);
+                    </Col>
+                </>
+            );
         }
         else {
             return (
                 <>
-                    <div class="col-6 col-md-3 col-lg-2 text-center">
-                        <div class="btn btn-secondary disabled w-100">
-                            Delete ( {numberOfSelectedReports} )
-                        </div>
-                    </div>
+                    <Col className="m-2">
+                        <Button 
+                            disabled
+                            variant="secondary"
+                            className="w-100"
+                        >
+                            Delete ({numberOfSelectedReports})
+                        </Button>
+                    </Col>
 
-                    <div class="col-6 col-md-3 col-lg-2 text-center">
-                        <div class="btn btn-secondary disabled w-100">
-                            Download ( {numberOfSelectedReports} )
-                        </div>
-                    </div>
-                </>);
+                    <Col className="m-2">
+                        <Button 
+                            disabled
+                            variant="secondary"
+                            className="w-100"
+                        >
+                            Download ({numberOfSelectedReports})
+                        </Button>
+                    </Col>
+                </>
+            );
         }
 
 
@@ -229,62 +254,57 @@ const ReportsTable = () => {
     if (Object.keys(reports).length > 0) {
         //Whenever our class runs, render method will be called automatically, it may have already defined in the constructor behind the scene.
         return (
-            <div class="container">
-                <div class="row mt-4" ></div>
-                <div class="row">
-                    <div class="col-lg-2"></div>
-                    <div class="col-6 col-md-3 col-lg-2 text-center">
-                        <div class="btn btn-dark  w-100"
-                            onClick={() => { selectAll() }}>
-                            Select all
-                        </div>
-                    </div>
-                    <div class="col-6 col-md-3 col-lg-2 text-center">
-                        <div class="btn btn-secondary  w-100"
-                            onClick={() => { unselectAll() }}>
-                            Unselect all
-                        </div>
-                    </div>
-
-                    <SelectButtons />
-                    <div class="col-lg-2"></div>
+            <Container className="mt-3">
+                <div class="rounded border shadow">
+                    <h1 className="my-5 display-4">Reports</h1>
+                    <Row className="justify-content-center m-2">
+                        <Col className="m-2">
+                            <Button 
+                                variant="dark"
+                                className="w-100"
+                                onClick={() => { selectAll() }}
+                            >
+                                Select All
+                            </Button>
+                        </Col>
+                        <Col className="m-2">
+                            <Button 
+                                variant="secondary"
+                                className="w-100"
+                                onClick={() => { unselectAll() }}
+                            >
+                                Unselect All
+                            </Button>
+                        </Col>
+                        <SelectButtons />
+                    </Row>
+                    <Row className="m-3">
+                        <Col>
+                            <Table light striped bordered hover id='students'>
+                                <tbody>
+                                    <tr>{renderTableHeader()}</tr>
+                                    {renderTableData()}
+                                </tbody>
+                            </Table>
+                        </Col>
+                    </Row>
                 </div>
-
-                <div class="row mt-2" ></div>
-                <div class="row">
-                    <div class="col-1"></div>
-                    <div class="col-10">
-                        <table class="table table-light table-striped table-hover" id='students'>
-                            <tbody>
-                                <tr class="table-dark">{renderTableHeader()}</tr>
-                                {renderTableData()}
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col-1"></div>
-                </div>
-
-
-            </div>
+            </Container>
         )
     }
     else {
         return (
-            <div class="container">
-                <div class="row mt-2"></div>
-                <div class="row">
-                    <div class="display-4 text-center">
-                        No Saved Reports
-                    </div>
-                    <div class="text-center">
-                        Click "New Test" to create a report.
-                    </div>
+            <Container className="mt-3">
+                <div class="rounded border shadow">
+                    <Row>
+                        <h1 className="display-4">No Saved Reports</h1>
+                    </Row>
+                    <Row className="justify-content-center">
+                        <Alert variant="danger w-50" className="text-center">Click "New Test" to start creating a report.</Alert>
+                    </Row>
                 </div>
-            </div>
+            </Container>
         )
     }
-
-
-
 }
 export default ReportsTable;
