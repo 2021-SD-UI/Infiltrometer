@@ -10,47 +10,44 @@ import { NavBar } from './features/navBar/NavBar';
 import SinglePagePDFView from "./features/pdfviewer/pdf-viewer";
 import ReportsTable from './features/reports/ReportsTable';
 import { MiniDiskManualView, FieldGuideManualView } from './features/pdfviewer/Manuals';
-const  App = ()=> {
+import { HomePage } from './features/homepage/HomePage';
+const App = () => {
   return (
-    
-    <BrowserRouter>
-    <title>Infiltrometer Companion</title>
-          <NavBar/>
-          <Redirector/>
-          <Switch>
-           
-            <Route exact path ="/Infiltrometer/">
-              <div>
-                <h1>
-                  Home Page
-                </h1>
-              </div>
-            </Route>
-            <Route exact path ="/Infiltrometer/baer-initialize">
-              <BaerInitializeView/>
-            </Route>
-            <Route exact path ="/Infiltrometer/baer-replication">
-              <BaerReplicationView/>
-            </Route>
-            <Route exact path ="/Infiltrometer/baer-results">
-              <BaerResultsView/>
-            </Route>
-            <Route exact path ="/Infiltrometer/testing/regression">
-              <RegressionTesting/>
-            </Route>
-             <Route exact path ="/Infiltrometer/manuals-baer">
-              <FieldGuideManualView/>
-            
-            </Route>
-            <Route exact path ="/Infiltrometer/manuals-infiltrometer">
-              <MiniDiskManualView/>
-            </Route>
-            <Route exact path ="/Infiltrometer/reports">
-               <ReportsTable/>
-            </Route>
 
-          </Switch>
-          
+    <BrowserRouter>
+      <title>Infiltrometer Companion</title>
+      <NavBar />
+      <Redirector />
+      <Switch>
+
+        <Route exact path="/Infiltrometer/">
+          <HomePage />
+        </Route>
+        <Route exact path="/Infiltrometer/baer-initialize">
+          <BaerInitializeView />
+        </Route>
+        <Route exact path="/Infiltrometer/baer-replication">
+          <BaerReplicationView />
+        </Route>
+        <Route exact path="/Infiltrometer/baer-results">
+          <BaerResultsView />
+        </Route>
+        <Route exact path="/Infiltrometer/testing/regression">
+          <RegressionTesting />
+        </Route>
+        <Route exact path="/Infiltrometer/manuals-baer">
+          <FieldGuideManualView />
+
+        </Route>
+        <Route exact path="/Infiltrometer/manuals-infiltrometer">
+          <MiniDiskManualView />
+        </Route>
+        <Route exact path="/Infiltrometer/reports">
+          <ReportsTable />
+        </Route>
+
+      </Switch>
+
     </BrowserRouter>
   );
 }
