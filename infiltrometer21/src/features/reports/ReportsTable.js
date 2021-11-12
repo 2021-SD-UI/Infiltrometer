@@ -24,66 +24,66 @@ const ReportsTable = () => {
             const report = reports[reportID]
             return (
                 <>
-                <tr key={report.id}>
-                    <td>
-                        <Container className="my-2">
-                            <Row>
-                                <Col>
-                                    <Form>
-                                    <Form.Check
-                                        label={formatDate(report.date)}
-                                        checked={selectedReports[report.id] != undefined}
-                                        onChange={() => {
-                                                if (selectedReports[report.id] != undefined) {
-                                                    deselectReport(report);
-                                                }
-                                                else {
-                                                    selectReport(report);
-                                                }
+                    <tr key={report.id}>
+                        <td>
+                            <Container className="my-2">
+                                <Row>
+                                    <Col>
+                                        <Form>
+                                            <Form.Check
+                                                label={formatDate(report.date)}
+                                                checked={selectedReports[report.id] != undefined}
+                                                onChange={() => {
+                                                    if (selectedReports[report.id] != undefined) {
+                                                        deselectReport(report);
+                                                    }
+                                                    else {
+                                                        selectReport(report);
+                                                    }
 
-                                            }
-                                        }
-                                    />
-                                    </Form>
-                                    
-                                </Col>
-                            </Row>
-                        </Container>
-                    </td>
-                    <td>
-                        <Container className="my-2">
-                            <Row>
-                                {report.infiltrometerData.site}
-                            </Row>
-                        </Container>
-                    </td>
-                    <td>
-                        <Container>
-                            <Row>
-                                <Col>
-                                    <Button
-                                        variant="dark"
-                                        className="w-100 my-1"
-                                        onClick={() => { showReport(report) }}
-                                    >
-                                        View
-                                    </Button>
-                                </Col>
-                                
-                                <Col>
-                                    <Button
-                                        variant="danger"
-                                        className="w-100 my-1"
-                                        onClick={() => { deleteReport(report) }}
-                                    >
-                                        Delete
-                                    </Button>
-                                </Col>
+                                                }
+                                                }
+                                            />
+                                        </Form>
 
-                            </Row>
-                        </Container>
-                    </td>
-                </tr>
+                                    </Col>
+                                </Row>
+                            </Container>
+                        </td>
+                        <td>
+                            <Container className="my-2">
+                                <Row>
+                                    {report.infiltrometerData.site}
+                                </Row>
+                            </Container>
+                        </td>
+                        <td>
+                            <Container>
+                                <Row>
+                                    <Col>
+                                        <Button
+                                            variant="dark"
+                                            className="w-100 my-1"
+                                            onClick={() => { showReport(report) }}
+                                        >
+                                            View
+                                        </Button>
+                                    </Col>
+
+                                    <Col>
+                                        <Button
+                                            variant="danger"
+                                            className="w-100 my-1"
+                                            onClick={() => { deleteReport(report) }}
+                                        >
+                                            Delete
+                                        </Button>
+                                    </Col>
+
+                                </Row>
+                            </Container>
+                        </td>
+                    </tr>
                 </>
             )
         })
@@ -204,8 +204,8 @@ const ReportsTable = () => {
         if (numberOfSelectedReports > 0) {
             return (
                 <>
-                    <Col className="m-2">
-                        <Button 
+                    <Col className="m-2 col-6 col-md-3 col-lg-2 text-center">
+                        <Button
                             variant="danger"
                             className="w-100"
                             onClick={() => { deleteAllSelected() }}
@@ -214,7 +214,7 @@ const ReportsTable = () => {
                         </Button>
                     </Col>
 
-                    <Col className="m-2">
+                    <Col className="m-2 col-6 col-md-3 col-lg-2 text-center">
                         <CSVLink {...makeCSVFromGroupOfReports(selectedReports)} class="btn btn-success w-100">
                             Download ({numberOfSelectedReports})
                         </CSVLink>
@@ -225,8 +225,8 @@ const ReportsTable = () => {
         else {
             return (
                 <>
-                    <Col className="m-2">
-                        <Button 
+                    <Col className="m-2 col-6 col-md-3 col-lg-2 text-center">
+                        <Button
                             disabled
                             variant="secondary"
                             className="w-100"
@@ -235,8 +235,8 @@ const ReportsTable = () => {
                         </Button>
                     </Col>
 
-                    <Col className="m-2">
-                        <Button 
+                    <Col className="m-2 col-6 col-md-3 col-lg-2 text-center">
+                        <Button
                             disabled
                             variant="secondary"
                             className="w-100"
@@ -258,8 +258,8 @@ const ReportsTable = () => {
                 <div class="rounded border shadow">
                     <h1 className="my-5 display-4">Reports</h1>
                     <Row className="justify-content-center m-2">
-                        <Col className="m-2">
-                            <Button 
+                        <Col className="m-2 col-6 col-md-3 col-lg-2 text-center">
+                            <Button
                                 variant="dark"
                                 className="w-100"
                                 onClick={() => { selectAll() }}
@@ -267,8 +267,8 @@ const ReportsTable = () => {
                                 Select All
                             </Button>
                         </Col>
-                        <Col className="m-2">
-                            <Button 
+                        <Col className="m-2 col-6 col-md-3 col-lg-2 text-center">
+                            <Button
                                 variant="secondary"
                                 className="w-100"
                                 onClick={() => { unselectAll() }}
