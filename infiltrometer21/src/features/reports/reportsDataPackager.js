@@ -27,7 +27,7 @@ function handleTextForCSV(text) {
  */
 export function makeCSVFromGroupOfReports(reportGroup) {
     let data = [['Date', 'Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'Severity Rating', 'Site Name', 'Observation Name',
-        'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)']];
+        'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude']];
     Object.keys(reportGroup).forEach(reportID => {
         let curReport = reportGroup[reportID];
         let curReportData = [curReport.date, curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
@@ -42,7 +42,7 @@ export function makeCSVFromGroupOfReports(reportGroup) {
 
             row.push((i + 1).toString(), reading.secondsElapsed,
                 reading.volume,
-                findRate(i, curReport));
+                findRate(i, curReport), reading.lat, reading.lon);
 
             data.push(row);
             i++;

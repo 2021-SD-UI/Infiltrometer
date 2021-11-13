@@ -14,6 +14,7 @@ import { soilTypes } from '../../../app/soilTypes';
 import { setPage } from '../../page-redirection/redirector-slice';
 import { Button, Form, Dropdown, DropdownButton, Container, Row, Col } from 'react-bootstrap';
 import { infiltrometerTypes } from '../../../app/infiltrometerType';
+import { addGeoDataToReading, addReadingWithGeoData } from '../../useful-functions/usefulFunctions';
 
 const BaerInitializeView = () => {
   const curInfiltrometerData = useSelector(selectInfiltrometerData);
@@ -80,14 +81,14 @@ const BaerInitializeView = () => {
         infiltrometerData
       }));
 
-      //add the intial reading
-      dispatch(addReading({
-        volume: volume,
-        secondsElapsed: 0
-      }));
 
-      //change the page
-      dispatch(setPage("/Infiltrometer/baer-replication"));
+
+      //try to get the geolocation data
+      addGeoDataToReading({ volume, secondsElapsed: 0 }, (reading) => {
+        dispatch(addReading(reading));
+        dispatch(setPage("/Infiltrometer/baer-replication"));
+      });
+
     }
   }
 
@@ -119,7 +120,7 @@ const BaerInitializeView = () => {
                     defaultValue={curInfiltrometerData.site}
                     placeholder="Enter site name..."
                   />
-                  <div className="pt-2"/>
+                  <div className="pt-2" />
                   <Form.Label>Observation Name</Form.Label>
                   <Form.Control
                     id="observation"
@@ -162,7 +163,7 @@ const BaerInitializeView = () => {
                     <Dropdown.Item onSelect={() => setSuctionPreset(-6)}> -6 </Dropdown.Item>
                     <Dropdown.Item onSelect={() => setSuctionPreset(-7)}> -7 </Dropdown.Item>
                   </DropdownButton>
-                  <div className="pt-2"/>
+                  <div className="pt-2" />
                   <Form.Control
                     required
                     id="suction"
@@ -205,7 +206,7 @@ const BaerInitializeView = () => {
                       {infiltrometerTypes.MiniDiskV1.displayName}
                     </Dropdown.Item>
                   </DropdownButton>
-                  <div className="pt-2"/>
+                  <div className="pt-2" />
                   <Form.Control
                     required
                     id="radius"
@@ -251,7 +252,7 @@ const BaerInitializeView = () => {
                     defaultValue={soilTypes.loamySand.nh0}
                     placeholder="N/H0"
                   />
-                  <div className="pt-2"/>
+                  <div className="pt-2" />
                   <Form.Label>Alpha</Form.Label>
                   <Form.Control
                     required

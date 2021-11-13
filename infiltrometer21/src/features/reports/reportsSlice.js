@@ -45,6 +45,7 @@ export const reportsSlice = createSlice({
       state.reports[state.curId].readings =
         [...state.reports[state.curId].readings,
         action.payload];
+
     },
     //sets the current gathering data report
     setGatheringData: (state, action) => {
