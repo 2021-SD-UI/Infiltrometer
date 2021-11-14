@@ -16,13 +16,22 @@ export const NavBar = () => {
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
 
-                <Navbar.Brand href="https://www.mtu.edu/computing/" >
+                <Navbar.Brand >
                     <div class="container">
                         <div class="row">
                             <div class="col">
                                 <BaerLogo width={1} height={110}>
                                 </BaerLogo>
                             </div>
+
+                        </div>
+                    </div>
+
+                </Navbar.Brand>
+                <Navbar.Brand href="https://www.mtu.edu/computing/" >
+                    <div class="container">
+                        <div class="row">
+
                             <div class="col">
                                 <img
                                     src="https://www.mtu.edu/mtu_resources/images/download-central/logos/husky-icon/white.png"
