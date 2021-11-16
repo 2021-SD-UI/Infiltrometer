@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import {Document, Page, pdfjs} from 'react-pdf';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
@@ -9,6 +10,8 @@ export default function SinglePagePDFView(props) {
     
     const [numPages, setNumPages] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
+    const [value, setValue] = useState(1);
+    const [finalValue, setFinalValue] = useState(null);
 
     function onDocumentLoadSuccess({numPages}) {
         
@@ -31,46 +34,62 @@ export default function SinglePagePDFView(props) {
     }
    
     return (
-        <div class="container">
-            <div class = "row mt-2"/>
-            <div class = "row text-center">
-                <div class = "col-4"></div>
-                <div class = "col-4" >
-                      <Document
-                    file={pdf}
-                    options = {{workerSrc :"/pdf.worker.js"}}
-                    onLoadSuccess = {onDocumentLoadSuccess}
-                    >
-                    <Page pageNumber= {pageNumber}/>
+    <>
+        <Container>
+            <div class="rounded border shadow">
+                <h1 className="pt-2 display-4">Manuals</h1>
+                <Row className="p-3 text-center">
+                    <Col></Col>
+                    <Col>
+                        <Document
+                            class="text-center"
+                            file={pdf}
+                            options = {{workerSrc :"/pdf.worker.js"}}
+                            onLoadSuccess = {onDocumentLoadSuccess}
+                        >
+                        <Page pageNumber= {pageNumber}/>
                     
-                    </Document>
-                </div>
-                <div class = "col-4" ></div>
-                <div class = "row mt-2"/>
-                <div class = "row">
-                    <p>
-                        Page {pageNumber || (numPages ? 1 :"--")} of {numPages || "--"}
-                    </p>
-                   <div class = "col-2"/>
-                    <div class = "col">
-                        <button type="button" class="btn btn-secondary w-100" disabled ={pageNumber<=1} onClick={previousPage}>
+                        </Document>
+                        <Form>
+                            <Form.Group>
+                                <Form.Control 
+                                    type="range"
+                                    disabled
+                                    min="1" 
+                                    max={numPages} 
+                                    value={pageNumber}
+                                    className="w-100" 
+                                />
+                            </Form.Group>
+                            <Form.Label>Page {pageNumber} of {numPages}</Form.Label>
+                        </Form>
+                    </Col>
+                    <Col></Col>
+                </Row>
+                <Row className="pb-3 text-center">
+                    <Col>
+                        <Button 
+                            variant="secondary" 
+                            className="w-50" 
+                            disabled={pageNumber<=1} 
+                            onClick={previousPage}
+                        >
                             Previous
-                        </button>
-                    </div>
-                    <div class = "col-2"/>
-                    <div class = "col">
-                        <button type="button" class="btn btn-dark w-100" disabled={pageNumber>=numPages} onClick ={nextPage}>
+                        </Button>
+                    </Col>
+                    <Col>
+                        <Button 
+                            variant="dark" 
+                            className="w-50" 
+                            disabled={pageNumber>=numPages} 
+                            onClick={nextPage}
+                        >
                             Next
-                        </button>
-                    </div>
-                    <div class = "col-2"/>
-                </div>
-                <div class = "row mt-"/>
+                        </Button>
+                    </Col>
+                </Row>
             </div>
-            
-            
-        </div>
-
-    
+        </Container>
+    </>
     );
 }
