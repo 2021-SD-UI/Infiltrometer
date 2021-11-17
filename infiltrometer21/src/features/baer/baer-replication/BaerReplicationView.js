@@ -12,6 +12,7 @@ import { setPage } from '../../page-redirection/redirector-slice';
 import Table from '../baer-results/table';
 import { Modal, Button, Form, Container, Row, Col, } from 'react-bootstrap';
 import { addGeoDataToReading } from '../../useful-functions/usefulFunctions';
+import { useAudio } from '../../audio/Player';
 
 const renderTime = ({ remainingTime }) => {
   if (remainingTime === 0) {
@@ -53,9 +54,18 @@ const BaerReplicationView = () => {
 
   /* Modal -------------------------------------------------------------- */
   const [show, setShow] = useState(false);
+  const [playing, toggle] = useAudio("https://www.soundjay.com/buttons/beep-09.mp3");
   const [validated, setValidated] = useState(false);
   const handleClose = () => { setShow(false); setPlaying(false) };
-  const handleShow = () => setShow(true);
+  const handleShow = () => {
+
+    //play audio
+    if (!playing) toggle();
+
+    //open the modal
+    setShow(true);
+
+  }
   const handleSubmit = (event) => {
     event.preventDefault();
     setValidated(true);

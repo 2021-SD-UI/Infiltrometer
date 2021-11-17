@@ -22,7 +22,7 @@ export function HomePage() {
                         <div className="m-4 display-6">How To Start a Test</div>
                         <Row>
                             <Col className="mx-4">
-                                Begin a new test using the desired protocol by clicking `New Test` in the navigation bar at the top of the screen. On smaller devices, click the icon with three horizontal lines on the top right to view the navigation bar’s contents. Select the protocol you wish to use, and follow the on-screen prompts to fill in the required information. For more information about how to conduct a test, see the ‘Manual’ section of the Navbar at the top of the screen.
+                                Begin a new test using the desired nprotocol by clicking `New Test` in the navigation bar at the top of the screen. On smaller devices, click the icon with three horizontal lines on the top right to view the navigation bar’s contents. Select the protocol you wish to use, and follow the on-screen prompts to fill in the required information. For more information about how to conduct a test, see the ‘Manual’ section of the Navbar at the top of the screen.
                                 <hr />
                             </Col>
                         </Row>
