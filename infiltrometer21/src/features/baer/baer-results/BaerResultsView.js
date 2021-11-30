@@ -9,7 +9,7 @@ import { CSVLink } from "react-csv";
 import { makeCSV } from "../../reports/reportsDataPackager";
 import TextareaAutosize from 'react-textarea-autosize';
 import { selectNotes, setNotes } from "../../reports/reportsSlice";
-import { Button, Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 
 const BaerResultsView = () => {
 
@@ -36,7 +36,7 @@ const BaerResultsView = () => {
           </Row>
           <Row className="justify-content-center mb-5">
             <Col xs={11}>
-              <h1 className="display-6">Add Notes to Report</h1>
+              <Form.Label as="h4">Notes</Form.Label>
               <TextareaAutosize className="w-100" value={state} onChange={(e) => changeNotes(e.target.value)}/>
             </Col>
           </Row>
