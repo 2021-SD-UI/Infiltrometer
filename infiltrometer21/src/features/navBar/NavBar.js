@@ -4,6 +4,7 @@ import { selectPage, setPage } from "../page-redirection/redirector-slice";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import { useState } from "react";
 import { BaerLogo } from "./baerLogo";
+import { Pages } from "../page-redirection/Redirector";
 export const NavBar = () => {
 
     const dispatch = useDispatch();
@@ -49,23 +50,23 @@ export const NavBar = () => {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link onClick={() => dispatch(setPage("/Infiltrometer"))}>
+                        <Nav.Link onClick={() => dispatch(setPage(Pages.Homepage))}>
                             Home
                         </Nav.Link>
                         <NavDropdown title="New Test" id="new-test-drop-down">
-                            <NavDropdown.Item onClick={() => dispatch(setPage("/Infiltrometer/baer-initialize/"))}>
+                            <NavDropdown.Item onClick={() => dispatch(setPage(Pages.BaerInitializeView))}>
                                 BAER protocol</NavDropdown.Item>
                         </NavDropdown>
-                        <Nav.Link onClick={() => dispatch(setPage("/Infiltrometer/reports/"))}>
+                        <Nav.Link onClick={() => dispatch(setPage(Pages.ReportsView))}>
                             My Reports
                         </Nav.Link>
                         <NavDropdown title="Manuals" id="manuals-drop-down">
                             <NavDropdown.Divider />
-                            <NavDropdown.Item onClick={() => dispatch(setPage("/Infiltrometer/manuals-baer/"))}>
+                            <NavDropdown.Item onClick={() => dispatch(setPage(Pages.BaerManual))}>
                                 BAER
                             </NavDropdown.Item>
                             <NavDropdown.Divider />
-                            <NavDropdown.Item onClick={() => dispatch(setPage("/Infiltrometer/manuals-infiltrometer/"))}>
+                            <NavDropdown.Item onClick={() => dispatch(setPage(Pages.InfiltrometerManual))}>
                                 Infiltrometer</NavDropdown.Item>
                             <NavDropdown.Divider />
                         </NavDropdown>

@@ -3,22 +3,44 @@ import { selectPage, setPage } from "./redirector-slice";
 import { useLocation, Redirect } from "react-router";
 import { Route } from "react-router";
 import { useEffect } from "react";
+import reportsSlice, { selectCurId, selectGatheringData } from "../reports/reportsSlice";
+
+
+export const Pages =
+{
+  Homepage: "/",
+  BaerInitializeView: "/baer-initialize",
+  BaerReplicationView: "/baer-replication",
+  BaerResultsView: "/baer-results",
+  BaerManual: "/manuals-baer",
+  InfiltrometerManual: "/manuals-infiltrometer",
+  ReportsView: "/reports"
+}
+
+
+
+
+
+
 //Used to redirect to new pages from global state
- export const Redirector = () =>{
+export const Redirector = () => {
 
-    const curPage = useLocation().pathname;
-    const page = useSelector(selectPage);
+  const curPage = useLocation().pathname;
+  const page = useSelector(selectPage);
 
-    const dispatch = useDispatch();
-
-    
-    //reset the page
-    if (curPage == page) {
-        dispatch(setPage(null));
-        return null;
+  const dispatch = useDispatch();
+  const gatheringData = useSelector(selectGatheringData);
+  //check if this is a valid switch
+  if (page === Pages.BaerReplicationView) {
+    //if we are replicating and the current report is not gathering data, invalid
+    if (gatheringData === undefined || !gatheringData) {
+      //navigate to home
+      dispatch(setPage(Pages.Homepage));
+      return <Redirect to={Pages.Homepage} />
     }
-    
-    
-
-    return page!=null ? <Redirect to ={page}/> : null;
   }
+
+
+
+  return page !== curPage ? <Redirect to={page} /> : null;
+}

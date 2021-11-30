@@ -15,7 +15,7 @@ import { setPage } from '../../page-redirection/redirector-slice';
 import { Button, Form, Dropdown, DropdownButton, Container, Row, Col } from 'react-bootstrap';
 import { infiltrometerTypes } from '../../../app/infiltrometerType';
 import { addGeoDataToReading, addReadingWithGeoData } from '../../useful-functions/usefulFunctions';
-
+import { Pages } from '../../page-redirection/Redirector';
 const BaerInitializeView = () => {
   const curInfiltrometerData = useSelector(selectInfiltrometerData);
   const [validated, setValidated] = useState(true);
@@ -86,7 +86,9 @@ const BaerInitializeView = () => {
       //try to get the geolocation data
       addGeoDataToReading({ volume, secondsElapsed: 0 }, (reading) => {
         dispatch(addReading(reading));
-        dispatch(setPage("/Infiltrometer/baer-replication"));
+
+        dispatch(setPage(Pages.BaerReplicationView));
+
       });
 
     }

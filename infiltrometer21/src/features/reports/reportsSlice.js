@@ -79,5 +79,8 @@ export const selectReports = (state) => state.reports.reports;
 export const selectCurId = (state) => state.reports.curId;
 export const selectNotes = (state) => state.reports.reports[state.reports.curId].notes;
 export const selectCurReadingID = (state) => state.reports.reports[state.reports.curId].readings.length - 1;
-export const selectGatheringData = (state) => state.reports.reports[state.reports.curId].gatheringData;
+export const selectGatheringData = (state) => {
+  if (state.reports.reports[state.reports.curId] === undefined) return undefined;
+  else return state.reports.reports[state.reports.curId].gatheringData;
+}
 export default reportsSlice.reducer;

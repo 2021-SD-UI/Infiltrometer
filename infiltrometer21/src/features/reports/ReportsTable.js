@@ -7,6 +7,7 @@ import { makeCSV, makeCSVFromGroupOfReports } from "./reportsDataPackager";
 import { selectCurId } from "./reportsSlice";
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button, Table, Alert } from "react-bootstrap";
+import { Pages } from "../page-redirection/Redirector";
 const ReportsTable = () => {
 
     const [selectedReports, setSelectedReports] = useState({});
@@ -106,10 +107,10 @@ const ReportsTable = () => {
      * Deletes all the currently selected reports
      */
     function deleteAllSelected() {
-
-        let reportKeys = Object.keys(selectedReports);
+        let selected = { ...selectedReports };
+        let reportKeys = Object.keys(selected);
         for (var i = 0; i < reportKeys.length; i++) {
-            deleteReport(selectedReports[reportKeys[i]]);
+            deleteReport(selected[reportKeys[i]]);
         }
     }
 
@@ -158,7 +159,7 @@ const ReportsTable = () => {
         switch (report.protocol) {
             case Protocols.Baer:
                 dispatch(setCurId(report.id));
-                dispatch(setPage("/Infiltrometer/baer-results"));
+                dispatch(setPage(Pages.BaerResultsView));
 
                 break;
             default:

@@ -10,6 +10,7 @@ import { NavBar } from './features/navBar/NavBar';
 import ReportsTable from './features/reports/ReportsTable';
 import { MiniDiskManualView, FieldGuideManualView } from './features/pdfviewer/Manuals';
 import { HomePage } from './features/homepage/HomePage';
+import { Pages } from './features/page-redirection/Redirector';
 const App = () => {
   return (
 
@@ -18,30 +19,26 @@ const App = () => {
       <NavBar />
       <Redirector />
       <Switch>
-
-        <Route exact path="/Infiltrometer/">
+        <Route exact path={Pages.Homepage}>
           <HomePage />
         </Route>
-        <Route exact path="/Infiltrometer/baer-initialize">
+        <Route exact path={Pages.BaerInitializeView}>
           <BaerInitializeView />
         </Route>
-        <Route exact path="/Infiltrometer/baer-replication">
+        <Route exact path={Pages.BaerReplicationView}>
           <BaerReplicationView />
         </Route>
-        <Route exact path="/Infiltrometer/baer-results">
+        <Route exact path={Pages.BaerResultsView}>
           <BaerResultsView />
         </Route>
-        <Route exact path="/Infiltrometer/testing/regression">
-          <RegressionTesting />
-        </Route>
-        <Route exact path="/Infiltrometer/manuals-baer">
+        <Route exact path={Pages.BaerManual}>
           <FieldGuideManualView />
 
         </Route>
-        <Route exact path="/Infiltrometer/manuals-infiltrometer">
+        <Route exact path={Pages.InfiltrometerManual}>
           <MiniDiskManualView />
         </Route>
-        <Route exact path="/Infiltrometer/reports">
+        <Route exact path={Pages.ReportsView}>
           <ReportsTable />
         </Route>
 

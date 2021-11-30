@@ -13,7 +13,7 @@ import Table from '../baer-results/table';
 import { Modal, Button, Form, Container, Row, Col, } from 'react-bootstrap';
 import { addGeoDataToReading } from '../../useful-functions/usefulFunctions';
 import { useAudio } from '../../audio/Player';
-
+import { Pages } from '../../page-redirection/Redirector';
 const renderTime = ({ remainingTime }) => {
   if (remainingTime === 0) {
     return <div className="timer">Time is up!</div>;
@@ -49,7 +49,7 @@ const BaerReplicationView = () => {
     dispatch(setGatheringData(false));
 
     //go to the results page
-    dispatch(setPage("/Infiltrometer/baer-results"))
+    dispatch(setPage(Pages.BaerResultsView))
   }
 
   /* Modal -------------------------------------------------------------- */
