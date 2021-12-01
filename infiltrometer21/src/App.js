@@ -4,13 +4,17 @@ import { HashRouter, Route, Switch, Link } from 'react-router-dom';
 import BaerInitializeView from './features/baer/baer-initialize/BaerInitializeView';
 import BaerReplicationView from './features/baer/baer-replication/BaerReplicationView';
 import BaerResultsView from './features/baer/baer-results/BaerResultsView';
-import { RegressionTesting } from './features/regression/RegressionTesting';
 import { Redirector } from './features/page-redirection/Redirector';
 import { NavBar } from './features/navBar/NavBar';
 import ReportsTable from './features/reports/ReportsTable';
-import { MiniDiskManualView, FieldGuideManualView } from './features/pdfviewer/Manuals';
 import { HomePage } from './features/homepage/HomePage';
 import { Pages } from './features/page-redirection/Redirector';
+
+import SinglePagePDFView from "./features/pdfviewer/pdf-viewer"
+import MiniDiskManual from './features/pdfviewer/MiniDiskManual.pdf';
+import FieldGuide from './features/pdfviewer/FieldGuide.pdf'
+
+
 const App = () => {
   return (
 
@@ -32,11 +36,11 @@ const App = () => {
             <BaerResultsView />
           </Route>
           <Route exact path={Pages.BaerManual}>
-            <FieldGuideManualView />
+            <SinglePagePDFView pdf={MiniDiskManual} />
 
           </Route>
           <Route exact path={Pages.InfiltrometerManual}>
-            <MiniDiskManualView />
+            <SinglePagePDFView pdf={FieldGuide} />
           </Route>
           <Route exact path={Pages.ReportsView}>
             <ReportsTable />

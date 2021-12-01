@@ -112,6 +112,8 @@ const ReportsTable = () => {
         for (var i = 0; i < reportKeys.length; i++) {
             deleteReport(selected[reportKeys[i]]);
         }
+
+        unselectAll();
     }
 
     /**
