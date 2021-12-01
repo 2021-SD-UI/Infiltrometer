@@ -23,7 +23,7 @@ export const Pages =
 
 
 //Used to redirect to new pages from global state
-export const Redirector = () => {
+export const Redirector = ({ protectedElements }) => {
 
   const curPage = useLocation().pathname;
   const page = useSelector(selectPage);
@@ -42,5 +42,5 @@ export const Redirector = () => {
 
 
 
-  return page !== curPage ? <Redirect to={page} /> : null;
+  return page !== curPage ? <Redirect to={page} /> : protectedElements;
 }

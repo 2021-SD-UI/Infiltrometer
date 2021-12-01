@@ -17,33 +17,33 @@ const App = () => {
     <HashRouter>
       <title>Infiltrometer Companion</title>
       <NavBar />
-      <Redirector />
-      <Switch>
-        <Route exact path={Pages.Homepage}>
-          <HomePage />
-        </Route>
-        <Route exact path={Pages.BaerInitializeView}>
-          <BaerInitializeView />
-        </Route>
-        <Route exact path={Pages.BaerReplicationView}>
-          <BaerReplicationView />
-        </Route>
-        <Route exact path={Pages.BaerResultsView}>
-          <BaerResultsView />
-        </Route>
-        <Route exact path={Pages.BaerManual}>
-          <FieldGuideManualView />
+      <Redirector protectedElements={
+        <Switch>
+          <Route exact path={Pages.Homepage}>
+            <HomePage />
+          </Route>
+          <Route exact path={Pages.BaerInitializeView}>
+            <BaerInitializeView />
+          </Route>
+          <Route exact path={Pages.BaerReplicationView}>
+            <BaerReplicationView />
+          </Route>
+          <Route exact path={Pages.BaerResultsView}>
+            <BaerResultsView />
+          </Route>
+          <Route exact path={Pages.BaerManual}>
+            <FieldGuideManualView />
 
-        </Route>
-        <Route exact path={Pages.InfiltrometerManual}>
-          <MiniDiskManualView />
-        </Route>
-        <Route exact path={Pages.ReportsView}>
-          <ReportsTable />
-        </Route>
+          </Route>
+          <Route exact path={Pages.InfiltrometerManual}>
+            <MiniDiskManualView />
+          </Route>
+          <Route exact path={Pages.ReportsView}>
+            <ReportsTable />
+          </Route>
 
-      </Switch>
-
+        </Switch>
+      } />
     </HashRouter>
   );
 }
