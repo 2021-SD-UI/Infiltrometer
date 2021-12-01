@@ -1,11 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { Pages } from './Redirector';
 
 
 
 
 //empty array of reports
 const initialState = {
-    page: null
+  page: Pages.Homepage
 };
 
 export const redirectSlice = createSlice({
@@ -13,12 +14,13 @@ export const redirectSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-     setPage: (state, action) => {
+    setPage: (state, action) => {
       state.page = action.payload;
-    }}
+    }
+  }
 });
 
-export const {setPage} = redirectSlice.actions;
+export const { setPage } = redirectSlice.actions;
 export const selectPage = (state) => state.redirector.page;
 
 export default redirectSlice.reducer;

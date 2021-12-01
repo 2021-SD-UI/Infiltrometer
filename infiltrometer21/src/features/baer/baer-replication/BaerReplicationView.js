@@ -14,6 +14,8 @@ import { Modal, Button, Form, Container, Row, Col, } from 'react-bootstrap';
 import { addGeoDataToReading } from '../../useful-functions/usefulFunctions';
 import { useAudio } from '../../audio/Player';
 import { Pages } from '../../page-redirection/Redirector';
+import beep from '../../audio/beep-01a.mp3';
+
 const renderTime = ({ remainingTime }) => {
   if (remainingTime === 0) {
     return <div className="timer">Time is up!</div>;
@@ -54,7 +56,7 @@ const BaerReplicationView = () => {
 
   /* Modal -------------------------------------------------------------- */
   const [show, setShow] = useState(false);
-  const [playing, toggle] = useAudio("https://www.soundjay.com/buttons/beep-09.mp3");
+  const [playing, toggle] = useAudio(beep);
   const [validated, setValidated] = useState(false);
   const handleClose = () => { setShow(false); setPlaying(false) };
   const handleShow = () => {

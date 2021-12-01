@@ -9,8 +9,8 @@ import { CSVLink } from "react-csv";
 import { makeCSV } from "../../reports/reportsDataPackager";
 import TextareaAutosize from 'react-textarea-autosize';
 import { selectNotes, setNotes } from "../../reports/reportsSlice";
-import { Button, Col, Container, Row } from 'react-bootstrap';
-
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Pages } from '../../page-redirection/Redirector';
 const BaerResultsView = () => {
 
   const reports = useSelector(selectReports);
@@ -46,7 +46,7 @@ const BaerResultsView = () => {
               variant="dark"
               className="w-50"
               size="lg"
-              onClick={() => dispatch(setPage("/Infiltrometer/baer-initialize"))}
+              onClick={() => dispatch(setPage(Pages.BaerInitializeView))}
             >
               New Test
             </Button>
@@ -58,7 +58,7 @@ const BaerResultsView = () => {
               variant="secondary"
               className="w-50"
               size="lg"
-              onClick={() => dispatch(setPage("/Infiltrometer/reports"))}
+              onClick={() => dispatch(setPage(Pages.ReportsView))}
             >
               Reports
             </Button>
