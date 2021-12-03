@@ -34,11 +34,11 @@ const App = () => {
           <Route exact path={Pages.BaerResultsView}>
             <BaerResultsView />
           </Route>
-          <Route exact path={Pages.BaerManual}>
+          <Route exact path={Pages.InfiltrometerManual}>
             <PdfViewer pdf={MiniDiskManual} />
 
           </Route>
-          <Route exact path={Pages.InfiltrometerManual}>
+          <Route exact path={Pages.BaerManual}>
             <PdfViewer pdf={FieldGuide} />
           </Route>
           <Route exact path={Pages.ReportsView}>

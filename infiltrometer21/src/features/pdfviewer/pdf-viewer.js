@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
-import { Document, Page } from 'react-pdf';
+import { Document, Page, pdfjs } from 'react-pdf';
 import { Container, Col, Form, Row, Button } from 'react-bootstrap';
+import FieldGuide from './FieldGuide.pdf'
+
+
+pdfjs.GlobalWorkerOptions.workerSrc = '/pdfWorker.js';
+
 export const PdfViewer = ({ pdf }) => {
 
     const [pageNumber, setPageNumber] = useState(1);
@@ -29,10 +34,9 @@ export const PdfViewer = ({ pdf }) => {
                     <Row className="p-3 text-center">
                         <Col></Col>
                         <Col>
-                            <Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}>
-                                <Page pageNumber={pageNumber} />
-
-                            </Document>
+                            <object data={pdf} type="application/pdf" width="100%" height="100%">
+                                <p>Alternative text - include a link</p>
+                            </object>
                             <Form>
                                 <Form.Group>
                                     <Form.Control
