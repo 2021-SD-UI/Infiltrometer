@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { Document, Page, pdfjs } from 'react-pdf';
 
@@ -10,8 +10,14 @@ export default function SinglePagePDFView(props) {
 
     const [numPages, setNumPages] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
-    const [value, setValue] = useState(1);
-    const [finalValue, setFinalValue] = useState(null);
+    const previousPage = (event) => {
+        event.preventDefault();
+        changePage(-1);
+    }
+    const nextPage = (event) => {
+        event.preventDefault();
+        changePage(1);
+    }
 
     function onDocumentLoadSuccess({ numPages }) {
         if (reload) {
@@ -25,15 +31,8 @@ export default function SinglePagePDFView(props) {
     function changePage(offset) {
         setPageNumber(prevPageNumber => prevPageNumber + offset);
     }
-    const previousPage = (event) => {
-        event.preventDefault();
-        changePage(-1);
-    }
-    const nextPage = (event) => {
-        event.preventDefault();
-        changePage(1);
-    }
-    function getScreenSize() {
+
+    function setPDFScale() {
         if (window.screen.width < 500) 
             return 0.8;
         else 
@@ -58,7 +57,7 @@ export default function SinglePagePDFView(props) {
                                     pageNumber={pageNumber}
                                     renderAnnotationLayer={false}
                                     renderTextLayer={false}
-                                    scale={getScreenSize()}
+                                    scale={setPDFScale()}
                                     loading={
                                         // This prevents the webpage
                                         // from scrolling back to the top
