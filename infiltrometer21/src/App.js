@@ -36,11 +36,11 @@ const App = () => {
             <BaerResultsView />
           </Route>
           <Route exact path={Pages.BaerManual}>
-            <SinglePagePDFView pdf={MiniDiskManual} />
+            <SinglePagePDFView pdf={FieldGuide} />
 
           </Route>
           <Route exact path={Pages.InfiltrometerManual}>
-            <SinglePagePDFView pdf={FieldGuide} />
+            <SinglePagePDFView pdf={MiniDiskManual} />
           </Route>
           <Route exact path={Pages.ReportsView}>
             <ReportsTable />

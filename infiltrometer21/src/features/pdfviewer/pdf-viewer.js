@@ -14,7 +14,6 @@ export default function SinglePagePDFView(props) {
     const [finalValue, setFinalValue] = useState(null);
 
     function onDocumentLoadSuccess({ numPages }) {
-
         if (reload) {
 
             previousPage(); nextPage(); reload = false;
@@ -26,11 +25,19 @@ export default function SinglePagePDFView(props) {
     function changePage(offset) {
         setPageNumber(prevPageNumber => prevPageNumber + offset);
     }
-    function previousPage() {
+    const previousPage = (event) => {
+        event.preventDefault();
         changePage(-1);
     }
-    function nextPage() {
+    const nextPage = (event) => {
+        event.preventDefault();
         changePage(1);
+    }
+    function getScreenSize() {
+        if (window.screen.width < 500) 
+            return 0.8;
+        else 
+            return 1;
     }
 
     return (
@@ -44,49 +51,49 @@ export default function SinglePagePDFView(props) {
                             <Document
                                 class="text-center"
                                 file={pdf}
-
                                 onLoadSuccess={onDocumentLoadSuccess}
                             >
-                                <Page pageNumber={pageNumber} />
 
+                                <Page 
+                                    pageNumber={pageNumber}
+                                    renderAnnotationLayer={false}
+                                    renderTextLayer={false}
+                                    scale={getScreenSize()}
+                                    loading={
+                                        // This prevents the webpage
+                                        // from scrolling back to the top
+                                        // when you change PDF page numbers
+                                        <Page pageNumber={1}></Page>
+                                    }
+                                />
+                                <div class="rounded border shadow">
+                                <Row><Form.Label>Page {pageNumber} of {numPages}</Form.Label></Row>
+                                <Row className="pb-3 text-center">
+                                    <Col>
+                                    <Button
+                                        variant="secondary"
+                                        className="w-75"
+                                        disabled={pageNumber <= 1}
+                                        onClick={previousPage}
+                                    >
+                                        Previous
+                                    </Button>
+                                </Col>
+                                <Col>
+                                    <Button
+                                        variant="dark"
+                                        className="w-75"
+                                        disabled={pageNumber >= numPages}
+                                        onClick={nextPage}
+                                    >
+                                        Next
+                                    </Button>
+                                </Col>
+                                </Row>
+                                </div>
                             </Document>
-                            <Form>
-                                <Form.Group>
-                                    <Form.Control
-                                        type="range"
-                                        disabled
-                                        min="1"
-                                        max={numPages}
-                                        value={pageNumber}
-                                        className="w-100"
-                                    />
-                                </Form.Group>
-                                <Form.Label>Page {pageNumber} of {numPages}</Form.Label>
-                            </Form>
                         </Col>
                         <Col></Col>
-                    </Row>
-                    <Row className="pb-3 text-center">
-                        <Col>
-                            <Button
-                                variant="secondary"
-                                className="w-50"
-                                disabled={pageNumber <= 1}
-                                onClick={previousPage}
-                            >
-                                Previous
-                            </Button>
-                        </Col>
-                        <Col>
-                            <Button
-                                variant="dark"
-                                className="w-50"
-                                disabled={pageNumber >= numPages}
-                                onClick={nextPage}
-                            >
-                                Next
-                            </Button>
-                        </Col>
                     </Row>
                 </div>
             </Container>
