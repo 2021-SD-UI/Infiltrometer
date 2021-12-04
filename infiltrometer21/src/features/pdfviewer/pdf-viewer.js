@@ -1,16 +1,17 @@
+
 import React, { useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import { Container, Col, Form, Row, Button } from 'react-bootstrap';
 import FieldGuide from './FieldGuide.pdf'
+import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
 
 
-pdfjs.GlobalWorkerOptions.workerSrc = '/pdfWorker.js';
 
 export const PdfViewer = ({ pdf }) => {
-
+    pdfjs.GlobalWorkerOptions.workerSrc = pdfjsWorker;
     const [pageNumber, setPageNumber] = useState(1);
     const [numPages, setNumPages] = useState(1);
-
+    //  const pageNumber = pdfjs.getNumPages(pdf);
 
     function onDocumentLoadSuccess({ numPages }) {
         setNumPages(numPages);
@@ -25,6 +26,7 @@ export const PdfViewer = ({ pdf }) => {
     function nextPage() {
         changePage(1);
     }
+
     return (
 
         <>
@@ -34,9 +36,10 @@ export const PdfViewer = ({ pdf }) => {
                     <Row className="p-3 text-center">
                         <Col></Col>
                         <Col>
-                            <object data={pdf} type="application/pdf" width="100%" height="100%">
-                                <p>Alternative text - include a link</p>
-                            </object>
+                            <Document file={pdf} onLoadSuccess={onDocumentLoadSuccess}>
+                                <Page renderAnnotationLayer={false} pageNumber={pageNumber} />
+                            </Document>
+
                             <Form>
                                 <Form.Group>
                                     <Form.Control
