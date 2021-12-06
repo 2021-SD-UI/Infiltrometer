@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Alert, Row, Button } from 'react-bootstrap';
 
 export const PdfViewer = ({ pdf }) => {
     //  const pageNumber = pdfjs.getNumPages(pdf);
@@ -9,10 +9,13 @@ export const PdfViewer = ({ pdf }) => {
         <>
             <Container>
                 <object>
-                    <iframe src={pdf} width="100%" margin={0} overflow="auto" height="1024">
-                        <p>This browser does not support PDFs!</p>
-                    </iframe>
+                    <iframe src={pdf} width="100%" height="1024"></iframe>
                 </object>
+                <Row className="justify-content-center mt-2">
+                    <Button href={pdf} variant="dark w-50">
+                        View PDF
+                    </Button>
+                </Row>
             </Container>
         </>
     );
