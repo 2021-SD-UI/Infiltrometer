@@ -9,7 +9,9 @@ export const PdfViewer = ({ pdf }) => {
         <>
             <Container>
                 <object>
-                    <embed src={pdf} width="100%" margin={0} overflow="auto" height="1024"></embed>
+                    <iframe src={pdf} width="100%" margin={0} overflow="auto" height="1024">
+                        <p>This browser does not support PDFs!</p>
+                    </iframe>
                 </object>
             </Container>
         </>
