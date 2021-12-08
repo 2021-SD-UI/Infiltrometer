@@ -27,20 +27,5 @@ export const Redirector = ({ protectedElements }) => {
 
   const curPage = useLocation().pathname;
   const page = useSelector(selectPage);
-
-  const dispatch = useDispatch();
-  const gatheringData = useSelector(selectGatheringData);
-  //check if this is a valid switch
-  if (page === Pages.BaerReplicationView) {
-    //if we are replicating and the current report is not gathering data, invalid
-    if (gatheringData === undefined || !gatheringData) {
-      //navigate to home
-      dispatch(setPage(Pages.Homepage));
-      return <Redirect to={Pages.Homepage} />
-    }
-  }
-
-
-
   return page !== curPage ? <Redirect to={page} /> : protectedElements;
 }

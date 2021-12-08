@@ -4,7 +4,7 @@ import { Pages } from './Redirector';
 
 
 
-//empty array of reports
+//This is the initial page that should be loaded
 const initialState = {
   page: Pages.Homepage
 };

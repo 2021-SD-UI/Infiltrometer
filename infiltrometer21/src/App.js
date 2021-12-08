@@ -12,7 +12,8 @@ import { Pages } from './features/page-redirection/Redirector';
 import { PdfViewer } from './features/pdfviewer/pdf-viewer'
 import MiniDiskManual from './features/pdfviewer/MiniDiskManual.pdf';
 import FieldGuide from './features/pdfviewer/FieldGuide.pdf'
-
+import { Initializer } from './features/initializer/initializer';
+import beep from './features/audio/beep-01a.mp3';
 
 const App = () => {
   return (
@@ -20,6 +21,14 @@ const App = () => {
     <HashRouter>
       <title>Infiltrometer Companion</title>
       <NavBar />
+      {/*Initialize Assets so they are pre-loaded*/}
+      <Initializer assets={
+        <>
+          <PdfViewer pdf={MiniDiskManual} />
+          <PdfViewer pdf={FieldGuide} />
+          <BaerReplicationView />
+        </>
+      } />
       <Redirector protectedElements={
         <Switch>
           <Route exact path={Pages.Homepage}>
