@@ -26,33 +26,27 @@ function handleTextForCSV(text) {
  * @returns 
  */
 export function makeCSVFromGroupOfReports(reportGroup) {
-    let data = [['Report Metadata:']];
-    let i = 1;
-
+    let data = [['Date', 'Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'Severity Rating', 'Site Name', 'Observation Name',
+        'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude']];
     Object.keys(reportGroup).forEach(reportID => {
         let curReport = reportGroup[reportID];
-        data.push(['Report ' + i + ' Metadata:']);
-        data.push(['Date', 'Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'Severity Rating', 'Site Name', 'Observation Name',
-            'Notes', '', '', 'Time (sec)', 'Volume (mL)', 'Rate (mL/min)']);
-        data.push([curReport.date, curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
+        let curReportData = [curReport.date, curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
         findAverageRate(curReport), findSeverityRating(findAverageRate(curReport)).name, handleTextForCSV(curReport.infiltrometerData.site),
-        handleTextForCSV(curReport.infiltrometerData.observation), handleTextForCSV(curReport.notes)]);
+        handleTextForCSV(curReport.infiltrometerData.observation), handleTextForCSV(curReport.notes)];
+
+        let i = 0;
         //readings data
-        for (let i = 0; i < curReport.readings.length; i++) {
-
-
+        curReport.readings.forEach(reading => {
             //reading data
-            let row = [
-                '', '', '', '', '', '', '', '', '', '', 'Reading ' + i + ": ",
-                curReport.readings[i].secondsElapsed,
-                curReport.readings[i].volume,
-                findRate(i, curReport)
-            ];
+            let row = [...curReportData];
+
+            row.push((i + 1).toString(), reading.secondsElapsed,
+                reading.volume,
+                findRate(i, curReport), reading.lat, reading.lon);
+
             data.push(row);
-        }
-
-
-        i++;
+            i++;
+        });
     });
     return { data, filename: "reports.csv" }
 }

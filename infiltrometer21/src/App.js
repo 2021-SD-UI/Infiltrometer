@@ -1,57 +1,62 @@
 import React from 'react';
 import './App.css';
-import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
+import { HashRouter, Route, Switch, Link } from 'react-router-dom';
 import BaerInitializeView from './features/baer/baer-initialize/BaerInitializeView';
 import BaerReplicationView from './features/baer/baer-replication/BaerReplicationView';
 import BaerResultsView from './features/baer/baer-results/BaerResultsView';
-import { RegressionTesting } from './features/regression/RegressionTesting';
 import { Redirector } from './features/page-redirection/Redirector';
 import { NavBar } from './features/navBar/NavBar';
-import SinglePagePDFView from "./features/pdfviewer/pdf-viewer";
 import ReportsTable from './features/reports/ReportsTable';
-import { MiniDiskManualView, FieldGuideManualView } from './features/pdfviewer/Manuals';
-const  App = ()=> {
-  return (
-    
-    <BrowserRouter>
-    <title>Infiltrometer Companion</title>
-          <NavBar/>
-          <Redirector/>
-          <Switch>
-           
-            <Route exact path ="/Infiltrometer/">
-              <div>
-                <h1>
-                  Home Page
-                </h1>
-              </div>
-            </Route>
-            <Route exact path ="/Infiltrometer/baer-initialize">
-              <BaerInitializeView/>
-            </Route>
-            <Route exact path ="/Infiltrometer/baer-replication">
-              <BaerReplicationView/>
-            </Route>
-            <Route exact path ="/Infiltrometer/baer-results">
-              <BaerResultsView/>
-            </Route>
-            <Route exact path ="/Infiltrometer/testing/regression">
-              <RegressionTesting/>
-            </Route>
-             <Route exact path ="/Infiltrometer/manuals-baer">
-              <FieldGuideManualView/>
-            
-            </Route>
-            <Route exact path ="/Infiltrometer/manuals-infiltrometer">
-              <MiniDiskManualView/>
-            </Route>
-            <Route exact path ="/Infiltrometer/reports">
-               <ReportsTable/>
-            </Route>
+import { HomePage } from './features/homepage/HomePage';
+import { Pages } from './features/page-redirection/Redirector';
+import { PdfViewer } from './features/pdfviewer/pdf-viewer'
+import MiniDiskManual from './features/pdfviewer/MiniDiskManual.pdf';
+import FieldGuide from './features/pdfviewer/FieldGuide.pdf'
+import { Initializer } from './features/initializer/initializer';
+import beep from './features/audio/beep-01a.mp3';
 
-          </Switch>
-          
-    </BrowserRouter>
+const App = () => {
+  return (
+
+    <HashRouter>
+      <title>Infiltrometer Companion</title>
+      <NavBar />
+      {/*Initialize Assets so they are pre-loaded*/}
+      <Initializer assets={
+        <>
+          <PdfViewer pdf={MiniDiskManual} />
+          <PdfViewer pdf={FieldGuide} />
+          <BaerReplicationView />
+        </>
+      } />
+      <Redirector protectedElements={
+        <Switch>
+          <Route exact path={Pages.Homepage}>
+            <HomePage />
+          </Route>
+          <Route exact path={Pages.BaerInitializeView}>
+            <BaerInitializeView />
+          </Route>
+          <Route exact path={Pages.BaerReplicationView}>
+            <BaerReplicationView />
+          </Route>
+          <Route exact path={Pages.BaerResultsView}>
+            <BaerResultsView />
+          </Route>
+          <Route exact path={Pages.InfiltrometerManual}>
+            <PdfViewer pdf={MiniDiskManual} />
+
+          </Route>
+          <Route exact path={Pages.BaerManual}>
+            <PdfViewer pdf={FieldGuide} />
+          </Route>
+          <Route exact path={Pages.ReportsView}>
+            <ReportsTable />
+          </Route>
+
+        </Switch>
+      } />
+    </HashRouter>
   );
 }
 

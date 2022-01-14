@@ -3,7 +3,8 @@ import {useSelector} from "react-redux";
 import {selectCurId, selectReports} from "../../reports/reportsSlice";
 import {SeverityRatings} from "../../reports/severityRatings";
 import { findAverageRate, findSeverityRating, findRate } from '../../reports/reportsDataPackager';
-const Table =()=> {
+
+const Table = () => {
     const rawReports = useSelector(selectReports);
 
     const curReport = rawReports[useSelector(selectCurId)];
@@ -85,7 +86,7 @@ const Table =()=> {
     
      //Whenever our class runs, render method will be called automatically, it may have already defined in the constructor behind the scene.
         return (
-            <div>
+            <div className="mx-5">
                 <table class="table table-light table-striped table-hover" id='students'>
                     <tbody>
                     <tr class="table-dark">{renderTableHeader()}</tr>
