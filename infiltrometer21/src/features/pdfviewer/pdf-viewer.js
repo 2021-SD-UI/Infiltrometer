@@ -37,13 +37,13 @@ export const PdfViewer = ({ pdf }) => {
     return (
         <>
             <Container>
-                <div class="rounded border shadow">
+                <div className="rounded border shadow">
                     <h1 className="pt-2 display-4">Manuals</h1>
                     <Row className="p-3 text-center">
                         <Col></Col>
                         <Col>
                             <Document
-                                class="text-center"
+                                className="text-center"
                                 file={pdf}
                                 onLoadSuccess={onDocumentLoadSuccess}
                             >
@@ -60,7 +60,7 @@ export const PdfViewer = ({ pdf }) => {
                                         <Page pageNumber={1}></Page>
                                     }
                                 />
-                                <div class="rounded border shadow">
+                                <div className="rounded border shadow">
                                     <Row><Form.Label>Page {pageNumber} of {numPages}</Form.Label></Row>
                                     <Row className="pb-3 text-center">
                                         <Col>
