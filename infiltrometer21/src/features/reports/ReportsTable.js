@@ -26,7 +26,7 @@ const ReportsTable = () => {
             return (
                 <>
                     <tr key={report.id}>
-                        <td>
+                        <td key={report.id}>
                             <Container className="my-2">
                                 <Row>
                                     <Col>

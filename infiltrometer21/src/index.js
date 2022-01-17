@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
 
+
 let persistor = persistStore(store);
 
 ReactDOM.render(
@@ -27,3 +28,4 @@ ReactDOM.render(
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.register();
+

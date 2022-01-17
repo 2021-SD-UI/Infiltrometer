@@ -22,6 +22,8 @@ const isLocalhost = Boolean(
 
 
 export function register(config) {
+
+
   if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
@@ -61,6 +63,8 @@ function registerValidSW(swUrl, config) {
     .then((registration) => {
       registration.onupdatefound = () => {
         const installingWorker = registration.installing;
+
+
         if (installingWorker == null) {
           return;
         }
@@ -98,6 +102,18 @@ function registerValidSW(swUrl, config) {
       console.error('Error during service worker registration:', error);
     });
 }
+
+
+
+
+//Precache the files we want
+const cacheName = 'assets';
+const rescourcesToCache = [
+  'audio/beep-01a.mp3',
+  'pdfviewer/FieldGuide.pdf',
+  'pdfviewer/MiniDiskManual.pdf'
+];
+
 
 function checkValidServiceWorker(swUrl, config) {
   // Check if the service worker can be found. If it can't reload the page.

@@ -18,9 +18,9 @@ export const NavBar = () => {
             <Container>
 
                 <Navbar.Brand >
-                    <div class="container">
-                        <div class="row">
-                            <div class="col">
+                    <div className="container">
+                        <div className="row">
+                            <div className="col">
                                 <BaerLogo width={1} height={110}>
                                 </BaerLogo>
                             </div>
@@ -30,10 +30,10 @@ export const NavBar = () => {
 
                 </Navbar.Brand>
                 <Navbar.Brand href="https://www.mtu.edu/computing/" >
-                    <div class="container">
-                        <div class="row">
+                    <div className="container">
+                        <div className="row">
 
-                            <div class="col">
+                            <div className="col">
                                 <img
                                     src="https://www.mtu.edu/mtu_resources/images/download-central/logos/husky-icon/white.png"
                                     width="56"
