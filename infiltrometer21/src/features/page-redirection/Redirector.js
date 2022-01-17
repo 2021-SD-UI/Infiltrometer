@@ -24,8 +24,9 @@ export const Pages =
 
 //Used to redirect to new pages from global state
 export const Redirector = ({ protectedElements }) => {
-
-  const curPage = useLocation().pathname;
-  const page = useSelector(selectPage);
+  const curPage = useLocation().pathname;   //this is the actual url in the browser
+  const page = useSelector(selectPage);     //this is the url in the Redux store
+  //if the urls match, we render the protected elements (JSX passed as a prop to this component)
+  //if the urls do not match, we render a redirect message to the valid url
   return page !== curPage ? <Redirect to={page} /> : protectedElements;
 }
