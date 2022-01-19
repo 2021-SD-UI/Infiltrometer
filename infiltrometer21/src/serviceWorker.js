@@ -24,7 +24,9 @@ const isLocalhost = Boolean(
 export function register(config) {
 
 
-  if (process.env.NODE_ENV === 'production' && 'serviceWorker' in navigator) {
+  if (
+    process.env.NODE_ENV === 'production' &&
+    'serviceWorker' in navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
@@ -35,7 +37,7 @@ export function register(config) {
     }
 
     window.addEventListener('load', () => {
-      const swUrl = `${process.env.PUBLIC_URL}/service-worker.js`;
+      const swUrl = `${(process.env.PUBLIC_URL)}/service-worker.js`;
 
       if (isLocalhost) {
         // This is running on localhost. Let's check if a service worker still exists or not.
@@ -101,18 +103,15 @@ function registerValidSW(swUrl, config) {
     .catch((error) => {
       console.error('Error during service worker registration:', error);
     });
+
+
+  //
 }
 
 
 
 
-//Precache the files we want
-const cacheName = 'assets';
-const rescourcesToCache = [
-  'audio/beep-01a.mp3',
-  'pdfviewer/FieldGuide.pdf',
-  'pdfviewer/MiniDiskManual.pdf'
-];
+
 
 
 function checkValidServiceWorker(swUrl, config) {
