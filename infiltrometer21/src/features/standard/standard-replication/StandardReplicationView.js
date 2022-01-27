@@ -2,14 +2,14 @@
 import React, { useState } from 'react';
 import ReactDOM from "react-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { setVolume, setSecondsElapsed, selectLastVolume, setLastVolume } from './bear-replicationSlice';
+import { setVolume, setSecondsElapsed, selectLastVolume, setLastVolume } from './standard-replicationSlice';
 import reportsSlice, { addReading, selectCurId, selectReports, selectCurReadingID, setGatheringData } from '../../reports/reportsSlice';
-import { selectTimeInterval, selectInitialVolume, setSoilType, selectSoilType } from '../baer-initialize/bear-initializeSlice';
+import { selectTimeInterval, selectInitialVolume, setSoilType, selectSoilType } from '../standard-initialize/standard-initializeSlice';
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import './timer.css'
 import _default from 'react-overlays/esm/Modal';
 import { setPage } from '../../page-redirection/redirector-slice';
-import Table from '../baer-results/table';
+import Table from '../../baer/baer-results/table';
 import { Modal, Button, Form, Container, Row, Col, } from 'react-bootstrap';
 import { addGeoDataToReading } from '../../useful-functions/usefulFunctions';
 import { useAudio } from '../../audio/Player';
@@ -30,7 +30,7 @@ const renderTime = ({ remainingTime }) => {
   );
 };
 
-const BaerReplicationView = () => {
+const StandardReplicationView = () => {
   const timeInterval = useSelector(selectTimeInterval);
   const initialVolume = Number(useSelector(selectInitialVolume));
   const lastVolume = Number(useSelector(selectLastVolume));
@@ -209,4 +209,4 @@ const BaerReplicationView = () => {
 
 }
 
-export default BaerReplicationView;
+export default StandardReplicationView;

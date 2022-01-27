@@ -12,6 +12,9 @@ export const Pages =
   BaerInitializeView: "/baer-initialize",
   BaerReplicationView: "/baer-replication",
   BaerResultsView: "/baer-results",
+  StandardInitializeView: "/standard-initialize",
+  StandardReplicationView: "/standard-replication",
+  StandardResultsView: "/standard-results",
   BaerManual: "/manuals-baer",
   InfiltrometerManual: "/manuals-infiltrometer",
   ReportsView: "/reports"

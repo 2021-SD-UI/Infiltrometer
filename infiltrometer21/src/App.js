@@ -3,7 +3,6 @@ import './App.css';
 import { HashRouter, Route, Switch, Link } from 'react-router-dom';
 import BaerInitializeView from './features/baer/baer-initialize/BaerInitializeView';
 import BaerReplicationView from './features/baer/baer-replication/BaerReplicationView';
-import BaerResultsView from './features/baer/baer-results/BaerResultsView';
 import { Redirector } from './features/page-redirection/Redirector';
 import { NavBar } from './features/navBar/NavBar';
 import ReportsTable from './features/reports/ReportsTable';
@@ -12,7 +11,10 @@ import { Pages } from './features/page-redirection/Redirector';
 import { PdfViewer } from './features/pdfviewer/pdf-viewer'
 import MiniDiskManual from './features/pdfviewer/MiniDiskManual.pdf';
 import FieldGuide from './features/pdfviewer/Field-Guide.pdf'
-
+import StandardResultsView from './features/standard/standard-results/StandardResultsView';
+import StandardInitializeView from './features/standard/standard-initialize/StandardInitializeView';
+import BaerResultsView from './features/baer/baer-results/BaerResultsView';
+import StandardReplicationView from './features/standard/standard-replication/StandardReplicationView';
 const App = () => {
   return (
 
@@ -34,6 +36,15 @@ const App = () => {
           </Route>
           <Route exact path={Pages.BaerResultsView}>
             <BaerResultsView />
+          </Route>
+          <Route exact path={Pages.StandardInitializeView}>
+            <StandardInitializeView />
+          </Route>
+          <Route exact path={Pages.StandardReplicationView}>
+            <StandardReplicationView />
+          </Route>
+          <Route exact path={Pages.StandardResultsView}>
+            <StandardResultsView />
           </Route>
           <Route exact path={Pages.InfiltrometerManual}>
             <PdfViewer pdf={MiniDiskManual} />

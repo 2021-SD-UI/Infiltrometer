@@ -56,6 +56,8 @@ export const NavBar = () => {
                         <NavDropdown title="New Test" id="new-test-drop-down">
                             <NavDropdown.Item onClick={() => dispatch(setPage(Pages.BaerInitializeView))}>
                                 BAER protocol</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => dispatch(setPage(Pages.StandardInitializeView))}>
+                                Standard protocol</NavDropdown.Item>
                         </NavDropdown>
                         <Nav.Link onClick={() => dispatch(setPage(Pages.ReportsView))}>
                             My Reports
