@@ -11,8 +11,7 @@ import { HomePage } from './features/homepage/HomePage';
 import { Pages } from './features/page-redirection/Redirector';
 import { PdfViewer } from './features/pdfviewer/pdf-viewer'
 import MiniDiskManual from './features/pdfviewer/MiniDiskManual.pdf';
-import FieldGuide from './features/pdfviewer/FieldGuide.pdf'
-import beep from './features/audio/beep-01a.mp3';
+import FieldGuide from './features/pdfviewer/Field-Guide.pdf'
 
 const App = () => {
   return (
