@@ -3,9 +3,11 @@ import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useSelector } from "react-redux";
 import Table from '../../baer/baer-results/table';
+import { Protocols } from '../../reports/protocols';
 import { selectCurId, selectReports } from "../../reports/reportsSlice";
 import { ResultsViewButtons } from '../../reused-components/results-views/ResultsViewButtons';
 import { ResultsViewNotes } from '../../reused-components/results-views/ResultsViewNotes';
+import ConductivityGraph from './ConductivityGraph';
 const StandardResultsView = () => {
 
 
@@ -22,7 +24,8 @@ const StandardResultsView = () => {
           </Col>
         </Row>
         <ResultsViewNotes />
-        <ResultsViewButtons />
+        <ConductivityGraph />
+        <ResultsViewButtons protocol={Protocols.Standard} />
       </div>
     </Container>
   );

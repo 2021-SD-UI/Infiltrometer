@@ -7,9 +7,10 @@ import { CSVLink } from "react-csv";
 import { makeCSV } from "../../reports/reportsDataPackager";
 import { Button, Col, Row } from 'react-bootstrap';
 import { Pages } from '../../page-redirection/Redirector';
+import { Protocols } from '../../reports/protocols';
 
 
-export const ResultsViewButtons = () => {
+export const ResultsViewButtons = ({ protocol }) => {
     const reports = useSelector(selectReports);
     const curReport = reports[useSelector(selectCurId)];
 
@@ -23,7 +24,15 @@ export const ResultsViewButtons = () => {
                         variant="dark"
                         className="w-50"
                         size="lg"
-                        onClick={() => dispatch(setPage(Pages.BaerInitializeView))}
+                        onClick={() => {
+                            if (protocol === Protocols.Standard) {
+                                dispatch(setPage(Pages.StandardInitializeView));
+                            }
+                            else if (protocol === Protocols.Baer) {
+                                dispatch(setPage(Pages.BaerInitializeView));
+                            }
+
+                        }}
                     >
                         New Test
                     </Button>

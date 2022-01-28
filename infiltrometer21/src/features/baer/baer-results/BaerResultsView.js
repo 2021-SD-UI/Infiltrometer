@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from "react-redux";
+import { Protocols } from '../../reports/protocols';
 import { selectCurId, selectNotes, selectReports, setNotes } from "../../reports/reportsSlice";
 import { ResultsViewButtons } from '../../reused-components/results-views/ResultsViewButtons';
 import { ResultsViewNotes } from '../../reused-components/results-views/ResultsViewNotes';
@@ -23,7 +24,7 @@ const BaerResultsView = () => {
           </Col>
         </Row>
         <ResultsViewNotes />
-        <ResultsViewButtons />
+        <ResultsViewButtons protocol={Protocols.Baer} />
       </div>
     </Container>
   );
