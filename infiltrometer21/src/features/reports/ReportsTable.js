@@ -164,6 +164,10 @@ const ReportsTable = () => {
                 dispatch(setPage(Pages.BaerResultsView));
 
                 break;
+            case Protocols.Standard:
+                dispatch(setCurId(report.id));
+                dispatch(setPage(Pages.StandardResultsView));
+                break;
             default:
                 break;
 

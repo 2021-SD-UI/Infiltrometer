@@ -78,7 +78,7 @@ const StandardInitializeView = () => {
       //send out the new report to the store
       dispatch(newReport({
         date: (new Date()).toString(),
-        protocol: Protocols.Baer,
+        protocol: Protocols.Standard,
         infiltrometerData
       }));
 

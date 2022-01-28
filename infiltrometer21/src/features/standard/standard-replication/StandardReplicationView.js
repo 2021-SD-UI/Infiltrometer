@@ -51,7 +51,7 @@ const StandardReplicationView = () => {
     dispatch(setGatheringData(false));
 
     //go to the results page
-    dispatch(setPage(Pages.BaerResultsView))
+    dispatch(setPage(Pages.StandardResultsView))
   }
 
   /* Modal -------------------------------------------------------------- */
