@@ -1,4 +1,4 @@
-//The Page we are displaying for the baer Initialize view
+//The Page we are displaying for the default Initialize view
 import React, { useState } from 'react';
 import { Button, Col, Container, Dropdown, DropdownButton, Form, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
@@ -48,6 +48,11 @@ const InitializeView = ({ protocol }) => {
         let nh0 = document.getElementById("nh0").value;
         let alpha = document.getElementById("alpha").value;
 
+        let lat = document.getElementById("lat").value;
+        if (lat === "") lat = null;
+        let lon = document.getElementById("lon").value;
+        if (lon === "") lon = null;
+
         if (form.checkValidity() === false) {
             setValidated(true);
             event.stopPropagation();
@@ -55,7 +60,7 @@ const InitializeView = ({ protocol }) => {
         else {
             let infiltrometerData = {
                 initialVolume: volume,
-                coordinates: { lat: 0, long: 0, },
+                coordinates: { lat: Number(lat), lon: Number(lon) },
                 soilType: { nh0: nh0, alpha: alpha },
                 infiltrometerRadius: radius,
                 timeInterval: timeInterval,
@@ -63,33 +68,51 @@ const InitializeView = ({ protocol }) => {
                 site,
                 observation
             }
+            function updateData() {
+                //set the infitrometer data in the store
+                dispatch(setInfiltrometerData(infiltrometerData));
 
-            //set the infitrometer data in the store
-            dispatch(setInfiltrometerData(infiltrometerData));
+                //set the last volume to the initial volume for the replication view
+                dispatch(setInitialVolume(volume));
+                dispatch(setVolume(volume));
+                dispatch(setLastVolume(volume));
 
-            //set the last volume to the initial volume for the replication view
-            dispatch(setInitialVolume(volume));
-            dispatch(setVolume(volume));
-            dispatch(setLastVolume(volume));
+                //send out the new report to the store
+                dispatch(newReport({
+                    date: (new Date()).toString(),
+                    protocol,
+                    infiltrometerData
+                }));
 
-            //send out the new report to the store
-            dispatch(newReport({
-                date: (new Date()).toString(),
-                protocol,
-                infiltrometerData
-            }));
+            }
+            //do we need geolocation
+            if (lat == null || lon == null) {
+                //try to get the geolocation data
+                addGeoDataToReading({ volume, secondsElapsed: 0 }, (reading) => {
+                    infiltrometerData.coordinates.lat = reading.lat;
+                    infiltrometerData.coordinates.lon = reading.lon
 
+                    updateData();
 
-            //try to get the geolocation data
-            addGeoDataToReading({ volume, secondsElapsed: 0 }, (reading) => {
-                dispatch(addReading(reading));
+                    dispatch(addReading(reading));
+                    dispatch(setPage(
+                        protocol === Protocols.Baer ? Pages.BaerReplicationView : Pages.StandardReplicationView
+                    ));
+                });
+            }
+            else {
+                updateData();
+                dispatch(addReading({ volume, secondsElapsed: 0 }));
                 dispatch(setPage(
                     protocol === Protocols.Baer ? Pages.BaerReplicationView : Pages.StandardReplicationView
                 ));
-            });
+            }
+
 
         }
     }
+
+
 
     const handleReset = () => {
         let site = document.getElementById("site"); site.value = "";
@@ -112,7 +135,7 @@ const InitializeView = ({ protocol }) => {
                         <Row>
                             <Col>
                                 <Form.Group>
-                                    <Form.Label>Site Name</Form.Label>
+                                    <Form.Label className='display-6'>Site Name</Form.Label>
                                     <Form.Control
                                         id="site"
                                         type="text"
@@ -121,7 +144,7 @@ const InitializeView = ({ protocol }) => {
                                         placeholder="Enter site name..."
                                     />
                                     <div className="pt-2" />
-                                    <Form.Label>Observation Name</Form.Label>
+                                    <Form.Label className='display-6'>Observation Name</Form.Label>
                                     <Form.Control
                                         id="observation"
                                         type="text"
@@ -133,7 +156,7 @@ const InitializeView = ({ protocol }) => {
                                 </Form.Group>
                             </Col>
                         </Row>
-                        <Row className="pt-5">
+                        <Row className="pt-5 display-6">
                             <Col>
                                 <Form.Group>
                                     <Form.Label>Volume (mL)</Form.Label>
@@ -152,7 +175,7 @@ const InitializeView = ({ protocol }) => {
                                     </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group>
-                                    <Form.Label className="pt-3">Suction (cm)</Form.Label>
+                                    <Form.Label className="pt-3 display-6">Suction (cm)</Form.Label>
                                     <DropdownButton variant="dark" title="Preset Suction Values">
                                         <Dropdown.Item onSelect={() => setSuctionPreset(-0.5)}> -0.5 </Dropdown.Item>
                                         <Dropdown.Item onSelect={() => setSuctionPreset(-1)}> -1 </Dropdown.Item>
@@ -197,7 +220,7 @@ const InitializeView = ({ protocol }) => {
                                     </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group>
-                                    <Form.Label className="pt-3">Radius (cm)</Form.Label>
+                                    <Form.Label className="pt-3 display-6">Radius (cm)</Form.Label>
                                     <DropdownButton variant="dark" title="Preset Infiltrometer Types">
                                         <Dropdown.Item onSelect={() => setRadiusPreset(infiltrometerTypes.MiniDisk.radius)}>
                                             {infiltrometerTypes.MiniDisk.displayName}
@@ -208,13 +231,12 @@ const InitializeView = ({ protocol }) => {
                                     </DropdownButton>
                                     <div className="pt-2" />
                                     <Form.Control
-                                        required
                                         id="radius"
                                         type="number"
                                         step="any"
                                         size="lg"
                                         min="0"
-                                        defaultValue={infiltrometerTypes.MiniDisk.radius}
+                                        defaultValue={null}
                                         placeholder="Radius (cm)"
                                     />
                                     <Form.Control.Feedback type="invalid">
@@ -226,8 +248,9 @@ const InitializeView = ({ protocol }) => {
                         <Row>
                             <Col>
                                 <Form.Group>
-                                    <Form.Label className="pt-3">Soil Type</Form.Label>
+                                    <Form.Label className="pt-3 display-6">Soil Type</Form.Label>
                                     <DropdownButton variant="dark" title="Preset Soil Types">
+                                        <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.undefined)}> Unknown </Dropdown.Item>
                                         <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.clay)}> Clay </Dropdown.Item>
                                         <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.clayLoam)}> Clay Loam </Dropdown.Item>
                                         <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.loam)}> Loam </Dropdown.Item>
@@ -243,26 +266,54 @@ const InitializeView = ({ protocol }) => {
                                     <div className="pt-2" />
                                     <Form.Label>N/H0</Form.Label>
                                     <Form.Control
-                                        required
                                         id="nh0"
                                         type="number"
                                         step="any"
                                         size="lg"
                                         min="0"
-                                        defaultValue={soilTypes.loamySand.nh0}
+                                        defaultValue={null}
                                         placeholder="N/H0"
                                     />
                                     <div className="pt-2" />
                                     <Form.Label>Alpha</Form.Label>
                                     <Form.Control
-                                        required
                                         id="alpha"
                                         type="number"
                                         step="any"
                                         size="lg"
                                         min="0"
-                                        defaultValue={soilTypes.loamySand.alpha}
+                                        defaultValue={null}
                                         placeholder="Alpha"
+                                    />
+                                    <Form.Control.Feedback type="invalid">
+                                        Required!
+                                    </Form.Control.Feedback>
+                                </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Form.Group>
+                                    <Form.Label className="pt-3 display-6">Location</Form.Label>
+                                    <div className="pt-2" />
+                                    <Form.Label>Latitude</Form.Label>
+                                    <Form.Control
+                                        id="lat"
+                                        type="number"
+                                        step="any"
+                                        size="lg"
+                                        defaultValue={null}
+                                        placeholder="Latitude"
+                                    />
+                                    <div className="pt-2" />
+                                    <Form.Label>Longitude</Form.Label>
+                                    <Form.Control
+                                        id="lon"
+                                        type="number"
+                                        step="any"
+                                        size="lg"
+                                        defaultValue={null}
+                                        placeholder="Longitude"
                                     />
                                     <Form.Control.Feedback type="invalid">
                                         Required!
