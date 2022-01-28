@@ -7,6 +7,7 @@ import { Protocols } from '../../reports/protocols';
 import { selectCurId, selectReports } from "../../reports/reportsSlice";
 import { ResultsViewButtons } from '../../reused-components/results-views/ResultsViewButtons';
 import { ResultsViewNotes } from '../../reused-components/results-views/ResultsViewNotes';
+import ConductivityForm from './ConductivityForm';
 import ConductivityGraph from './ConductivityGraph';
 const StandardResultsView = () => {
 
@@ -24,6 +25,7 @@ const StandardResultsView = () => {
           </Col>
         </Row>
         <ResultsViewNotes />
+        <ConductivityForm />
         <ConductivityGraph />
         <ResultsViewButtons protocol={Protocols.Standard} />
       </div>
