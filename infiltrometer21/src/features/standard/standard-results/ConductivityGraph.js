@@ -29,20 +29,24 @@ const ConductivityGraph = () => {
         return true;
     }
 
-    let readingsArr = [];
-    for(let i = 0; i < curReport.readings.length; i++){
-        readingsArr[i] = {
 
-            Time: curReport.readings[i].secondsElapsed,
-            Volume: curReport.readings[i].volume,
-
-        };
+    //will give you the format:
+    //[[x,y], [x,y],... ]
+    // to be used in regression
+    const readingsArray = () => {
+        let points = [];
+        curReport.readings.forEach(r => {
+            let point = { x: r.secondsElapsed, y: r.Volume };
+            points = [...points, point];
+        });
+        //return _rArr;
+        // [{ x: 1, y: 2 }, { x: 3, y: 5 }, { x: 7, y: -3 }]
     }
 
     const data = [
-        {									
-            color: "steelblue", 
-            points: [{x: 1, y: 2}, {x: 3, y: 5}, {x: 7, y: -3}] 
+        {
+            color: "steelblue",
+            points: readingsArray
         }
     ];
 
@@ -50,18 +54,18 @@ const ConductivityGraph = () => {
     console.log(data.points);
 
     return (
-    <>
-        <Container className="text-center">
-            <LineChart
-                width={380}
-                height={400}
-                xLabel="Time (s)"
-                yLabel="Conductivity"
-                data={data}
-            />
-        </Container>
-        {validValues ? "The values are valid" : "The values are not valid!"}
-    </>
+        <>
+            <Container className="text-center">
+                <LineChart
+                    width={380}
+                    height={400}
+                    xLabel="Time (s)"
+                    yLabel="Conductivity"
+                    data={data}
+                />
+            </Container>
+            {validValues ? "The values are valid" : "The values are not valid!"}
+        </>
     );
 }
 
