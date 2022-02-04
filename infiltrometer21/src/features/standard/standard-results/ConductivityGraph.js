@@ -2,7 +2,12 @@ import { useSelector } from "react-redux";
 import { soilTypes } from "../../../app/soilTypes";
 import { Protocols } from "../../reports/protocols";
 import { selectCurId, selectReports } from "../../reports/reportsSlice";
-import React from "react";
+import LineChart from 'react-linechart';
+import { methods } from "../../regression/regression-js";
+import '../../../../node_modules/react-linechart/dist/styles.css';
+import React, { Component } from "react";
+import { Container } from "react-bootstrap";
+
 const ConductivityGraph = () => {
 
     const reports = useSelector(selectReports);
@@ -24,7 +29,40 @@ const ConductivityGraph = () => {
         return true;
     }
 
-    return (<>{validValues ? "The values are valid" : "The values are not valid!"}</>);
+    let readingsArr = [];
+    for(let i = 0; i < curReport.readings.length; i++){
+        readingsArr[i] = {
+
+            Time: curReport.readings[i].secondsElapsed,
+            Volume: curReport.readings[i].volume,
+
+        };
+    }
+
+    const data = [
+        {									
+            color: "steelblue", 
+            points: [{x: 1, y: 2}, {x: 3, y: 5}, {x: 7, y: -3}] 
+        }
+    ];
+
+
+    console.log(data.points);
+
+    return (
+    <>
+        <Container className="text-center">
+            <LineChart
+                width={380}
+                height={400}
+                xLabel="Time (s)"
+                yLabel="Conductivity"
+                data={data}
+            />
+        </Container>
+        {validValues ? "The values are valid" : "The values are not valid!"}
+    </>
+    );
 }
 
 
