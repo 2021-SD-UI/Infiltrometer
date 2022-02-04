@@ -5,7 +5,7 @@ import { selectCurId, selectReports } from "../../reports/reportsSlice";
 import LineChart from 'react-linechart';
 import { methods } from "../../regression/regression-js";
 import '../../../../node_modules/react-linechart/dist/styles.css';
-import React, { Component } from "react";
+import React, { Component, useEffect } from "react";
 import { Container } from "react-bootstrap";
 
 const ConductivityGraph = () => {
@@ -30,28 +30,26 @@ const ConductivityGraph = () => {
     }
 
 
-    //will give you the format:
-    //[[x,y], [x,y],... ]
+    // Will give you the format:
+    // [{x,y}, {x,y}, ... ]
     // to be used in regression
-    const readingsArray = () => {
+    function readingsArray() {
         let points = [];
         curReport.readings.forEach(r => {
-            let point = { x: r.secondsElapsed, y: r.Volume };
-            points = [...points, point];
+            let point = { x: Number(r.secondsElapsed), y: Number(r.volume) };
+            points.push(point);
+            //methods.polynomial(points, {order: 2, precision: 15});
         });
-        //return _rArr;
         // [{ x: 1, y: 2 }, { x: 3, y: 5 }, { x: 7, y: -3 }]
+        return points;
     }
 
     const data = [
         {
             color: "steelblue",
-            points: readingsArray
+            points: readingsArray()
         }
     ];
-
-
-    console.log(data.points);
 
     return (
         <>
