@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import ReactDOM from "react-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { setVolume, setSecondsElapsed, selectLastVolume, setLastVolume } from './standard-replicationSlice';
+import { setVolume, setSecondsElapsed, selectLastVolume, setLastVolume } from '../../baer/baer-replication/bear-replicationSlice';
 import reportsSlice, { addReading, selectCurId, selectReports, selectCurReadingID, setGatheringData } from '../../reports/reportsSlice';
-import { selectTimeInterval, selectInitialVolume, setSoilType, selectSoilType } from '../standard-initialize/standard-initializeSlice';
+import { selectTimeInterval, selectInitialVolume, setSoilType, selectSoilType } from '../../baer/baer-initialize/bear-initializeSlice';
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import './timer.css'
 import _default from 'react-overlays/esm/Modal';
@@ -15,20 +15,17 @@ import { addGeoDataToReading } from '../../useful-functions/usefulFunctions';
 import { useAudio } from '../../audio/Player';
 import { Pages } from '../../page-redirection/Redirector';
 import beep from '../../audio/beep-01a.mp3';
+import VolumeNow from "./VolumeNow";
 
-const renderTime = ({ remainingTime }) => {
-  if (remainingTime === 0) {
-    return <div className="timer">Time is up!</div>;
-  }
 
-  return (
-    <div className="timer">
-      <div className="text">Time remaining:</div>
-      <div className="value">{remainingTime}</div>
-      <div className="text">seconds</div>
-    </div>
-  );
-};
+function hideStartButton(){
+  document.getElementById("startButton").className = "w-50 visually-hidden"
+
+}
+function hideVolumeNow(){
+  document.getElementById("volNow").className = "visually-hidden"
+}
+
 
 const StandardReplicationView = () => {
   const timeInterval = useSelector(selectTimeInterval);
@@ -39,12 +36,27 @@ const StandardReplicationView = () => {
   const setPlaying = (playing) => setState({ ...state, timerIsPlaying: playing });
   const dispatch = useDispatch();
 
+  const renderTime = ({ remainingTime }) => {
+    setRemaining(remainingTime);
+    if (remainingTime === 0) {
+      return <div className="timer">Time is up!</div>;
+    }
+
+    return (
+        <div className="timer">
+          <div className="text">Time remaining:</div>
+          <div className="value">{remainingTime}</div>
+          <div className="text">seconds</div>
+        </div>
+    );
+  };
+
   const initializeState = {
     timerIsPlaying: false,
     key: 0,
   };
   const [state, setState] = useState(initializeState);
-
+  const [remaining,setRemaining] = useState(0);
   function endProtocol() {
 
     //mark that we are done gathering data on this report
@@ -103,8 +115,9 @@ const StandardReplicationView = () => {
     <>
       <Container className="mt-3">
         <div class="rounded border shadow">
-          <h1 className="pt-5 display-4">Current Replication: {curID + 1}</h1>
+
           <Row>
+
             <Col>
               <div className="mt-4 timer-wrapper">
                 <CountdownCircleTimer
@@ -113,6 +126,7 @@ const StandardReplicationView = () => {
                   duration={Number(timeInterval)}
                   colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
                   onComplete={() => handleShow()}
+                  //onUpdate={({remainingTime}) => setRemaining(remainingTime)}
                 >
                   {renderTime}
                 </CountdownCircleTimer>
@@ -125,8 +139,9 @@ const StandardReplicationView = () => {
                 variant="dark"
                 className="w-50"
                 size="lg"
+                id="startButton"
                 disabled={state.timerIsPlaying}
-                onClick={() => { setState({ timerIsPlaying: true, key: state.key + 1 }); }}
+                onClick={() => { setState({ timerIsPlaying: true, key: state.key + 1 }); hideStartButton()}}
               >
                 {!state.timerIsPlaying ? "Start Replication" : "Replication Running..."}
               </Button>
@@ -142,6 +157,11 @@ const StandardReplicationView = () => {
               >
                 End Protocol
               </Button>
+            </Col>
+          </Row>
+          <Row>
+            <Col className="text-center m-4">
+              <VolumeNow id="volNow" time={remaining}></VolumeNow>
             </Col>
           </Row>
           <Row className="mt-4">
