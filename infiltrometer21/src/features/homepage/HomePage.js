@@ -22,13 +22,21 @@ export function HomePage() {
                         <div className="m-4 display-6">How To Start a Test</div>
                         <Row>
                             <Col className="mx-4">
+                                <div class="alert alert-primary" role="alert">
+                                    This app can be used with or without an internet connection!
+                                </div>
                                 Begin a new test using the desired protocol by clicking "New Test" in the navigation bar at the top of the screen. On smaller devices, click the icon with three horizontal lines on the top right to view the navigation bar's contents. Select the protocol you wish to use, and follow the on-screen prompts to fill in the required information. For more information about how to conduct a test, see the "Manual" section of the Navbar at the top of the screen.
                                 <hr />
                             </Col>
+
                         </Row>
                         <div className="m-4 display-6">How To View/Download a Report</div>
                         <Row>
                             <Col className="mx-4">
+                                <div class="alert alert-danger" role="alert">
+                                    This app stores reports temporarily in your web browser's local storage. To prevent data from being lost, please download your reports from the "My Reports" page.
+                                </div>
+
                                 All of your saved reports can be found under "My Reports" in the navigation bar. A report can be accessed by using the "View" button next to a report. A report can be deleted by using the red "Delete" button next to a report or by selecting report(s) via the checkbox and using the "Delete" button above the table of reports. Report(s) can be downloaded by selecting report(s) via the checkbox and using the "Download" button.
                                 <hr />
                             </Col>
