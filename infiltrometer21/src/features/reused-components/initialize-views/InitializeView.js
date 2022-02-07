@@ -1,6 +1,6 @@
 //The Page we are displaying for the default Initialize view
 import React, { useState } from 'react';
-import { Button, Col, Container, Dropdown, DropdownButton, Form, Row } from 'react-bootstrap';
+import { Button, Col, Container, Dropdown, DropdownButton, Form, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { infiltrometerTypes } from '../../../app/infiltrometerType';
@@ -323,6 +323,10 @@ const InitializeView = ({ protocol }) => {
                         </Row>
                         <Row className="mt-4">
                             <Col>
+                                <div class="alert alert-primary" role="alert">
+                                Please allow location services to include geolocation data on your report.
+                                Geolocation data is not required.
+                                </div>
                                 <Button type="submit" variant="dark" size="lg" className="w-100">Start Protocol</Button>
                             </Col>
                         </Row>
