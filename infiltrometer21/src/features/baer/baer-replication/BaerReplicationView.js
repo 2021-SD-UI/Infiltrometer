@@ -10,7 +10,7 @@ import './timer.css'
 import _default from 'react-overlays/esm/Modal';
 import { setPage } from '../../page-redirection/redirector-slice';
 import Table from '../baer-results/table';
-import { Modal, Button, Form, Container, Row, Col, OverlayTrigger, Tooltip} from 'react-bootstrap';
+import { Modal, Button, Form, Container, Row, Col, OverlayTrigger, Accordion, Card } from 'react-bootstrap';
 import { addGeoDataToReading } from '../../useful-functions/usefulFunctions';
 import { useAudio } from '../../audio/Player';
 import { Pages } from '../../page-redirection/Redirector';
@@ -144,27 +144,26 @@ const BaerReplicationView = () => {
               </Button>
             </Col>
           </Row>
-          <Row className="text-center">
+          <Row>
             <Col className="mt-2">
-              <OverlayTrigger
-                placement="top"
-                overlay= {
-                  <Tooltip>
-                    To properly conduct a BAER protocol replication: 
-                    1. Expose the soil about 1 to 3 cm in depth, removing any overlying ash or minerals.
-                    2. With a full infiltrometer, place the porus disk flat against the soil and perpendicular to the surface. Tap the "Start Replication" button as soon as the infiltrometer disk and the soil come into contact.
-                    3. At the end of the timer, remove the infiltrometer from the soil and hold the top of the tube so that the water is at eye level. Record the end volume.
-                    4. Repeat these steps for as many replications as necessary.
-                  </Tooltip>
-                }
-                >
-              <Button
-                variant="info"
-                className='w-50'
-                size="lg">
-                  Help
-                </Button>
-                </OverlayTrigger>
+              <Accordion>
+                <Card 
+                  bg='primary'
+                  text='white'>
+                    <Accordion.Toggle as={Card.Header} eventKey="0" className='text-center'>Help</Accordion.Toggle>
+                  <Accordion.Collapse eventKey="0">
+                    <Card.Body className="ml-0">To properly conduct a BAER protocol replication:
+                      <ol type="1">
+                        <li>Expose the soil about 1 to 3 cm in depth, removing any overlying ash or minerals.</li>
+                        <li>With a full infiltrometer, place the porous disk flat against the soil and perpendicular to the surface. Tap the “Start Replication” button as soon as the infiltrometer disk and the soil come into contact.</li>
+                        <li>At the end of the timer, remove the infiltrometer from the soil and hold the top of the tube so that the water is at eye level. Record the end volume.</li>
+                        <li>Repeat these steps for as many replications as necessary.</li>
+                      </ol>
+
+                    </Card.Body>
+                  </Accordion.Collapse>
+                </Card>
+              </Accordion>
             </Col>
           </Row>
           <Row className="mt-4">
