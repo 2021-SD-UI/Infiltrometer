@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 import { useSelector, useDispatch } from 'react-redux';
 import { setVolume, setSecondsElapsed, selectLastVolume, setLastVolume } from '../../baer/baer-replication/bear-replicationSlice';
 import reportsSlice, { addReading, selectCurId, selectReports, selectCurReadingID, setGatheringData } from '../../reports/reportsSlice';
-import { selectTimeInterval, selectInitialVolume, setSoilType, selectSoilType } from '../../baer/baer-initialize/bear-initializeSlice';
+import { selectTimeInterval, selectInitialVolume } from '../../baer/baer-initialize/bear-initializeSlice';
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import './timer.css'
 import _default from 'react-overlays/esm/Modal';
@@ -18,11 +18,11 @@ import beep from '../../audio/beep-01a.mp3';
 import VolumeNow from "./VolumeNow";
 
 
-function hideStartButton(){
+function hideStartButton() {
   document.getElementById("startButton").className = "w-50 visually-hidden"
 
 }
-function hideVolumeNow(){
+function hideVolumeNow() {
   document.getElementById("volNow").className = "visually-hidden"
 }
 
@@ -44,11 +44,11 @@ const StandardReplicationView = () => {
     }
 
     return (
-        <div className="timer">
-          <div className="text">Time remaining:</div>
-          <div className="value">{remainingTime}</div>
-          <div className="text">seconds</div>
-        </div>
+      <div className="timer">
+        <div className="text">Time remaining:</div>
+        <div className="value">{remainingTime}</div>
+        <div className="text">seconds</div>
+      </div>
     );
   };
 
@@ -57,7 +57,7 @@ const StandardReplicationView = () => {
     key: 0,
   };
   const [state, setState] = useState(initializeState);
-  const [remaining,setRemaining] = useState(0);
+  const [remaining, setRemaining] = useState(0);
   function endProtocol() {
 
     //mark that we are done gathering data on this report
@@ -93,7 +93,7 @@ const StandardReplicationView = () => {
       handleClose();
       setValidated(false);
       //calculate the total number of elapsed seconds
-      let secondsElapsed = (curID + 1) * timeInterval;
+      let secondsElapsed = timeInterval;
 
       //set the volume and time in the replication store
       dispatch(setLastVolume(volumeReading));
@@ -127,7 +127,7 @@ const StandardReplicationView = () => {
                   duration={Number(timeInterval)}
                   colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
                   onComplete={() => handleShow()}
-                  //onUpdate={({remainingTime}) => setRemaining(remainingTime)}
+                //onUpdate={({remainingTime}) => setRemaining(remainingTime)}
                 >
                   {renderTime}
                 </CountdownCircleTimer>
@@ -142,7 +142,7 @@ const StandardReplicationView = () => {
                 size="lg"
                 id="startButton"
                 disabled={state.timerIsPlaying}
-                onClick={() => { setState({ timerIsPlaying: true, key: state.key + 1 }); hideStartButton()}}
+                onClick={() => { setState({ timerIsPlaying: true, key: state.key + 1 }); hideStartButton() }}
               >
                 {!state.timerIsPlaying ? "Start Replication" : "Replication Running..."}
               </Button>
@@ -162,7 +162,7 @@ const StandardReplicationView = () => {
           </Row>
           <Row>
             <Col className="text-center m-4">
-              <VolumeNow maximumVolume={maxVolume} id="volNow" time={remaining}></VolumeNow>
+              <VolumeNow maximumVolume={maxVolume} id="volNow" time={remaining} hidden={!state.timerIsPlaying}></VolumeNow>
             </Col>
           </Row>
           <Row className="mt-4">

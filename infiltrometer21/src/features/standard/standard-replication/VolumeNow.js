@@ -1,35 +1,37 @@
 
-import React, {useState} from "react";
-import {Button, Form, FormControl, FormGroup} from "react-bootstrap";
-import {setLastVolume, setSecondsElapsed, setVolume,selectLastVolume,} from "../../baer/baer-replication/bear-replicationSlice";
-import {addGeoDataToReading} from "../../useful-functions/usefulFunctions";
-import {addReading, selectCurReadingID} from "../../reports/reportsSlice";
-import {useDispatch, useSelector} from "react-redux";
-import {selectTimeInterval, selectInitialVolume} from "../standard-initialize/standard-initializeSlice";
+import React, { useState } from "react";
+import { Button, Form, FormControl, FormGroup } from "react-bootstrap";
+import { setLastVolume, setSecondsElapsed, setVolume, selectLastVolume, } from "../../baer/baer-replication/bear-replicationSlice";
+import { addGeoDataToReading } from "../../useful-functions/usefulFunctions";
+import { addReading, selectCurReadingID } from "../../reports/reportsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectTimeInterval, selectInitialVolume } from '../../baer/baer-initialize/bear-initializeSlice';
 
 
-
-const VolumeNow = ({time}) => {
+const VolumeNow = ({ time, hidden }) => {
 
     const timeInterval = useSelector(selectTimeInterval);
     const curID = useSelector(selectCurReadingID);
     const dispatch = useDispatch();
-    const timeRemaining = {time}.time;
+    const timeRemaining = { time }.time;
     const [validated, setValidated] = useState(false);
     const initialVolume = Number(useSelector(selectInitialVolume));
     const lastVolume = Number(useSelector(selectLastVolume));
     const maxVolume = Math.min(initialVolume, lastVolume);
     const makeVisible = () => {
-        if(!(timeRemaining === 0)) {
+        if (!(timeRemaining === 0)) {
             document.getElementById("volumeNowForm").className = "visible";
         }
     }
     const makeHidden = () => {
         document.getElementById("volumeNowForm").className = "visually-hidden";
+        clear();
+    }
+    const clear = () => {
         document.getElementById("volumeNow").value = '';
     }
     const isFinished = () => {
-        if(timeRemaining === 0){
+        if (timeRemaining === 0) {
             makeHidden();
         }
     }
@@ -47,7 +49,7 @@ const VolumeNow = ({time}) => {
             //calculate the total number of elapsed seconds
             console.log(timeRemaining);
             console.log(timeInterval);
-            let secondsElapsed = (curID + 1) * (timeInterval - timeRemaining);
+            let secondsElapsed = (timeInterval - timeRemaining);
 
             //set the volume and time in the replication store
             dispatch(setLastVolume(volumeNow));
@@ -59,14 +61,22 @@ const VolumeNow = ({time}) => {
             addGeoDataToReading({ volume: volumeNow, secondsElapsed }, (newReading) => {
                 dispatch(addReading(newReading));
             });
-            makeHidden();
+            clear();
         }
 
     }
-    return(
+
+    function isHidden() {
+        if (hidden) {
+            return "visually-hidden";
+        }
+        return "visible";
+    }
+
+    return (
         <>
-            <Button className="mt-2 btn-dark w-25" id="volumeButton" onClick={makeVisible}>Volume Now</Button>
-            <Form  className="visually-hidden" id="volumeNowForm" onSubmit={VolumeNowSubmit}>
+
+            <Form className={isHidden()} id="volumeNowForm" onSubmit={VolumeNowSubmit}>
                 <Form.Group role="form">
                     <Form.Control
                         id="volumeNow"
@@ -81,7 +91,6 @@ const VolumeNow = ({time}) => {
                         Please enter a valid reading, or hit "Cancel".
                     </Form.Control.Feedback>
                     <Button className="btn btn-dark btn-large centerButton mt-4 m-2 w-25" type="submit">Add</Button>
-                    <Button className="btn btn-secondary btn-large centerButton mt-4 m-2 w-25" onClick={makeHidden}>Cancel</Button>
                 </Form.Group>
             </Form>
         </>

@@ -40,7 +40,7 @@ const ConductivityGraph = () => {
     const noData = [
         {
             color: "steelblue",
-            points: [ {x: 0, y: 0} ]
+            points: [{ x: 0, y: 0 }]
         }
     ];
 
@@ -64,7 +64,7 @@ const ConductivityGraph = () => {
                     width={380}
                     height={400}
                     xLabel="Square Root of Time (s)"
-                    yLabel="Conductivity (cm)"
+                    yLabel="Infiltration (cm)"
                     data={data}
                 />
             );
@@ -74,7 +74,7 @@ const ConductivityGraph = () => {
     return (
         <>
             <Container className="text-center my-4">
-                <Graph/>
+                <Graph />
             </Container>
         </>
     );

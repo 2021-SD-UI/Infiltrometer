@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
 import { soilTypes } from "../../../app/soilTypes";
-import { Protocols } from "../../reports/protocols";
 import { selectCurId, selectReports } from "../../reports/reportsSlice";
 import { Button, Col, Container, Dropdown, DropdownButton, Form, Row } from 'react-bootstrap';
-import { selectInfiltrometerData, setInfiltrometerData } from "../../baer/baer-initialize/bear-initializeSlice";
+import { selectInfiltrometerData } from "../../baer/baer-initialize/bear-initializeSlice";
+import { setCurInfiltrometerData } from "../../reports/reportsSlice";
 import { useEffect, useState } from "react";
 import { infiltrometerTypes } from "../../../app/infiltrometerType";
 
@@ -30,7 +30,7 @@ const ConductivityForm = () => {
         infilData.soilType = { nh0: nh0.value, alpha: alpha.value };
 
         //send to store
-        dispatch(setInfiltrometerData(infilData));
+        dispatch(setCurInfiltrometerData(infilData));
 
     }
 

@@ -70,11 +70,15 @@ export const reportsSlice = createSlice({
     },
     setNotes: (state, action) => {
       state.reports[state.curId].notes = action.payload;
+    },
+    //sets the current report's infiltrometer Data
+    setCurInfiltrometerData: (state, action) => {
+      state.reports[state.curId].infiltrometerData = action.payload;
     }
   }
 });
 
-export const { newReport, addReading, setGatheringData, removeReport, setCurId, setNotes } = reportsSlice.actions;
+export const { newReport, addReading, setGatheringData, removeReport, setCurId, setNotes, setCurInfiltrometerData } = reportsSlice.actions;
 export const selectReports = (state) => state.reports.reports;
 export const selectCurId = (state) => state.reports.curId;
 export const selectNotes = (state) => state.reports.reports[state.reports.curId].notes;
