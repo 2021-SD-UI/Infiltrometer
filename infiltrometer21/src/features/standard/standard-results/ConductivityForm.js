@@ -14,19 +14,20 @@ const ConductivityForm = () => {
     const [validated, setValidated] = useState(true);
     const dispatch = useDispatch();
     const reports = useSelector(selectReports);
-
     const curReport = reports[useSelector(selectCurId)];
+
     const handleSubmit = (event) => {
         event.preventDefault();
 
         //get the current data
         let infilData = { ...curReport.infiltrometerData };
-        let nh0 = document.getElementById("nh0").value;
-        let alpha = document.getElementById("alpha").value;
+        let nh0 = document.getElementById("nh0");
+        let alpha = document.getElementById("alpha");
+        let radius = document.getElementById("radius");
 
         //update it
-        infilData.infiltrometerRadius = document.getElementById("radius").value;
-        infilData.soilType = { nh0, alpha };
+        infilData.infiltrometerRadius = radius.value;
+        infilData.soilType = { nh0: nh0.value, alpha: alpha.value };
 
         //send to store
         dispatch(setInfiltrometerData(infilData));
@@ -87,7 +88,7 @@ const ConductivityForm = () => {
                                         step="any"
                                         size="lg"
                                         min="0"
-                                        defaultValue={null}
+                                        defaultValue={curInfiltrometerData.soilType.nh0}
                                         placeholder="N/H0"
                                     />
                                     <div className="pt-2" />
@@ -99,7 +100,7 @@ const ConductivityForm = () => {
                                         step="any"
                                         size="lg"
                                         min="0"
-                                        defaultValue={null}
+                                        defaultValue={curInfiltrometerData.soilType.alpha}
                                         placeholder="Alpha"
                                     />
                                     <Form.Control.Feedback type="invalid">
@@ -128,7 +129,7 @@ const ConductivityForm = () => {
                                         step="any"
                                         size="lg"
                                         min="0"
-                                        defaultValue={null}
+                                        defaultValue={curInfiltrometerData.infiltrometerRadius}
                                         placeholder="Radius (cm)"
                                     />
                                     <Form.Control.Feedback type="invalid">
