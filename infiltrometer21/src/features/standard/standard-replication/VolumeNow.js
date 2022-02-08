@@ -1,11 +1,11 @@
 
 import React, {useState} from "react";
 import {Button, Form, FormControl, FormGroup} from "react-bootstrap";
-import {setLastVolume, setSecondsElapsed, setVolume} from "../../baer/baer-replication/bear-replicationSlice";
+import {setLastVolume, setSecondsElapsed, setVolume,selectLastVolume,} from "../../baer/baer-replication/bear-replicationSlice";
 import {addGeoDataToReading} from "../../useful-functions/usefulFunctions";
 import {addReading, selectCurReadingID} from "../../reports/reportsSlice";
 import {useDispatch, useSelector} from "react-redux";
-import {selectTimeInterval} from "../standard-initialize/standard-initializeSlice";
+import {selectTimeInterval, selectInitialVolume} from "../standard-initialize/standard-initializeSlice";
 
 
 
@@ -15,8 +15,10 @@ const VolumeNow = ({time}) => {
     const curID = useSelector(selectCurReadingID);
     const dispatch = useDispatch();
     const timeRemaining = {time}.time;
-
     const [validated, setValidated] = useState(false);
+    const initialVolume = Number(useSelector(selectInitialVolume));
+    const lastVolume = Number(useSelector(selectLastVolume));
+    const maxVolume = Math.min(initialVolume, lastVolume);
     const makeVisible = () => {
         if(!(timeRemaining === 0)) {
             document.getElementById("volumeNowForm").className = "visible";
@@ -26,7 +28,11 @@ const VolumeNow = ({time}) => {
         document.getElementById("volumeNowForm").className = "visually-hidden";
         document.getElementById("volumeNow").value = '';
     }
-
+    const isFinished = () => {
+        if(timeRemaining === 0){
+            makeHidden();
+        }
+    }
     const VolumeNowSubmit = (event) => {
 
         event.preventDefault();
@@ -67,7 +73,13 @@ const VolumeNow = ({time}) => {
                         type="number"
                         placeholder="Volume"
                         className="form-control mt-4"
+                        min="0"
+                        max={maxVolume}
+                        onChange={isFinished}
                     />
+                    <Form.Control.Feedback type="invalid">
+                        Please enter a valid reading, or hit "Cancel".
+                    </Form.Control.Feedback>
                     <Button className="btn btn-dark btn-large centerButton mt-4 m-2 w-25" type="submit">Add</Button>
                     <Button className="btn btn-secondary btn-large centerButton mt-4 m-2 w-25" onClick={makeHidden}>Cancel</Button>
                 </Form.Group>

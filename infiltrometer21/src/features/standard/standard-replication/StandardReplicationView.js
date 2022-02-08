@@ -39,6 +39,7 @@ const StandardReplicationView = () => {
   const renderTime = ({ remainingTime }) => {
     setRemaining(remainingTime);
     if (remainingTime === 0) {
+
       return <div className="timer">Time is up!</div>;
     }
 
@@ -161,7 +162,7 @@ const StandardReplicationView = () => {
           </Row>
           <Row>
             <Col className="text-center m-4">
-              <VolumeNow id="volNow" time={remaining}></VolumeNow>
+              <VolumeNow maximumVolume={maxVolume} id="volNow" time={remaining}></VolumeNow>
             </Col>
           </Row>
           <Row className="mt-4">
