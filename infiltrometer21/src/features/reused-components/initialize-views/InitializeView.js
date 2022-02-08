@@ -159,7 +159,7 @@ const InitializeView = ({ protocol }) => {
                         <Row className="pt-5 display-6">
                             <Col>
                                 <Form.Group>
-                                    <Form.Label>Volume (mL)</Form.Label>
+                                    <Form.Label>*Volume (mL)</Form.Label>
                                     <Form.Control
                                         required
                                         id="volume"
@@ -175,7 +175,7 @@ const InitializeView = ({ protocol }) => {
                                     </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group>
-                                    <Form.Label className="pt-3 display-6">Suction (cm)</Form.Label>
+                                    <Form.Label className="pt-3 display-6">*Suction (cm)</Form.Label>
                                     <DropdownButton variant="dark" title="Preset Suction Values">
                                         <Dropdown.Item onSelect={() => setSuctionPreset(-0.5)}> -0.5 </Dropdown.Item>
                                         <Dropdown.Item onSelect={() => setSuctionPreset(-1)}> -1 </Dropdown.Item>
@@ -204,7 +204,7 @@ const InitializeView = ({ protocol }) => {
                             </Col>
                             <Col>
                                 <Form.Group>
-                                    <Form.Label>Time (seconds)</Form.Label>
+                                    <Form.Label>*Time (seconds)</Form.Label>
                                     <Form.Control
                                         required
                                         id="timeInterval"
@@ -324,8 +324,8 @@ const InitializeView = ({ protocol }) => {
                         <Row className="mt-4">
                             <Col>
                                 <div class="alert alert-primary" role="alert">
-                                Please allow location services to include geolocation data on your report.
-                                Geolocation data is not required.
+                                    Please allow location services to include geolocation data on your report.
+                                    Geolocation data is not required.
                                 </div>
                                 <Button type="submit" variant="dark" size="lg" className="w-100">Start Protocol</Button>
                             </Col>

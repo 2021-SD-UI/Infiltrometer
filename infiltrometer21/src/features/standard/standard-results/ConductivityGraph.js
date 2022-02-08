@@ -29,10 +29,39 @@ const ConductivityGraph = () => {
         return points;
     }
 
+    function interpolatedPoints(end, steps) {
+        //get the equation
+        let points = [];
+        curReport.readings.forEach(r => {
+            let point = [Math.sqrt(Number(r.secondsElapsed)), ((initialVolume - Number(r.volume)) / (Math.PI * Math.pow(radius, 2)))];
+            points.push(point);
+        });
+
+        let result = methods.polynomial(points, { order: 2, precision: 15 });
+        console.log(result.equation);
+
+        const predict = (x) => (result.equation[0] * x * x) + (result.equation[1] * x);
+
+        let intPoints = [];
+        for (let i = 0; i <= end; i += (end / steps)) {
+            intPoints.push({ x: i, y: predict(i) });
+        }
+        return intPoints;
+    }
     const data = [
         {
-            color: "steelblue",
-            points: readingsArray()
+
+            id: "0",
+            name: "Actual Data",
+            color: "Blue",
+            points: readingsArray(),
+            interpolate: "none"
+        },
+        {
+            id: "1",
+            name: "Interpolated",
+            color: "red",
+            points: interpolatedPoints(readingsArray()[readingsArray().length - 1].x, 100)
         }
     ];
 
@@ -40,7 +69,8 @@ const ConductivityGraph = () => {
     const noData = [
         {
             color: "steelblue",
-            points: [{ x: 0, y: 0 }]
+            points: [{ x: 0, y: 0 }],
+            interpolate: "none"
         }
     ];
 
@@ -50,6 +80,7 @@ const ConductivityGraph = () => {
         if (!radius) {
             return (
                 <LineChart
+
                     width={380}
                     height={400}
                     xLabel="No data to show"
@@ -66,6 +97,8 @@ const ConductivityGraph = () => {
                     xLabel="Square Root of Time (s)"
                     yLabel="Infiltration (cm)"
                     data={data}
+                    hideLines={false}
+                    hidePoints={true}
                 />
             );
         }

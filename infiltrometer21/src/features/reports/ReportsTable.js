@@ -54,6 +54,13 @@ const ReportsTable = () => {
                         <td>
                             <Container className="my-2">
                                 <Row>
+                                    {report.protocol}
+                                </Row>
+                            </Container>
+                        </td>
+                        <td>
+                            <Container className="my-2">
+                                <Row>
                                     {report.infiltrometerData.site}
                                 </Row>
                             </Container>
@@ -188,7 +195,7 @@ const ReportsTable = () => {
      * Create header for table
      */
     function renderTableHeader() {
-        let header = ['Date', 'Site', 'Options'];
+        let header = ['Date', 'Protocol', 'Site', 'Options'];
         return header.map((key, index) => {
             console.log(key.toUpperCase())
             if (key.toLowerCase() === "site") {
@@ -196,6 +203,9 @@ const ReportsTable = () => {
             }
             if (key.toLowerCase() === "date") {
                 return <th class="table-dark text-center" key={index}>Date</th>
+            }
+            if (key.toLowerCase() === "protocol") {
+                return <th class="table-dark text-center" key={index}>Protocol</th>
             }
             if (key.toLowerCase() == "options") {
                 return <th class="table-dark text-center" key={index}>Options</th>
