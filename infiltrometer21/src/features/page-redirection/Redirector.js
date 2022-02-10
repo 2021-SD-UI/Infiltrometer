@@ -17,7 +17,8 @@ export const Pages =
   StandardResultsView: "/standard-results",
   BaerManual: "/manuals-baer",
   InfiltrometerManual: "/manuals-infiltrometer",
-  ReportsView: "/reports"
+  ReportsView: "/reports",
+  NewBaerManual: "/manuals-newBaer"
 }
 
 

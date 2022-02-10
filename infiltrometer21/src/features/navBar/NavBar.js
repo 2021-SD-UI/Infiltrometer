@@ -65,7 +65,11 @@ export const NavBar = () => {
                         <NavDropdown title="Manuals" id="manuals-drop-down">
                             <NavDropdown.Divider />
                             <NavDropdown.Item onClick={() => dispatch(setPage(Pages.BaerManual))}>
-                                BAER
+                                Field Guide
+                            </NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item onClick={() => dispatch(setPage(Pages.NewBaerManual))}>
+                                BAER Article
                             </NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item onClick={() => dispatch(setPage(Pages.InfiltrometerManual))}>

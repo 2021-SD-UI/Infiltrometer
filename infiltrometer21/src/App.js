@@ -11,6 +11,7 @@ import { Pages } from './features/page-redirection/Redirector';
 import { PdfViewer } from './features/pdfviewer/pdf-viewer'
 import MiniDiskManual from './features/pdfviewer/MiniDiskManual.pdf';
 import FieldGuide from './features/pdfviewer/Field-Guide.pdf'
+import NewBaerManual from './features/pdfviewer/New-Baer-Article.pdf'
 import StandardResultsView from './features/standard/standard-results/StandardResultsView';
 import StandardInitializeView from './features/standard/standard-initialize/StandardInitializeView';
 import BaerResultsView from './features/baer/baer-results/BaerResultsView';
@@ -52,6 +53,9 @@ const App = () => {
           </Route>
           <Route exact path={Pages.BaerManual}>
             <PdfViewer pdf={FieldGuide} />
+          </Route>
+          <Route exact path={Pages.NewBaerManual}>
+            <PdfViewer pdf={NewBaerManual} />
           </Route>
           <Route exact path={Pages.ReportsView}>
             <ReportsTable />
