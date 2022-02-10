@@ -2,9 +2,10 @@
 import React, { useState } from 'react';
 import ReactDOM from "react-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { setVolume, setSecondsElapsed, selectLastVolume, setLastVolume } from './bear-replicationSlice';
 import reportsSlice, { addReading, selectCurId, selectReports, selectCurReadingID, setGatheringData } from '../../reports/reportsSlice';
-import { selectTimeInterval, selectInitialVolume, setSoilType, selectSoilType } from '../baer-initialize/bear-initializeSlice';
+import { selectTimeInterval, selectInitialVolume, setSoilType, selectSoilType } from '../../reused-components/reused-slices/initializeSlice';
+
+
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import './timer.css'
 import _default from 'react-overlays/esm/Modal';
@@ -15,7 +16,7 @@ import { addGeoDataToReading } from '../../useful-functions/usefulFunctions';
 import { useAudio } from '../../audio/Player';
 import { Pages } from '../../page-redirection/Redirector';
 import beep from '../../audio/beep-01a.mp3';
-
+import { setVolume, setSecondsElapsed, selectLastVolume, setLastVolume } from '../../reused-components/reused-slices/replicationSlice';
 const renderTime = ({ remainingTime }) => {
   if (remainingTime === 0) {
     return <div className="timer">Time is up!</div>;
@@ -151,11 +152,11 @@ const BaerReplicationView = () => {
           </Row>
           <Row>
             <Col className="mb-4">
-              <Accordion className="w-50" style={{margin: "auto"}}>
-                <Card 
+              <Accordion className="w-50" style={{ margin: "auto" }}>
+                <Card
                   bg='primary'
                   text='white'>
-                    <Accordion.Toggle as={Card.Header} eventKey="0" className='text-center'>Help</Accordion.Toggle>
+                  <Accordion.Toggle as={Card.Header} eventKey="0" className='text-center'>Help</Accordion.Toggle>
                   <Accordion.Collapse eventKey="0">
                     <Card.Body>To properly conduct a BAER protocol replication:
                       <ol type="1">

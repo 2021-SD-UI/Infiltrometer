@@ -3,14 +3,10 @@ import { combineReducers } from 'redux';
 import counterReducer from '../features/counter/counterSlice';
 
 //BAER
-import baerInitializeReducer from '../features/baer/baer-initialize/bear-initializeSlice';
-import baerReplicationReducer from '../features/baer/baer-replication/bear-replicationSlice';
-import baerResultsReducer from '../features/baer/baer-results/bear-resultsSlice';
+import baerInitializeReducer from '../features/reused-components/reused-slices/initializeSlice';
+import baerReplicationReducer from '../features/reused-components/reused-slices/replicationSlice';
+import baerResultsReducer from '../features/reused-components/reused-slices/resultsSlice';
 
-//STANDARD
-import standardInitializeReducer from '../features/standard/standard-initialize/standard-initializeSlice';
-import standardReplicationReducer from '../features/standard/standard-replication/standard-replicationSlice';
-import standardResultsReducer from '../features/standard/standard-results/standard-resultsSlice';
 
 import reportsSlice from '../features/reports/reportsSlice';
 import { reducer as reduxFormReducer } from 'redux-form'
@@ -31,10 +27,6 @@ const reducers = combineReducers({
   baerInitialize: baerInitializeReducer,
   baerReplication: baerReplicationReducer,
   baerResults: baerResultsReducer,
-  //STANDARD
-  standardInitialize: standardInitializeReducer,
-  standardReplication: standardReplicationReducer,
-  standardResults: standardResultsReducer,
 
   counter: counterReducer,
   reports: reportsSlice,

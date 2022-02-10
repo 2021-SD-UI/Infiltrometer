@@ -1,12 +1,11 @@
 
 import React, { useState } from "react";
 import { Button, Form, FormControl, FormGroup } from "react-bootstrap";
-import { setLastVolume, setSecondsElapsed, setVolume, selectLastVolume, } from "../../baer/baer-replication/bear-replicationSlice";
 import { addGeoDataToReading } from "../../useful-functions/usefulFunctions";
 import { addReading, selectCurReadingID } from "../../reports/reportsSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { selectTimeInterval, selectInitialVolume } from '../../baer/baer-initialize/bear-initializeSlice';
-
+import { selectTimeInterval, selectInitialVolume } from "../../reused-components/reused-slices/initializeSlice";
+import { setLastVolume, setSecondsElapsed, setVolume, selectLastVolume } from "../../reused-components/reused-slices/replicationSlice";
 
 const VolumeNow = ({ time, hidden }) => {
 

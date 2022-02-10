@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import ReactDOM from "react-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { setVolume, setSecondsElapsed, selectLastVolume, setLastVolume } from '../../baer/baer-replication/bear-replicationSlice';
+import { setVolume, setSecondsElapsed, selectLastVolume, setLastVolume } from '../../reused-components/reused-slices/replicationSlice';
+
 import reportsSlice, { addReading, selectCurId, selectReports, selectCurReadingID, setGatheringData } from '../../reports/reportsSlice';
-import { selectTimeInterval, selectInitialVolume } from '../../baer/baer-initialize/bear-initializeSlice';
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import './timer.css'
 import _default from 'react-overlays/esm/Modal';
@@ -16,6 +16,7 @@ import { useAudio } from '../../audio/Player';
 import { Pages } from '../../page-redirection/Redirector';
 import beep from '../../audio/beep-01a.mp3';
 import VolumeNow from "./VolumeNow";
+import { selectTimeInterval, selectInitialVolume } from '../../reused-components/reused-slices/initializeSlice';
 
 
 function hideStartButton() {

@@ -1,11 +1,13 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
+
+
 const initialState = {
     notes: "hi im a note"
 };
 
-export const standardResultsSlice = createSlice({
-    name: 'standardResults',
+export const ResultsSlice = createSlice({
+    name: 'baerResults',
     initialState,
     // The `reducers` field lets us define reducers and generate associated actions
     reducers: {
@@ -22,4 +24,4 @@ export const standardResultsSlice = createSlice({
 
     }
 });
-export default standardResultsSlice.reducer;
+export default ResultsSlice.reducer;

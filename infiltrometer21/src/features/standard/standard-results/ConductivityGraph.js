@@ -2,12 +2,12 @@ import { useSelector } from "react-redux";
 import { soilTypes } from "../../../app/soilTypes";
 import { Protocols } from "../../reports/protocols";
 import { selectCurId, selectReports } from "../../reports/reportsSlice";
-import { selectInitialVolume, selectInfiltrometerRadius } from '../../baer/baer-initialize/bear-initializeSlice';
 import LineChart from 'react-linechart';
 import { methods } from "../../regression/regression-js";
 import '../../../../node_modules/react-linechart/dist/styles.css';
 import React, { Component, useEffect } from "react";
 import { Container } from "react-bootstrap";
+import { selectInitialVolume } from "../../reused-components/reused-slices/initializeSlice";
 
 const ConductivityGraph = () => {
 

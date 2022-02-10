@@ -2,10 +2,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { soilTypes } from "../../../app/soilTypes";
 import { selectCurId, selectReports } from "../../reports/reportsSlice";
 import { Button, Col, Container, Dropdown, DropdownButton, Form, Row } from 'react-bootstrap';
-import { selectInfiltrometerData } from "../../baer/baer-initialize/bear-initializeSlice";
 import { setCurInfiltrometerData } from "../../reports/reportsSlice";
 import { useEffect, useState } from "react";
 import { infiltrometerTypes } from "../../../app/infiltrometerType";
+import { selectInfiltrometerData } from "../../reused-components/reused-slices/initializeSlice";
 
 const ConductivityForm = () => {
 

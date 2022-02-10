@@ -11,8 +11,8 @@ import { Protocols } from '../../reports/protocols';
 import { addReading, newReport } from '../../reports/reportsSlice';
 import { addGeoDataToReading } from '../../useful-functions/usefulFunctions';
 
-import { setLastVolume, setVolume } from '../../baer/baer-replication/bear-replicationSlice';
-import { selectInfiltrometerData, setInfiltrometerData, setInitialVolume } from '../../baer/baer-initialize/bear-initializeSlice';
+import { setLastVolume, setVolume } from '../reused-slices/replicationSlice';
+import { selectInfiltrometerData, setInfiltrometerData, setInitialVolume } from '../reused-slices/initializeSlice';
 
 const InitializeView = ({ protocol }) => {
     const curInfiltrometerData = useSelector(selectInfiltrometerData);
@@ -130,7 +130,7 @@ const InitializeView = ({ protocol }) => {
         <>
             <Container className="mt-3">
                 <div class="rounded border shadow">
-                    <h1 className="pt-5 display-4">Initialize {protocol == Protocols.Baer ? "Baer" : "Standard"} Protocol </h1>
+                    <h1 className="pt-5 display-4">Initialize {protocol} Protocol </h1>
                     <Form className="p-5" noValidate validated={validated} onSubmit={handleSubmit}>
                         <Row>
                             <Col>
