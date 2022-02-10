@@ -159,7 +159,7 @@ const InitializeView = ({ protocol }) => {
                         <Row className="pt-5 display-6">
                             <Col>
                                 <Form.Group>
-                                    <Form.Label>*Volume (mL)</Form.Label>
+                                    <Form.Label>Volume (mL)*</Form.Label>
                                     <Form.Control
                                         required
                                         id="volume"
@@ -175,7 +175,7 @@ const InitializeView = ({ protocol }) => {
                                     </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group>
-                                    <Form.Label className="pt-3 display-6">*Suction (cm)</Form.Label>
+                                    <Form.Label className="pt-3 display-6">Suction (cm)*</Form.Label>
                                     <DropdownButton variant="dark" title="Preset Suction Values">
                                         <Dropdown.Item onSelect={() => setSuctionPreset(-0.5)}> -0.5 </Dropdown.Item>
                                         <Dropdown.Item onSelect={() => setSuctionPreset(-1)}> -1 </Dropdown.Item>
@@ -204,7 +204,7 @@ const InitializeView = ({ protocol }) => {
                             </Col>
                             <Col>
                                 <Form.Group>
-                                    <Form.Label>*Time (seconds)</Form.Label>
+                                    <Form.Label>Time {protocol === Protocols.Baer ? "" : "Interval"} (seconds)*</Form.Label>
                                     <Form.Control
                                         required
                                         id="timeInterval"
@@ -243,6 +243,13 @@ const InitializeView = ({ protocol }) => {
                                         Required!
                                     </Form.Control.Feedback>
                                 </Form.Group>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col>
+                                <Container>
+                                    (*) indicates required field
+                                </Container>
                             </Col>
                         </Row>
                         <Row>
