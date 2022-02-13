@@ -1,5 +1,5 @@
 //The Page we are displaying for the default Initialize view
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Col, Container, Dropdown, DropdownButton, Form, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -123,9 +123,25 @@ const InitializeView = ({ protocol }) => {
         let radius = document.getElementById("radius"); radius.value = "";
         let nh0 = document.getElementById("nh0"); nh0.value = "";
         let alpha = document.getElementById("alpha"); alpha.value = "";
+        let lat = document.getElementById("lat"); lat = null;
+        let lon = document.getElementById("lon"); lon = null;
     }
 
+    const preloadCoordinates = () => {
+        let lat = document.getElementById("lat").value;
+        if (lat === "") lat = null;
+        let lon = document.getElementById("lon").value;
+        if (lon === "") lon = null;
 
+        let reading = { lat, lon };
+
+        addGeoDataToReading(reading, (reading) => {
+            document.getElementById("lat").value = reading.lat;
+            document.getElementById("lon").value = reading.lon;
+        });
+
+    }
+    useEffect(preloadCoordinates, []);
     return (
         <>
             <Container className="mt-3">
