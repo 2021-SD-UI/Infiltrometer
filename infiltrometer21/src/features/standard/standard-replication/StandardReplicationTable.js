@@ -1,9 +1,10 @@
 import { Container, Col, Row, Button, Table, Form } from "react-bootstrap";
-import { addReading, selectCurReadingID, setGatheringData } from '../../reports/reportsSlice';
+import { addReading, removeReadingWithTime, selectCurReadingID, setGatheringData } from '../../reports/reportsSlice';
 import { selectInfiltrometerData, selectInitialVolume, selectTimeInterval } from '../../reused-components/reused-slices/initializeSlice';
 import { selectLastVolume, setLastVolume, setSecondsElapsed, setVolume } from '../../reused-components/reused-slices/replicationSlice';
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { addGeoDataToReading } from "../../useful-functions/usefulFunctions";
 
 
 export const StandardReplicationTable = ({ intervals }) => {
@@ -69,9 +70,29 @@ export const StandardReplicationTable = ({ intervals }) => {
 
 const StandardReplicationRow = ({ time }) => {
     const curInfiltrometerData = useSelector(selectInfiltrometerData);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (time === 0) {
+
+            //this is the initial volume
+
+        }
 
 
+    }, [])
 
+    const onChange = (event) => {
+        var volume = event.target.value;
+
+        if (volume == "" || volume === undefined) {
+            dispatch(removeReadingWithTime(time));
+            return;
+        }
+        addGeoDataToReading({ volume, secondsElapsed: time }, (newReading) => {
+            dispatch(addReading(newReading));
+        });
+    }
 
 
     return (
@@ -88,6 +109,8 @@ const StandardReplicationRow = ({ time }) => {
                             min="0"
                             defaultValue={null}
                             placeholder="Volume (mL)"
+                            onChange={onChange}
+                            onSubmit={() => { }}
                         />
                         <Form.Control.Feedback type="invalid">
                             Required!
