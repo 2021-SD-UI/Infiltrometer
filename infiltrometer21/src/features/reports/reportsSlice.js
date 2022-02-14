@@ -45,7 +45,8 @@ export const reportsSlice = createSlice({
       let _readings = state.reports[state.curId].readings;
 
       if (_readings.length === 0) {
-        _readings.push(action.payload); return;
+        _readings.push(action.payload);
+        return;
       }
 
       for (let i = 0; i < _readings.length; i++) {
@@ -57,9 +58,10 @@ export const reportsSlice = createSlice({
         }
 
       }
+      _readings.push(action.payload);
 
       //sort the elements
-      state.reports[state.curId].readings.sort((a, b) => (a.secondsElapsed < b.secondsElapsed) ? 1 : -1);
+      _readings.sort((a, b) => (a.secondsElapsed > b.secondsElapsed) ? 1 : -1);
     },
     removeReadingWithTime: (state, action) => {
       //remove the reading to based on the reading's time

@@ -27,7 +27,7 @@ export const StandardReplicationTable = ({ intervals }) => {
         var data = [{ time: 0, volume: initialVolume }];
 
         for (var i = 1; i < intervals; i++) {
-            data = [{ time: timeInterval * i, volume: null }, ...data,];
+            data = [...data, { time: timeInterval * i, volume: null }];
         }
 
 
@@ -83,18 +83,20 @@ const StandardReplicationRow = ({ time }) => {
     const curInfiltrometerData = useSelector(selectInfiltrometerData);
     const dispatch = useDispatch();
 
-    const [volume, setVolume] = useState(0)
 
     const onChange = (event) => {
         var volume = event.target.value;
 
-        if (volume == "" || volume === undefined) {
+        if (volume == "" || volume == undefined) {
             dispatch(removeReadingWithTime(time));
             return;
         }
-        addGeoDataToReading({ volume, secondsElapsed: time }, (newReading) => {
-            dispatch(addReading(newReading));
-        });
+        dispatch(addReading({
+            volume,
+            secondsElapsed: time,
+            lat: curInfiltrometerData.coordinates.lat,
+            lon: curInfiltrometerData.coordinates.lon
+        }));
     }
 
 

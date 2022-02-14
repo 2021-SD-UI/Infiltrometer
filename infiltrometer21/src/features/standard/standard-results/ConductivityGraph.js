@@ -21,6 +21,7 @@ const ConductivityGraph = () => {
     // to be used in regression
     function readingsArray() {
         let points = [];
+        //sort the readings by time
 
         curReport.readings.forEach(r => {
             let point = { x: Math.sqrt(Number(r.secondsElapsed)), y: ((initialVolume - Number(r.volume)) / (Math.PI * Math.pow(radius, 2))) };
