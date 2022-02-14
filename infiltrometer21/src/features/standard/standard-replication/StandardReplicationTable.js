@@ -5,12 +5,14 @@ import { selectLastVolume, setLastVolume, setSecondsElapsed, setVolume } from '.
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addGeoDataToReading } from "../../useful-functions/usefulFunctions";
-
+import { useState } from "react";
 
 export const StandardReplicationTable = ({ intervals }) => {
 
     const timeInterval = useSelector(selectTimeInterval);
 
+    const curInfiltrometerData = useSelector(selectInfiltrometerData);
+    const initialVolume = curInfiltrometerData.initialVolume;
 
     const header = () => (
         <>
@@ -22,9 +24,9 @@ export const StandardReplicationTable = ({ intervals }) => {
 
 
     const rowData = () => {
-        var data = [];
+        var data = [{ time: 0, volume: initialVolume }];
 
-        for (var i = 0; i < intervals; i++) {
+        for (var i = 1; i < intervals; i++) {
             data = [{ time: timeInterval * i, volume: null }, ...data,];
         }
 
@@ -35,15 +37,24 @@ export const StandardReplicationTable = ({ intervals }) => {
 
     const body = () => {
 
-        let rows = 10;
+        const initial = () => {
+            return (
+                <tr>
+                    <td>0</td>
+                    <td>{initialVolume}</td>
+                </tr>
+            );
+
+        }
 
         return (
             <>
-                {rowData().map(row => <StandardReplicationRow time={row.time} />)}
+                {rowData().map(row => row.time === 0 ? initial() : <StandardReplicationRow time={row.time} />)}
             </>
 
         );
     }
+
 
     return (
         <Container>
@@ -72,15 +83,7 @@ const StandardReplicationRow = ({ time }) => {
     const curInfiltrometerData = useSelector(selectInfiltrometerData);
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        if (time === 0) {
-
-            //this is the initial volume
-
-        }
-
-
-    }, [])
+    const [volume, setVolume] = useState(0)
 
     const onChange = (event) => {
         var volume = event.target.value;
@@ -102,7 +105,7 @@ const StandardReplicationRow = ({ time }) => {
                 <Form>
                     <Form.Group>
                         <Form.Control
-                            id="volume"
+                            id={"volume" + time}
                             type="number"
                             step="any"
                             size="sm"
@@ -110,7 +113,7 @@ const StandardReplicationRow = ({ time }) => {
                             defaultValue={null}
                             placeholder="Volume (mL)"
                             onChange={onChange}
-                            onSubmit={() => { }}
+                            onSubmit={onChange}
                         />
                         <Form.Control.Feedback type="invalid">
                             Required!
