@@ -164,6 +164,7 @@ const BaerReplicationView = () => {
                         <li>With a full infiltrometer, place the porous disk flat against the soil and perpendicular to the surface. Tap the “Start Replication” button as soon as the infiltrometer disk and the soil come into contact.</li>
                         <li>At the end of the timer, remove the infiltrometer from the soil and hold the top of the tube so that the water is at eye level. Record the end volume.</li>
                         <li>Repeat these steps for as many replications as necessary.</li>
+                        <li>Once all replications have been completed, select the "End Protocol" button</li>
                       </ol>
                     </Card.Body>
                   </Accordion.Collapse>

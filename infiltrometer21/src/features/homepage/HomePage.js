@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Accordion, Card } from "react-bootstrap";
 export function HomePage() {
     return (
         <>
@@ -22,10 +22,37 @@ export function HomePage() {
                         <div className="m-4 display-6">How To Start a Test</div>
                         <Row>
                             <Col className="mx-4">
-                                <div class="alert alert-primary" role="alert">
-                                    This app can be used with or without an internet connection!
-                                </div>
                                 Begin a new test using the desired protocol by clicking "New Test" in the navigation bar at the top of the screen. On smaller devices, click the icon with three horizontal lines on the top right to view the navigation bar's contents. Select the protocol you wish to use, and follow the on-screen prompts to fill in the required information. For more information about how to conduct a test, see the "Manual" section of the Navbar at the top of the screen.
+
+                                <Accordion>
+                                    <Card
+                                        bg='secondary'
+                                        text='white'>
+                                        <Accordion.Toggle as={Card.Header} eventKey="0" className='text-center'>The app can use your device's GPS to determine your location, but you need to allow it when the protocol page loads. If you have blocked the location and later want to allow it  then you will need to change your device settings.</Accordion.Toggle>
+                                        <Accordion.Collapse eventKey="0">
+                                            <Card.Body>To re-enable location services on your device if you've already disabled them:
+                                                <ul>
+                                                    <li>
+                                                        iPhone:
+                                                        <ol type="1">
+                                                            <li>Go to Settings {">"} Privacy</li>
+                                                            <li>Tap Location Services</li>
+                                                            <li>Move the Location Services slideter to on/green. Location Services are now on.</li>
+                                                        </ol>
+                                                    </li>
+                                                    <li>
+                                                        Android:
+                                                        <ol type="1">
+                                                            <li>Go to Settings {">"} Location</li>
+                                                            <li>Move the slider to On. Location Services are now on.</li>
+                                                        </ol>
+                                                    </li>
+                                                </ul>
+                                            </Card.Body>
+                                        </Accordion.Collapse>
+                                    </Card>
+                                </Accordion>
+
                                 <hr />
                             </Col>
 
