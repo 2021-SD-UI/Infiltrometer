@@ -1,22 +1,19 @@
 //The Page we are displaying for the baer Initialize view
 import React, { useState } from 'react';
-import ReactDOM from "react-dom";
-import { useSelector, useDispatch } from 'react-redux';
-import { setVolume, setSecondsElapsed, selectLastVolume, setLastVolume } from '../../reused-components/reused-slices/replicationSlice';
-
-import reportsSlice, { addReading, selectCurId, selectReports, selectCurReadingID, setGatheringData } from '../../reports/reportsSlice';
+import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
-import './timer.css'
-import _default from 'react-overlays/esm/Modal';
-import { setPage } from '../../page-redirection/redirector-slice';
-import Table from '../../baer/baer-results/table';
-import { Modal, Button, Form, Container, Row, Col, } from 'react-bootstrap';
-import { addGeoDataToReading } from '../../useful-functions/usefulFunctions';
+import { useDispatch, useSelector } from 'react-redux';
+import beep from '../../audio/beep-01a.mp3';
 import { useAudio } from '../../audio/Player';
 import { Pages } from '../../page-redirection/Redirector';
-import beep from '../../audio/beep-01a.mp3';
-import VolumeNow from "./VolumeNow";
-import { selectTimeInterval, selectInitialVolume } from '../../reused-components/reused-slices/initializeSlice';
+import { setPage } from '../../page-redirection/redirector-slice';
+import { addReading, selectCurReadingID, setGatheringData } from '../../reports/reportsSlice';
+import { selectInitialVolume, selectTimeInterval } from '../../reused-components/reused-slices/initializeSlice';
+import { selectLastVolume, setLastVolume, setSecondsElapsed, setVolume } from '../../reused-components/reused-slices/replicationSlice';
+import { addGeoDataToReading } from '../../useful-functions/usefulFunctions';
+import { StandardReplicationTable } from './StandardReplicationTable';
+import './timer.css';
+
 
 
 function hideStartButton() {
@@ -72,45 +69,21 @@ const StandardReplicationView = () => {
   const [show, setShow] = useState(false);
   const [playing, toggle] = useAudio(beep);
   const [validated, setValidated] = useState(false);
-  const handleClose = () => { setShow(false); setPlaying(false) };
-  const handleShow = () => {
+
+
+  /*Time -----------------------------------------------------------------*/
+
+  const addRow = () => {
 
     //play audio
     if (!playing) toggle();
 
-    //open the modal
-    setShow(true);
-
+    //increment the interval
+    //resume the timer
+    setState({ timerIsPlaying: true, key: state.key + 1 });
+    toggle();
   }
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setValidated(true);
-    const form = event.currentTarget;
-    const volumeReading = document.getElementById("volumeReading").value;
-    if (form.checkValidity() === false) {
-      event.stopPropagation();
-    }
-    else {
-      handleClose();
-      setValidated(false);
-      //calculate the total number of elapsed seconds
-      let secondsElapsed = timeInterval;
 
-      //set the volume and time in the replication store
-      dispatch(setLastVolume(volumeReading));
-      dispatch(setVolume(volumeReading));
-      dispatch(setSecondsElapsed(secondsElapsed));
-
-      //add the reading using the reports slice
-      //try to gather geo data
-      addGeoDataToReading({ volume: volumeReading, secondsElapsed }, (newReading) => {
-        dispatch(addReading(newReading));
-      });
-
-
-
-    }
-  };
   /* --------------------------------------------------------------------- */
 
   return (
@@ -127,8 +100,7 @@ const StandardReplicationView = () => {
                   isPlaying={state.timerIsPlaying}
                   duration={Number(timeInterval)}
                   colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
-                  onComplete={() => handleShow()}
-                //onUpdate={({remainingTime}) => setRemaining(remainingTime)}
+                  onComplete={() => addRow()}
                 >
                   {renderTime}
                 </CountdownCircleTimer>
@@ -161,71 +133,13 @@ const StandardReplicationView = () => {
               </Button>
             </Col>
           </Row>
-          <Row>
-            <Col className="text-center m-4">
-              <VolumeNow maximumVolume={maxVolume} id="volNow" time={remaining} hidden={!state.timerIsPlaying}></VolumeNow>
-            </Col>
-          </Row>
           <Row className="mt-4">
             <Col>
-              <Table>{/* This table is rendered from table.js */}</Table>
+              <StandardReplicationTable intervals={state.key} />
             </Col>
           </Row>
         </div>
       </Container>
-
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        centered
-      >
-        <Modal.Header>
-          <Modal.Title>Enter volumetric data for replication: {curID + 1}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form
-            noValidate
-            validated={validated}
-            onSubmit={handleSubmit}
-          >
-            <Form.Group>
-              <Form.Text muted>
-                Previous volume: {maxVolume} mL
-              </Form.Text>
-              <Form.Control
-                required
-                type="number"
-                step="any"
-                size="lg"
-                min="0"
-                max={maxVolume}
-                id="volumeReading"
-                placeholder="Volume (mL)"
-              />
-              <Form.Control.Feedback type="invalid">
-                Please enter a valid reading, or hit "Cancel".
-              </Form.Control.Feedback>
-            </Form.Group>
-            <Modal.Footer>
-              <Button
-                variant="outline-secondary"
-                size="lg"
-                onClick={handleClose}
-              >
-                Cancel
-              </Button>
-              <Button
-                type="submit"
-                variant="dark"
-                size="lg"
-              >
-                Submit
-              </Button>
-            </Modal.Footer>
-          </Form>
-        </Modal.Body>
-      </Modal>
     </>
   );
 
