@@ -73,6 +73,7 @@ const StandardReplicationRow = ({ time }) => {
 
 
 
+
     return (
         <tr>
             <td>{time}</td>

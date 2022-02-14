@@ -41,11 +41,29 @@ export const reportsSlice = createSlice({
      * 
      */
     addReading: (state, action) => {
-      //add the reading to the end of the list of readings
+      //add the reading to based on the reading's time and
+      let _readings = state.reports[state.curId].readings;
+
+      for (let i = 0; i < _readings.length; i++) {
+        if (_readings[i].secondsElapsed > action.payload.secondsElapsed) {
+          //add before the reading
+          state.reports[state.curId].readings =
+            _readings.splice(i - 1, 0, action.payload);
+          return;
+        }
+        else if (_readings[i].secondsElapsed === action.payload.secondsElapsed) {
+          //modify the elements
+          _readings[i] = action.payload;
+          return;
+
+        }
+
+      }
+
+      //add to the end
       state.reports[state.curId].readings =
         [...state.reports[state.curId].readings,
         action.payload];
-
     },
     //sets the current gathering data report
     setGatheringData: (state, action) => {
