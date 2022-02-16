@@ -1,4 +1,4 @@
-import { Container, Col, Row, Button, Table, Form } from "react-bootstrap";
+import { Container, Col, Row, Button, Table, Form, InputGroup } from "react-bootstrap";
 import { addReading, removeReadingWithTime, selectCurReadingID, setGatheringData } from '../../reports/reportsSlice';
 import { selectInfiltrometerData, selectInitialVolume, selectTimeInterval } from '../../reused-components/reused-slices/initializeSlice';
 import { selectLastVolume, setLastVolume, setSecondsElapsed, setVolume } from '../../reused-components/reused-slices/replicationSlice';
@@ -6,6 +6,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addGeoDataToReading } from "../../useful-functions/usefulFunctions";
 import { useState } from "react";
+import { useRef } from "react";
 
 export const StandardReplicationTable = ({ intervals }) => {
 
@@ -101,10 +102,12 @@ const StandardReplicationRow = ({ time }) => {
 
 
     return (
+
         <tr>
             <td>{time}</td>
             <td>
-                <Form>
+
+                <InputGroup>
                     <Form.Group>
                         <Form.Control
                             id={"volume" + time}
@@ -115,13 +118,13 @@ const StandardReplicationRow = ({ time }) => {
                             defaultValue={null}
                             placeholder="Volume (mL)"
                             onChange={onChange}
-                            onSubmit={onChange}
+                            onSubmit={null}
                         />
                         <Form.Control.Feedback type="invalid">
                             Required!
                         </Form.Control.Feedback>
                     </Form.Group>
-                </Form>
+                </InputGroup>
             </td>
         </tr>
     );
