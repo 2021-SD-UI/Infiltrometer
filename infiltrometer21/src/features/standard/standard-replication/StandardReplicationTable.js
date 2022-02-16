@@ -88,7 +88,7 @@ const StandardReplicationRow = ({ time }) => {
     const onChange = (event) => {
         var volume = event.target.value;
 
-        if (volume == "" || volume == undefined) {
+        if (String(volume).length === 0 || volume == undefined) {
             dispatch(removeReadingWithTime(time));
             return;
         }
@@ -108,22 +108,22 @@ const StandardReplicationRow = ({ time }) => {
             <td>
 
                 <InputGroup>
-                    <Form.Group>
-                        <Form.Control
-                            id={"volume" + time}
-                            type="number"
-                            step="any"
-                            size="sm"
-                            min="0"
-                            defaultValue={null}
-                            placeholder="Volume (mL)"
-                            onChange={onChange}
-                            onSubmit={null}
-                        />
-                        <Form.Control.Feedback type="invalid">
-                            Required!
-                        </Form.Control.Feedback>
-                    </Form.Group>
+
+                    <Form.Control
+                        id={"volume" + time}
+                        type="number"
+                        step="any"
+                        size="sm"
+                        min="0"
+                        defaultValue={null}
+                        placeholder="Volume (mL)"
+                        onChange={onChange}
+                        onSubmit={null}
+                    />
+                    <Form.Control.Feedback type="invalid">
+                        Required!
+                    </Form.Control.Feedback>
+
                 </InputGroup>
             </td>
         </tr>

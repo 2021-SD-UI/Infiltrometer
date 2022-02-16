@@ -65,8 +65,9 @@ export const reportsSlice = createSlice({
     },
     removeReadingWithTime: (state, action) => {
       //remove the reading to based on the reading's time
+      let _readings = [...state.reports[state.curId].readings];
 
-      state.reports[state.curId].readings.filter(r => r.secondsElapsed === action.payload);
+      state.reports[state.curId].readings = [..._readings].filter(r => r.secondsElapsed != action.payload);
 
     },
     //sets the current gathering data report
@@ -95,6 +96,7 @@ export const reportsSlice = createSlice({
     },
     //sets the current report's infiltrometer Data
     setCurInfiltrometerData: (state, action) => {
+
       state.reports[state.curId].infiltrometerData = action.payload;
     }
   }
