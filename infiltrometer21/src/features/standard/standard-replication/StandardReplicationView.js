@@ -117,7 +117,7 @@ const StandardReplicationView = () => {
                 disabled={state.timerIsPlaying}
                 onClick={() => { setState({ timerIsPlaying: true, key: state.key + 1 }); hideStartButton() }}
               >
-                {!state.timerIsPlaying ? "Start Replication" : "Replication Running..."}
+                {!state.timerIsPlaying ? "Start Protocol" : "Replication Running..."}
               </Button>
             </Col>
           </Row>
