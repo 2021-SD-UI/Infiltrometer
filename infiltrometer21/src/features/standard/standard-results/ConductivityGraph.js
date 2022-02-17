@@ -20,6 +20,9 @@ const ConductivityGraph = () => {
     // [{x,y}, {x,y}, ... ]
     // to be used in regression
     function readingsArray() {
+
+        if (curReport.readings.length <= 1) { return []; }
+
         let points = [];
         //sort the readings by time
 
@@ -31,6 +34,9 @@ const ConductivityGraph = () => {
     }
 
     function interpolatedPoints(end, steps) {
+
+
+
         //get the equation
         let points = [];
         curReport.readings.forEach(r => {
@@ -62,7 +68,7 @@ const ConductivityGraph = () => {
             id: "1",
             name: "Interpolated",
             color: "red",
-            points: interpolatedPoints(readingsArray()[readingsArray().length - 1].x, 100)
+            points: readingsArray().length >= 1 ? interpolatedPoints(readingsArray()[readingsArray().length - 1].x, 100) : null
         }
     ];
 
@@ -78,7 +84,7 @@ const ConductivityGraph = () => {
     // Calculations require radius, so if radius is
     // null then don't render the graph.
     const Graph = () => {
-        if (!radius) {
+        if (!radius || curReport.readings.length <= 1) {
             return (
                 <LineChart
 
