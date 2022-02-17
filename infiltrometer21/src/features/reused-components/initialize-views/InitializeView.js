@@ -136,6 +136,10 @@ const InitializeView = ({ protocol }) => {
         let reading = { lat, lon };
 
         addGeoDataToReading(reading, (reading) => {
+
+            //make sure we haven't changed pages while waiting
+            if (document.getElementById("lat") === null) return;
+
             document.getElementById("lat").value = reading.lat;
             document.getElementById("lon").value = reading.lon;
         });
