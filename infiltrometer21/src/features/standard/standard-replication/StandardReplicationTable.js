@@ -110,6 +110,7 @@ const StandardReplicationRow = ({ time }) => {
                 <InputGroup>
 
                     <Form.Control
+                        autoFocus
                         id={"volume" + time}
                         type="number"
                         step="any"

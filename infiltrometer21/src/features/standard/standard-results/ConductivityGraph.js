@@ -87,7 +87,6 @@ const ConductivityGraph = () => {
         if (!radius || curReport.readings.length <= 1) {
             return (
                 <LineChart
-
                     width={380}
                     height={400}
                     xLabel="No data to show"
@@ -99,6 +98,7 @@ const ConductivityGraph = () => {
         else {
             return (
                 <LineChart
+                    showLegends="true"
                     width={380}
                     height={400}
                     xLabel="Square Root of Time (s)"
