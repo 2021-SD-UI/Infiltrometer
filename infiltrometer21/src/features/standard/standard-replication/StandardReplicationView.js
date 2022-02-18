@@ -66,9 +66,7 @@ const StandardReplicationView = () => {
   }
 
   /* Modal -------------------------------------------------------------- */
-  const [show, setShow] = useState(false);
   const [playing, toggle] = useAudio(beep);
-  const [validated, setValidated] = useState(false);
 
 
   /*Time -----------------------------------------------------------------*/
@@ -107,6 +105,11 @@ const StandardReplicationView = () => {
               </div>
             </Col>
           </Row>
+          <Row className="mt-4">
+            <Col>
+              <StandardReplicationTable intervals={state.key} />
+            </Col>
+          </Row>
           <Row className="text-center">
             <Col className="mt-4">
               <Button
@@ -121,7 +124,7 @@ const StandardReplicationView = () => {
               </Button>
             </Col>
           </Row>
-          <Row className="text-center">
+          <Row className="text-center mt-2">
             <Col className="mt-2">
               <Button
                 variant="secondary"
@@ -133,11 +136,7 @@ const StandardReplicationView = () => {
               </Button>
             </Col>
           </Row>
-          <Row className="mt-4">
-            <Col>
-              <StandardReplicationTable intervals={state.key} />
-            </Col>
-          </Row>
+          <Row className="mb-5" />
         </div>
       </Container>
     </>
