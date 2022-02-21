@@ -1,6 +1,6 @@
 //The Page we are displaying for the default Initialize view
 import React, { useState, useEffect } from 'react';
-import { Button, Col, Container, Dropdown, DropdownButton, Form, OverlayTrigger, Row, Tooltip } from 'react-bootstrap';
+import { Button, Col, Container, Dropdown, DropdownButton, Form, OverlayTrigger, Row, Popover } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { infiltrometerTypes } from '../../../app/infiltrometerType';
@@ -10,9 +10,11 @@ import { setPage } from '../../page-redirection/redirector-slice';
 import { Protocols } from '../../reports/protocols';
 import { addReading, newReport } from '../../reports/reportsSlice';
 import { addGeoDataToReading } from '../../useful-functions/usefulFunctions';
-
 import { setLastVolume, setVolume } from '../reused-slices/replicationSlice';
 import { selectInfiltrometerData, setInfiltrometerData, setInitialVolume } from '../reused-slices/initializeSlice';
+
+import { HelpTip } from '../HelpTip';
+
 
 const InitializeView = ({ protocol }) => {
     const curInfiltrometerData = useSelector(selectInfiltrometerData);
@@ -146,12 +148,15 @@ const InitializeView = ({ protocol }) => {
 
     }
     useEffect(preloadCoordinates, []);
+
     return (
         <>
             <Container className="mt-3">
                 <div class="rounded border shadow">
+
                     <h1 className="pt-5 display-4">Initialize {protocol} Protocol </h1>
                     <Form className="p-5" noValidate validated={validated} onSubmit={handleSubmit}>
+
                         <Row>
                             <Col>
                                 <Form.Group>
