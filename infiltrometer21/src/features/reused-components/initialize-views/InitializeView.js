@@ -160,10 +160,12 @@ const InitializeView = ({ protocol }) => {
                         <Row>
                             <Col>
                                 <Form.Group>
-                                    <Form.Label className='display-6'>Site Name
-                                    <HelpTip title="Site Name" content="Where you are recording data from, for organizational purposes."/>
+                                    <Form.Label className='display-6'>Site Name{"  "}
+                                        <HelpTip size="25px"
+                                            title="Site Name"
+                                            content="Where you are recording data from, for organizational purposes." />
                                     </Form.Label>
-                                    
+
                                     <Form.Control
                                         id="site"
                                         type="text"
@@ -172,10 +174,10 @@ const InitializeView = ({ protocol }) => {
                                         placeholder="Enter site name..."
                                     />
                                     <div className="pt-2" />
-                                    <Form.Label className='display-6'>Observation Name
-                                    <HelpTip title="Observation Name" content="The name of the observation you are recording, for organizational purposes."/>
+                                    <Form.Label className='display-6'>Observation Name{"  "}
+                                        <HelpTip size="25px" title="Observation Name" content="The name of the observation you are recording, for organizational purposes." />
                                     </Form.Label>
-                                    
+
                                     <Form.Control
                                         id="observation"
                                         type="text"
@@ -190,8 +192,8 @@ const InitializeView = ({ protocol }) => {
                         <Row className="pt-5 display-6">
                             <Col>
                                 <Form.Group>
-                                    <Form.Label>Volume (mL)*</Form.Label>
-                                    <HelpTip title="Volume" content="The initial volume loaded into the infiltrometer."/>
+                                    <Form.Label>Volume (mL)*{"  "}</Form.Label>
+                                    <HelpTip size="25px" title="Volume" content="The initial volume loaded into the infiltrometer." />
                                     <Form.Control
                                         required
                                         id="volume"
@@ -207,8 +209,8 @@ const InitializeView = ({ protocol }) => {
                                     </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group>
-                                    <Form.Label className="pt-3 display-6">Suction (cm)*
-                                    <HelpTip title="Suction" content="Ask About This."/>
+                                    <Form.Label className="pt-3 display-6">Suction (cm)*{"  "}
+                                        <HelpTip size="25px" title="Suction" content="Ask About This." />
                                     </Form.Label>
                                     <DropdownButton variant="dark" title="Preset Suction Values">
                                         <Dropdown.Item onSelect={() => setSuctionPreset(-0.5)}> -0.5 </Dropdown.Item>
@@ -238,10 +240,11 @@ const InitializeView = ({ protocol }) => {
                             </Col>
                             <Col>
                                 <Form.Group>
-                                    <Form.Label>Time {protocol === Protocols.Baer ? "" : "Interval"} (seconds)*
-                                    <HelpTip 
-                                        title={protocol === Protocols.Baer ? "Time" : "Time Interval"} 
-                                        content={protocol === Protocols.Baer ? "The amount of time you will record data for." : "The amount of time for each interval that you will record data for."}/>
+                                    <Form.Label>Time {protocol === Protocols.Baer ? "" : "Interval"} (seconds)*{"  "}
+                                        <HelpTip
+                                            size="25px"
+                                            title={protocol === Protocols.Baer ? "Time" : "Time Interval"}
+                                            content={protocol === Protocols.Baer ? "The amount of time you will record data for." : "The amount of time for each interval that you will record data for."} />
                                     </Form.Label>
                                     <Form.Control
                                         required
@@ -258,8 +261,8 @@ const InitializeView = ({ protocol }) => {
                                     </Form.Control.Feedback>
                                 </Form.Group>
                                 <Form.Group>
-                                    <Form.Label className="pt-3 display-6">Radius (cm)
-                                    <HelpTip title="Radius" content="Radius of the infiltrometer device being used. You may select from one of the preset types below, or input your own custom radius."/>
+                                    <Form.Label className="pt-3 display-6">Radius (cm){"  "}
+                                        <HelpTip size="25px" title="Radius" content="Radius of the infiltrometer device being used. You may select from one of the preset types below, or input your own custom radius." />
                                     </Form.Label>
                                     <DropdownButton variant="dark" title="Preset Infiltrometer Types">
                                         <Dropdown.Item onSelect={() => setRadiusPreset(infiltrometerTypes.MiniDisk.radius)}>
@@ -295,8 +298,8 @@ const InitializeView = ({ protocol }) => {
                         <Row>
                             <Col>
                                 <Form.Group>
-                                    <Form.Label className="pt-3 display-6">Soil Type
-                                    <HelpTip title="Soil Type" content="The type of soil being loaded into the infiltrometer. You can select a preset soil type from the menu below to automatically load all the necessary data, or input the N/H0 and Alpha values of a custom soil type if yours is not represented."/>
+                                    <Form.Label className="pt-3 display-6">Soil Type{"  "}
+                                        <HelpTip size="25px" title="Soil Type" content="The type of soil being loaded into the infiltrometer. You can select a preset soil type from the menu below to automatically load all the necessary data, or input the N/H0 and Alpha values of a custom soil type if yours is not represented." />
                                     </Form.Label>
                                     <DropdownButton variant="dark" title="Preset Soil Types">
                                         <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.undefined)}> Unknown </Dropdown.Item>
@@ -343,8 +346,8 @@ const InitializeView = ({ protocol }) => {
                         <Row>
                             <Col>
                                 <Form.Group>
-                                    <Form.Label className="pt-3 display-6">Location
-                                    <HelpTip title="Location" content="Where you are taking data from. This is automatically loaded by the app if you have location services enabled. Otherwise, you will need to add the latitude and longitude values manually."/>
+                                    <Form.Label className="pt-3 display-6">Location{"  "}
+                                        <HelpTip size="25px" title="Location" content="Where you are taking data from. This is automatically loaded by the app if you have location services enabled. Otherwise, you will need to add the latitude and longitude values manually." />
                                     </Form.Label>
                                     <div className="pt-2" />
                                     <Form.Label>Latitude</Form.Label>

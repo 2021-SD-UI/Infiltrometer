@@ -4,7 +4,7 @@ import { BsFillQuestionCircleFill as Qmark } from 'react-icons/bs';
 
 
 
-export const HelpTip = ({ title, content }) => {
+export const HelpTip = ({ title, content, size }) => {
 
 
     const popover = (
@@ -19,7 +19,7 @@ export const HelpTip = ({ title, content }) => {
     return (
         <>
             <OverlayTrigger trigger="click" placement="right" overlay={popover}>
-                <Qmark />
+                <Qmark size={size} />
             </OverlayTrigger>
         </>
     );
