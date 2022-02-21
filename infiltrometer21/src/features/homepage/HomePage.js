@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Collapse } from "react-bootstrap";
+import { HelpTip } from '../reused-components/HelpTip';
 
 export function HomePage() {
 
@@ -19,6 +20,7 @@ export function HomePage() {
                             <Col className="mx-4">
                                 This application was developed by Software Engineering students at Michigan Technological University, and is meant to be used with the Mini-Disk Infiltrometer to aid in recording soil infiltration data. Gathered data will be stored on your local device upon completing a reading. This data can be downloaded as a CSV for later use. These CSV reports may also be viewed in Excel.
                                 <hr />
+                                <HelpTip content="This is a help tip" title="Tip"/>
                             </Col>
 
                         </Row>

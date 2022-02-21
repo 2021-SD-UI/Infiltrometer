@@ -1,6 +1,6 @@
 //The Page we are displaying for the baer Initialize view
 import React, { useState } from 'react';
-import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Modal, Row, Card, Accordion } from 'react-bootstrap';
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useDispatch, useSelector } from 'react-redux';
 import beep from '../../audio/beep-01a.mp3';
@@ -137,6 +137,28 @@ const StandardReplicationView = () => {
             </Col>
           </Row>
           <Row className="mb-5" />
+          <Row>
+            <Col className="mb-4">
+              <Accordion className="w-50" style={{ margin: "auto" }}>
+                <Card
+                  bg='primary'
+                  text='white'>
+                  <Accordion.Toggle as={Card.Header} eventKey="0" className='text-center'>Help</Accordion.Toggle>
+                  <Accordion.Collapse eventKey="0">
+                    <Card.Body>To properly conduct a Standard Protocol replication:
+                      <ol type="1">
+                        <li>Expose the soil about 1 to 3 cm in depth, removing any overlying ash or minerals.</li>
+                        <li>With a full infiltrometer, place the porous disk flat against the soil and perpendicular to the surface. Tap the “Start Protocol" button as soon as the infiltrometer disk and the soil come into contact.</li>
+                        <li>At the end of each interval, remove the infiltrometer from the soil and hold the top of the tube so that the water is at eye level. A field in the above table will automatically appear and be selected for data entry. Record the end volume.</li>
+                        <li>Repeat these steps for as many intervals as necessary.</li>
+                        <li>Once all replications have been completed, select the "End Protocol" button</li>
+                      </ol>
+                    </Card.Body>
+                  </Accordion.Collapse>
+                </Card>
+              </Accordion>
+            </Col>
+          </Row>
         </div>
       </Container>
     </>

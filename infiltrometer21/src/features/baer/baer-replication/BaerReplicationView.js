@@ -11,7 +11,7 @@ import './timer.css'
 import _default from 'react-overlays/esm/Modal';
 import { setPage } from '../../page-redirection/redirector-slice';
 import Table from '../baer-results/table';
-import { Modal, Button, Form, Container, Row, Col, OverlayTrigger, Accordion, Card } from 'react-bootstrap';
+import { Modal, Button, Form, Container, Row, Col, Accordion, Card } from 'react-bootstrap';
 import { addGeoDataToReading } from '../../useful-functions/usefulFunctions';
 import { useAudio } from '../../audio/Player';
 import { Pages } from '../../page-redirection/Redirector';
