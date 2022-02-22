@@ -1,18 +1,19 @@
 //The Page we are displaying for the baer Initialize view
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
+import Table from '../../baer/baer-results/table';
 import { Protocols } from '../../reports/protocols';
-import { selectCurId, selectNotes, selectReports, setNotes } from "../../reports/reportsSlice";
+import { selectCurId, selectReports } from "../../reports/reportsSlice";
 import { ResultsViewButtons } from '../../reused-components/results-views/ResultsViewButtons';
 import { ResultsViewNotes } from '../../reused-components/results-views/ResultsViewNotes';
-import Table from "./table";
+import ConductivityForm from './ConductivityForm';
+import ConductivityGraph from './ConductivityGraph';
+const StandardResultsView = () => {
 
-const BaerResultsView = () => {
 
   const reports = useSelector(selectReports);
   const curReport = reports[useSelector(selectCurId)];
-
 
   return (
     <Container className="mt-3">
@@ -24,9 +25,11 @@ const BaerResultsView = () => {
           </Col>
         </Row>
         <ResultsViewNotes />
-        <ResultsViewButtons protocol={Protocols.Baer} />
+        <ConductivityForm />
+        <ConductivityGraph />
+        <ResultsViewButtons protocol={Protocols.Standard} />
       </div>
     </Container>
   );
 }
-export default BaerResultsView;
+export default StandardResultsView;

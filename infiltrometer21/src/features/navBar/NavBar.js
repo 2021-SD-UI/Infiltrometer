@@ -56,6 +56,8 @@ export const NavBar = () => {
                         <NavDropdown title="New Test" id="new-test-drop-down">
                             <NavDropdown.Item onClick={() => dispatch(setPage(Pages.BaerInitializeView))}>
                                 BAER protocol</NavDropdown.Item>
+                            <NavDropdown.Item onClick={() => dispatch(setPage(Pages.StandardInitializeView))}>
+                                Standard protocol</NavDropdown.Item>
                         </NavDropdown>
                         <Nav.Link onClick={() => dispatch(setPage(Pages.ReportsView))}>
                             My Reports
@@ -63,7 +65,11 @@ export const NavBar = () => {
                         <NavDropdown title="Manuals" id="manuals-drop-down">
                             <NavDropdown.Divider />
                             <NavDropdown.Item onClick={() => dispatch(setPage(Pages.BaerManual))}>
-                                BAER
+                                Field Guide
+                            </NavDropdown.Item>
+                            <NavDropdown.Divider />
+                            <NavDropdown.Item onClick={() => dispatch(setPage(Pages.NewBaerManual))}>
+                                BAER Article
                             </NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item onClick={() => dispatch(setPage(Pages.InfiltrometerManual))}>

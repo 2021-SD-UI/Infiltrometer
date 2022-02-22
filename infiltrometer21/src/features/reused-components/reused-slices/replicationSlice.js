@@ -1,4 +1,4 @@
-import {  createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 /**
  * Initialize all the data associated with a reading....
@@ -10,8 +10,8 @@ const initialState = {
   lastVolume: 0
 };
 
-export const baerReplicationSlice = createSlice({
-    name: 'baerReplication',
+export const ReplicationSlice = createSlice({
+  name: 'baerReplication',
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
@@ -20,24 +20,24 @@ export const baerReplicationSlice = createSlice({
      * @param {the current state} state 
      * @param {must contain a volume payload} action 
      */
-    setVolume: (state, action)=>{
+    setVolume: (state, action) => {
       state.volume = Number(action.payload);
     }
     ,
-    setSecondsElapsed: (state, action)=>{
+    setSecondsElapsed: (state, action) => {
       state.secondsElapsed = Number(action.payload);
     }
     ,
-    setLastVolume:(state, action)=>{
+    setLastVolume: (state, action) => {
       state.lastVolume = Number(action.payload);
     }
 
   }
 });
 
-export const {setVolume, setSecondsElapsed, setLastVolume} = baerReplicationSlice.actions;
+export const { setVolume, setSecondsElapsed, setLastVolume } = ReplicationSlice.actions;
 
 
 export const selectLastVolume = (state) => state.baerReplication.lastVolume;
 
-export default baerReplicationSlice.reducer;
+export default ReplicationSlice.reducer;

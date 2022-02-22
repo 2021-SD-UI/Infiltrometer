@@ -41,10 +41,33 @@ export const reportsSlice = createSlice({
      * 
      */
     addReading: (state, action) => {
-      //add the reading to the end of the list of readings
-      state.reports[state.curId].readings =
-        [...state.reports[state.curId].readings,
-        action.payload];
+      //add the reading to based on the reading's time and
+      let _readings = state.reports[state.curId].readings;
+
+      if (_readings.length === 0) {
+        _readings.push(action.payload);
+        return;
+      }
+
+      for (let i = 0; i < _readings.length; i++) {
+        if (_readings[i].secondsElapsed === action.payload.secondsElapsed) {
+          //modify the elements
+          _readings[i] = action.payload;
+          return;
+
+        }
+
+      }
+      _readings.push(action.payload);
+
+      //sort the elements
+      _readings.sort((a, b) => (a.secondsElapsed > b.secondsElapsed) ? 1 : -1);
+    },
+    removeReadingWithTime: (state, action) => {
+      //remove the reading to based on the reading's time
+      let _readings = [...state.reports[state.curId].readings];
+
+      state.reports[state.curId].readings = [..._readings].filter(r => r.secondsElapsed != action.payload);
 
     },
     //sets the current gathering data report
@@ -70,11 +93,16 @@ export const reportsSlice = createSlice({
     },
     setNotes: (state, action) => {
       state.reports[state.curId].notes = action.payload;
+    },
+    //sets the current report's infiltrometer Data
+    setCurInfiltrometerData: (state, action) => {
+
+      state.reports[state.curId].infiltrometerData = action.payload;
     }
   }
 });
 
-export const { newReport, addReading, setGatheringData, removeReport, setCurId, setNotes } = reportsSlice.actions;
+export const { newReport, addReading, removeReadingWithTime, setGatheringData, removeReport, setCurId, setNotes, setCurInfiltrometerData } = reportsSlice.actions;
 export const selectReports = (state) => state.reports.reports;
 export const selectCurId = (state) => state.reports.curId;
 export const selectNotes = (state) => state.reports.reports[state.reports.curId].notes;

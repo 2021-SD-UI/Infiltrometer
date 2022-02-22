@@ -6,7 +6,7 @@ import { Pages } from './Redirector';
 
 //This is the initial page that should be loaded
 const initialState = {
-  page: Pages.Homepage
+  page: '/'
 };
 
 export const redirectSlice = createSlice({

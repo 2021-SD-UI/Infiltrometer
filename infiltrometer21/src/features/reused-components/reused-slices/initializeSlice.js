@@ -3,24 +3,24 @@ import { useDispatch } from 'react-redux';
 import { soilTypes } from '../../../app/soilTypes';
 
 
- const initialState = {  
-        initialVolume: 95,
-        
-        coordinates: {
-          lat:0,
-          long: 0,
-        },
+const initialState = {
+  initialVolume: 95,
 
-        soilType: {
-          nh0: 2.28,
-          alpha: 0.124
-        },
-        
-        infiltrometerRadius: 2.25,
-        infiltrometerSuction: -1,
-        timeInterval: 60,
-        site: "Site",
-        observation: "Observation",
+  coordinates: {
+    lat: 0,
+    lon: 0,
+  },
+
+  soilType: {
+    nh0: 2.28,
+    alpha: 0.124
+  },
+
+  infiltrometerRadius: 2.25,
+  infiltrometerSuction: -1,
+  timeInterval: 60,
+  site: "Site",
+  observation: "Observation",
 
 };
 
@@ -29,28 +29,28 @@ import { soilTypes } from '../../../app/soilTypes';
 /**
  * We need slices to 
  */
-export const baerInitializeSlice = createSlice({
-  
+export const InitializeSlice = createSlice({
+
   name: 'baerInitialize',
-  
+
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    setInitialVolume: (state, action)=>{
+    setInitialVolume: (state, action) => {
 
       state.initialVolume = action.payload;
-    
+
     },
-    setInfiltrometerSuction: (state, action)=>{
+    setInfiltrometerSuction: (state, action) => {
       state.infiltrometerSuction = action.payload;
     },
-    setTimeInterval: (state, action)=>{
+    setTimeInterval: (state, action) => {
       state.timeInterval = action.payload;
     },
-    setSoilType:(state, action)=>{
+    setSoilType: (state, action) => {
       state.soilType = action.payload;
     },
-    setInfiltrometerData:(state, action)=>{
+    setInfiltrometerData: (state, action) => {
       state.initialVolume = action.payload.initialVolume;
       state.coordinates = action.payload.coordinates;
       state.soilType = action.payload.soilType;
@@ -84,8 +84,8 @@ export const selectTimeInterval = (state) => state.baerInitialize.timeInterval;
 
 
 //export the actions
-export const {  setInitialVolume, setInfiltrometerSuction, setTimeInterval, setSoilType,setInfiltrometerData } = baerInitializeSlice.actions;
+export const { setInitialVolume, setInfiltrometerSuction, setTimeInterval, setSoilType, setInfiltrometerData } = InitializeSlice.actions;
 
 
 
-export default baerInitializeSlice.reducer;
+export default InitializeSlice.reducer;

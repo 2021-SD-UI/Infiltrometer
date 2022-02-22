@@ -2,20 +2,21 @@
 import React, { useState } from 'react';
 import ReactDOM from "react-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import { setVolume, setSecondsElapsed, selectLastVolume, setLastVolume } from './bear-replicationSlice';
 import reportsSlice, { addReading, selectCurId, selectReports, selectCurReadingID, setGatheringData } from '../../reports/reportsSlice';
-import { selectTimeInterval, selectInitialVolume, setSoilType, selectSoilType } from '../baer-initialize/bear-initializeSlice';
+import { selectTimeInterval, selectInitialVolume, setSoilType, selectSoilType } from '../../reused-components/reused-slices/initializeSlice';
+
+
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
-import "./timer.css";
+import './timer.css'
 import _default from 'react-overlays/esm/Modal';
 import { setPage } from '../../page-redirection/redirector-slice';
 import Table from '../baer-results/table';
-import { Modal, Button, Form, Container, Row, Col, } from 'react-bootstrap';
+import { Modal, Button, Form, Container, Row, Col, Accordion, Card } from 'react-bootstrap';
 import { addGeoDataToReading } from '../../useful-functions/usefulFunctions';
 import { useAudio } from '../../audio/Player';
 import { Pages } from '../../page-redirection/Redirector';
 import beep from '../../audio/beep-01a.mp3';
-
+import { setVolume, setSecondsElapsed, selectLastVolume, setLastVolume } from '../../reused-components/reused-slices/replicationSlice';
 const renderTime = ({ remainingTime }) => {
   if (remainingTime === 0) {
     return <div className="timer">Time is up!</div>;
@@ -147,6 +148,28 @@ const BaerReplicationView = () => {
           <Row className="mt-4">
             <Col>
               <Table>{/* This table is rendered from table.js */}</Table>
+            </Col>
+          </Row>
+          <Row>
+            <Col className="mb-4">
+              <Accordion className="w-50" style={{ margin: "auto" }}>
+                <Card
+                  bg='primary'
+                  text='white'>
+                  <Accordion.Toggle as={Card.Header} eventKey="0" className='text-center'>Help</Accordion.Toggle>
+                  <Accordion.Collapse eventKey="0">
+                    <Card.Body>To properly conduct a BAER protocol replication:
+                      <ol type="1">
+                        <li>Expose the soil about 1 to 3 cm in depth, removing any overlying ash or minerals.</li>
+                        <li>With a full infiltrometer, place the porous disk flat against the soil and perpendicular to the surface. Tap the “Start Replication” button as soon as the infiltrometer disk and the soil come into contact.</li>
+                        <li>At the end of the timer, remove the infiltrometer from the soil and hold the top of the tube so that the water is at eye level. Record the end volume.</li>
+                        <li>Repeat these steps for as many replications as necessary.</li>
+                        <li>Once all replications have been completed, select the "End Protocol" button</li>
+                      </ol>
+                    </Card.Body>
+                  </Accordion.Collapse>
+                </Card>
+              </Accordion>
             </Col>
           </Row>
         </div>
