@@ -210,7 +210,7 @@ const InitializeView = ({ protocol }) => {
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label className="pt-3 display-6">Suction (cm)*{"  "}
-                                        <HelpTip size="25px" title="Suction" content="Ask About This." />
+                                        <HelpTip size="25px" title="Suction" content="The suction of the infiltrometer device." />
                                     </Form.Label>
                                     <DropdownButton variant="dark" title="Preset Suction Values">
                                         <Dropdown.Item onSelect={() => setSuctionPreset(-0.5)}> -0.5 </Dropdown.Item>
@@ -299,7 +299,7 @@ const InitializeView = ({ protocol }) => {
                             <Col>
                                 <Form.Group>
                                     <Form.Label className="pt-3 display-6">Soil Type{"  "}
-                                        <HelpTip size="25px" title="Soil Type" content="The type of soil being loaded into the infiltrometer. You can select a preset soil type from the menu below to automatically load all the necessary data, or input the N/H0 and Alpha values of a custom soil type if yours is not represented." />
+                                        <HelpTip size="25px" title="Soil Type" content="The type of soil you are conducting the protocol on. You may select a preset soil type from the menu below to automatically load all the necessary data, or input the N/H0 and Alpha values of a custom soil type if yours is not represented." />
                                     </Form.Label>
                                     <DropdownButton variant="dark" title="Preset Soil Types">
                                         <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.undefined)}> Unknown </Dropdown.Item>

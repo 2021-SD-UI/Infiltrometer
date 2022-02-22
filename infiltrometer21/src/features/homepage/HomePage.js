@@ -20,7 +20,6 @@ export function HomePage() {
                             <Col className="mx-4">
                                 This application was developed by Software Engineering students at Michigan Technological University, and is meant to be used with the Mini-Disk Infiltrometer to aid in recording soil infiltration data. Gathered data will be stored on your local device upon completing a reading. This data can be downloaded as a CSV for later use. These CSV reports may also be viewed in Excel.
                                 <hr />
-                                <HelpTip content="This is a help tip" title="Tip"/>
                             </Col>
 
                         </Row>
@@ -36,7 +35,7 @@ export function HomePage() {
                                     aria-expanded={open}
                                     className="text-center"
                                 >
-                                    <br/><br/>
+                                    <br /><br />
                                     The app can use your device's GPS to determine your location, but you need to allow it when the protocol page loads. If you have blocked the location and later want to allow it  then you will need to change your device settings.
                                 </a>
                                 <Collapse in={open}>
