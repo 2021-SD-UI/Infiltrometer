@@ -244,7 +244,7 @@ const InitializeView = ({ protocol }) => {
                                         <HelpTip
                                             size="25px"
                                             title={protocol === Protocols.Baer ? "Time" : "Time Interval"}
-                                            content={protocol === Protocols.Baer ? "The amount of time you will record data for." : "The amount of time for each interval that you will record data for."} />
+                                            content={protocol === Protocols.Baer ? "The time for a single replication. You can perform as many replications as you need." : "The time for each interval that you will record data for."} />
                                     </Form.Label>
                                     <Form.Control
                                         required

@@ -149,7 +149,7 @@ const StandardReplicationView = () => {
                       <ol type="1">
                         <li>Expose the soil about 1 to 3 cm in depth, removing any overlying ash or minerals.</li>
                         <li>With a full infiltrometer, place the porous disk flat against the soil and perpendicular to the surface. Tap the “Start Protocol" button as soon as the infiltrometer disk and the soil come into contact.</li>
-                        <li>At the end of each interval, remove the infiltrometer from the soil and hold the top of the tube so that the water is at eye level. A field in the above table will automatically appear and be selected for data entry. Record the end volume.</li>
+                        <li>At the end of each interval, a field in the above table will automatically appear and be selected for data entry. Record the current volume.</li>
                         <li>Repeat these steps for as many intervals as necessary.</li>
                         <li>Once all replications have been completed, select the "End Protocol" button</li>
                       </ol>
