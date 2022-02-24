@@ -1,5 +1,5 @@
 import { Container, Col, Row, Button, Table, Form, InputGroup } from "react-bootstrap";
-import { addReading, removeReadingWithTime, selectCurReadingID, setGatheringData } from '../../reports/reportsSlice';
+import { addReading, removeReadingWithTime, selectCurReadingID, setGatheringData, selectCurId, selectReports } from '../../reports/reportsSlice';
 import { selectInfiltrometerData, selectInitialVolume, selectTimeInterval } from '../../reused-components/reused-slices/initializeSlice';
 import { selectLastVolume, setLastVolume, setSecondsElapsed, setVolume } from '../../reused-components/reused-slices/replicationSlice';
 import React, { useEffect } from "react";
@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addGeoDataToReading } from "../../useful-functions/usefulFunctions";
 import { useState } from "react";
 import { useRef } from "react";
-
+import { RiErrorWarningFill as ErrorMark } from 'react-icons/ri';
 export const StandardReplicationTable = ({ intervals }) => {
 
     const timeInterval = useSelector(selectTimeInterval);
@@ -83,7 +83,34 @@ export const StandardReplicationTable = ({ intervals }) => {
 const StandardReplicationRow = ({ time }) => {
     const curInfiltrometerData = useSelector(selectInfiltrometerData);
     const dispatch = useDispatch();
+    const reports = useSelector(selectReports);
+    const curReport = reports[useSelector(selectCurId)];
+    const readings = curReport.readings;
 
+    //check if the previous reading is less than this one
+    function isValid() {
+        if (vol === 0) return true;
+        if (vol < 0) return false;
+        if (time === 0) return true;
+        let lastTime = -1;
+
+        for (let i = 0; i < readings.length; i++) {
+            var reading = readings[i];
+            //is this us??
+            if (time == reading.secondsElapsed) {
+                if (i >= 1) {
+                    return (reading.volume <= readings[i - 1].volume);
+                }
+                else {
+                    return true;
+                }
+
+            }
+        }
+        return false;
+    }
+
+    const [vol, setVolume] = useState(0);
 
     const onChange = (event) => {
         var volume = event.target.value;
@@ -98,6 +125,7 @@ const StandardReplicationRow = ({ time }) => {
             lat: curInfiltrometerData.coordinates.lat,
             lon: curInfiltrometerData.coordinates.lon
         }));
+        setVolume(volume);
     }
 
 
@@ -120,11 +148,9 @@ const StandardReplicationRow = ({ time }) => {
                         placeholder="Volume (mL)"
                         onChange={onChange}
                         onSubmit={null}
-                    />
-                    <Form.Control.Feedback type="invalid">
-                        Required!
-                    </Form.Control.Feedback>
 
+                    />
+                    {isValid() ? null : <ErrorMark />}
                 </InputGroup>
             </td>
         </tr>

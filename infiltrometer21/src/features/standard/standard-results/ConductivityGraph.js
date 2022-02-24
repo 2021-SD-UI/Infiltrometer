@@ -57,19 +57,20 @@ const ConductivityGraph = () => {
     }
     const data = [
         {
+            id: "1",
+            name: "Interpolated",
+            color: "red",
+            points: readingsArray().length >= 1 ? interpolatedPoints(readingsArray()[readingsArray().length - 1].x, 100) : null
+        },
+        {
 
             id: "0",
             name: "Actual Data",
             color: "Blue",
             points: readingsArray(),
             interpolate: "none"
-        },
-        {
-            id: "1",
-            name: "Interpolated",
-            color: "red",
-            points: readingsArray().length >= 1 ? interpolatedPoints(readingsArray()[readingsArray().length - 1].x, 100) : null
         }
+
     ];
 
     // The graph must be given data, even if its empty.
@@ -105,7 +106,7 @@ const ConductivityGraph = () => {
                     yLabel="Infiltration (cm)"
                     data={data}
                     hideLines={false}
-                    hidePoints={true}
+                    hidePoints={false}
                 />
             );
         }
