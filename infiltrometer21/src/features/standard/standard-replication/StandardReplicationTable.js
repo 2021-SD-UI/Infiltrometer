@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addGeoDataToReading } from "../../useful-functions/usefulFunctions";
 import { useState } from "react";
 import { useRef } from "react";
+import { v4 as uuidv4 } from 'uuid';
 import { RiErrorWarningFill as ErrorMark } from 'react-icons/ri';
 export const StandardReplicationTable = ({ intervals }) => {
 
@@ -92,7 +93,6 @@ const StandardReplicationRow = ({ time }) => {
         if (vol === 0) return true;
         if (vol < 0) return false;
         if (time === 0) return true;
-        let lastTime = -1;
 
         for (let i = 0; i < readings.length; i++) {
             var reading = readings[i];
@@ -139,7 +139,7 @@ const StandardReplicationRow = ({ time }) => {
 
                     <Form.Control
                         autoFocus
-                        id={"volume" + time} 
+                        id={"volume" + time}
                         type="number"
                         step="any"
                         size="sm"

@@ -6,6 +6,7 @@ import counterReducer from '../features/counter/counterSlice';
 import baerInitializeReducer from '../features/reused-components/reused-slices/initializeSlice';
 import baerReplicationReducer from '../features/reused-components/reused-slices/replicationSlice';
 import baerResultsReducer from '../features/reused-components/reused-slices/resultsSlice';
+import albumReducer from '../features/photos/albumsSlice';
 
 
 import reportsSlice from '../features/reports/reportsSlice';
@@ -27,6 +28,9 @@ const reducers = combineReducers({
   baerInitialize: baerInitializeReducer,
   baerReplication: baerReplicationReducer,
   baerResults: baerResultsReducer,
+
+  //album
+  album: albumReducer,
 
   counter: counterReducer,
   reports: reportsSlice,
@@ -56,3 +60,7 @@ export const store = configureStore({
       },
     }),
 });
+
+
+
+

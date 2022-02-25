@@ -8,6 +8,7 @@ import { selectCurId } from "./reportsSlice";
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button, Table, Alert } from "react-bootstrap";
 import { Pages } from "../page-redirection/Redirector";
+import { deleteAllPhotos } from "../photos/albumsSlice";
 const ReportsTable = () => {
 
     const [selectedReports, setSelectedReports] = useState({});
@@ -105,7 +106,8 @@ const ReportsTable = () => {
     function deleteReport(report) {
         //delete the report from selected if it is in selected
         if (selectedReports[report.id] != undefined) deselectReport(report);
-
+        //delete all the photos on this report
+        dispatch(deleteAllPhotos(report.id));
         //remove the report from the store
         dispatch(removeReport(report.id))
     }

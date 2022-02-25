@@ -1,15 +1,13 @@
 import React, { useState } from "react";
-import { Container, Row, Col, Collapse } from "react-bootstrap";
-import { HelpTip } from '../reused-components/HelpTip';
-
+import { Container, Row, Col, Collapse, Button } from "react-bootstrap";
 export function HomePage() {
 
     const [open, setOpen] = useState(false);
+    const [f, setF] = useState("Loading...");
 
     return (
         <>
             <Container className="mt-3">
-
                 <div class="rounded border shadow">
                     <Row >
                         <h1 className="my-4 display-4">Mini-Disk Infiltrometer Companion</h1>
