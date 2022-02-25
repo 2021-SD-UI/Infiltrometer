@@ -139,7 +139,7 @@ const StandardReplicationRow = ({ time }) => {
 
                     <Form.Control
                         autoFocus
-                        id={"volume" + time}
+                        id={"volume" + time} 
                         type="number"
                         step="any"
                         size="sm"
