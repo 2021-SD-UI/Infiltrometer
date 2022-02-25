@@ -193,7 +193,7 @@ const InitializeView = ({ protocol }) => {
                             <Col>
                                 <Form.Group>
                                     <Form.Label>Volume (mL)*{"  "}</Form.Label>
-                                    <HelpTip size="25px" title="Volume" content="The initial volume loaded into the infiltrometer." />
+                                    <HelpTip size="25px" title="Volume" content="The initial volume of water in the lower chamber of the infiltrometer (in mL)." />
                                     <Form.Control
                                         required
                                         id="volume"
@@ -210,7 +210,10 @@ const InitializeView = ({ protocol }) => {
                                 </Form.Group>
                                 <Form.Group>
                                     <Form.Label className="pt-3 display-6">Suction (cm)*{"  "}
-                                        <HelpTip size="25px" title="Suction" content="The suction of the infiltrometer device." />
+                                        <HelpTip size="25px" title="Suction"
+                                            content={protocol === Protocols.Baer ?
+                                                "For the BAER protocol the suction tube should be adjusted so that the 1 cm mark is aligned with the surface of the water in the upper chamber of the infiltrometer."
+                                                : "The suction of the infiltrometer device."} />
                                     </Form.Label>
                                     <DropdownButton variant="dark" title="Preset Suction Values">
                                         <Dropdown.Item onSelect={() => setSuctionPreset(-0.5)}> -0.5 </Dropdown.Item>
@@ -244,7 +247,7 @@ const InitializeView = ({ protocol }) => {
                                         <HelpTip
                                             size="25px"
                                             title={protocol === Protocols.Baer ? "Time" : "Time Interval"}
-                                            content={protocol === Protocols.Baer ? "The time for a single replication. You can perform as many replications as you need." : "The time for each interval that you will record data for."} />
+                                            content={protocol === Protocols.Baer ? " The time interval for each observation. For the BAER protocol the time is one minute." : "The time for each interval that you will record data for."} />
                                     </Form.Label>
                                     <Form.Control
                                         required

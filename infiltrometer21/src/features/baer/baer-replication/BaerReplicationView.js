@@ -158,13 +158,19 @@ const BaerReplicationView = () => {
                   text='white'>
                   <Accordion.Toggle as={Card.Header} eventKey="0" className='text-center'>Help</Accordion.Toggle>
                   <Accordion.Collapse eventKey="0">
-                    <Card.Body>To properly conduct a BAER protocol replication:
+                    <Card.Body><h3>To properly conduct a BAER protocol replication:</h3>
                       <ol type="1">
                         <li>Expose the soil about 1 to 3 cm in depth, removing any overlying ash or minerals.</li>
                         <li>With a full infiltrometer, place the porous disk flat against the soil and perpendicular to the surface. Tap the “Start Replication” button as soon as the infiltrometer disk and the soil come into contact.</li>
                         <li>At the end of the timer, remove the infiltrometer from the soil and hold the top of the tube so that the water is at eye level. Record the end volume.</li>
                         <li>Repeat these steps for as many replications as necessary.</li>
                         <li>Once all replications have been completed, select the "End Protocol" button</li>
+                      </ol>
+                      <ol type="1">
+                        <h4>Hydrophobicity Classification</h4>
+                        <li>{"Strong ( 0 to < 3 mL/min)"}</li>
+                        <li> {"Weak ( 3 to < 8 mL/min)"}</li>
+                        <li>{"None ( > 8 mL/min)"}</li>
                       </ol>
                     </Card.Body>
                   </Accordion.Collapse>
