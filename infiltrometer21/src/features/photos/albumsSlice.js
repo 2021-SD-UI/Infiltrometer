@@ -98,7 +98,7 @@ export const albumsSlice = createSlice({
 });
 
 export const { addPhoto, deletePhoto, deleteAllPhotos } = albumsSlice.actions;
-export const selectAlbums = (state) => state;
+export const selectAlbums = (state) => state.album;
 
 /**
  * 
