@@ -6,6 +6,7 @@ import { Protocols } from '../../reports/protocols';
 import { selectCurId, selectNotes, selectReports, setNotes } from "../../reports/reportsSlice";
 import { ResultsViewButtons } from '../../reused-components/results-views/ResultsViewButtons';
 import { ResultsViewNotes } from '../../reused-components/results-views/ResultsViewNotes';
+import { ResultsViewPhotos } from '../../reused-components/results-views/ResultsViewPhotos';
 import Table from "./table";
 
 const BaerResultsView = () => {
@@ -25,6 +26,7 @@ const BaerResultsView = () => {
         </Row>
         <ResultsViewNotes />
         <ResultsViewButtons protocol={Protocols.Baer} />
+        <ResultsViewPhotos />
       </div>
     </Container>
   );
