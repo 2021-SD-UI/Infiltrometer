@@ -30,11 +30,11 @@ export const ResultsViewPhotos = (props) => {
 
 
     function getMostRecentPhotoData() {
-        //if (numPhotos === 0) {
-        //    photoData = "No Photos";
-        //    return;
-        //}
-        //photoData = "Loading...";
+        if (numPhotos === 0) {
+            photoData = "No Photos";
+            return;
+        }
+        photoData = "Loading...";
         getPhotoFromID(curReportAlbum[0].fullImageData, (data) => {
             photoData = data;
         });
