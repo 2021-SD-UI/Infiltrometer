@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Container, Row } from 'react-bootstrap';
 import { selectCurId, selectReports } from "../../reports/reportsSlice";
@@ -10,12 +10,12 @@ export const ResultsViewPhotos = (props) => {
     const reports = useSelector(selectReports);
     const reportId = useSelector(selectCurId);
     const curReportAlbum = useSelector(selectAlbums)[reportId];
-    const numPhotos = curReportAlbum !== undefined ? curReportAlbum.length : 0;
+    const numPhotos = curReportAlbum !== undefined && curReportAlbum !== null ? curReportAlbum.length : 0;
 
     const fullImageData = "DUMMY_DATA_FULL";
     const thumbnailData = "DUMMY_DATA_Thumbnail";
 
-    let photoData = "DATA HERE";
+    let [photoData, setPhotoData] = useState("DATA HERE");
     //displays the most recent photo
     const PhotoData = (props) => {
         return (
@@ -35,10 +35,9 @@ export const ResultsViewPhotos = (props) => {
             return;
         }
         photoData = "Loading...";
-        getPhotoFromID(curReportAlbum[0].fullImageData, (data) => {
-            photoData = data;
-        });
+        getPhotoFromID(curReportAlbum[0].full, function (val) { setPhotoData(val); });
     }
+
 
     return (
         <>

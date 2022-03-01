@@ -43,10 +43,10 @@ export function addPhotoToDB(photoID, photoData) {
 
 
 
-export function deletePhoto(photoID) {
+export function deletePhotoFromDB(photoID) {
     if (db === undefined) { console.log("The database has not been initialized!"); return; }
     let tx = db.transaction('photos', 'readwrite');
-    let request = tx.objectStore('photos').delete({ photoID });
+    let request = tx.objectStore('photos').delete(photoID);
     request.onerror = error => {
         console.log(error);
     }
@@ -57,6 +57,7 @@ export function getPhoto(photoID, callback) {
     let request = transaction.objectStore("photos").get(photoID);
     request.onerror = function (error) { console.log(error); callback(error); }
     request.onsuccess = function (val) { console.log(val.target.result.value); callback(val.target.result.value); }
+
 }
 
 

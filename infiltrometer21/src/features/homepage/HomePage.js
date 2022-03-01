@@ -8,7 +8,7 @@ export function HomePage() {
     return (
         <>
             <Container className="mt-3">
-                <div class="rounded border shadow">
+                <div className="rounded border shadow">
                     <Row >
                         <h1 className="my-4 display-4">Mini-Disk Infiltrometer Companion</h1>
                     </Row>
@@ -66,7 +66,7 @@ export function HomePage() {
                         <div className="m-4 display-6">How To View/Download a Report</div>
                         <Row>
                             <Col className="mx-4">
-                                <div class="alert alert-danger" role="alert">
+                                <div className="alert alert-danger" role="alert">
                                     This app stores reports temporarily in your web browser's local storage. To prevent data from being lost, please download your reports from the "My Reports" page.
                                 </div>
 

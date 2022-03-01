@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
-import { addPhotoToDB, deletePhotoData, getPhoto } from './photoDatabase';
+import { addPhotoToDB, deletePhotoFromDB, getPhoto } from './photoDatabase';
 
 
 //structure like 
@@ -64,8 +64,8 @@ export const albumsSlice = createSlice({
             if (state[reportId]) {
                 if (state[reportId][photoIndex]) {
                     //delete the photos from indexDB
-                    deletePhoto(state[reportId][photoIndex].thumbnail);
-                    deletePhoto(state[reportId][photoIndex].full);
+                    deletePhotoFromDB(state[reportId][photoIndex].thumbnail);
+                    deletePhotoFromDB(state[reportId][photoIndex].full);
                 }
                 else return;
             } else return;
@@ -85,8 +85,8 @@ export const albumsSlice = createSlice({
             if (state[reportId]) {
                 state[reportId].forEach(photoGroup => {
                     //delete the photos from indexDB
-                    deletePhoto(photoGroup.thumbnail);
-                    deletePhoto(photoGroup.full);
+                    deletePhotoFromDB(photoGroup.thumbnail);
+                    deletePhotoFromDB(photoGroup.full);
                 })
             } else return;
 
@@ -106,8 +106,6 @@ export const selectAlbums = (state) => state.album;
  * @param {The function that is called when the photo is returned from indexedDB,
  * base64 data is passed to the function} callback 
  */
-export function getPhotoFromID(id, callback) {
-    getPhoto(id, callback);
-}
+export const getPhotoFromID = getPhoto;
 
 export default albumsSlice.reducer;
