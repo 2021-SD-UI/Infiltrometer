@@ -1,5 +1,5 @@
 
-let db;
+let db = undefined;
 let open = false;
 
 export function IntiializePhotoDB() {
@@ -14,6 +14,7 @@ export function IntiializePhotoDB() {
     };
 
     req.onupgradeneeded = function (evt) {
+
         db = this.result;
         console.log("openDb.onupgradeneeded");
         db.createObjectStore('photos', { keyPath: 'id', autoIncrement: true });
@@ -22,6 +23,7 @@ export function IntiializePhotoDB() {
 }
 
 export function clearPhotos() {
+    if (db === undefined) { console.log("The database has not been initialized!"); return; }
     let tx = db.transaction('photos', 'readwrite');
     let request = tx.objectStore('photos').clear();
     request.onerror = error => {
@@ -30,6 +32,7 @@ export function clearPhotos() {
 }
 
 export function addPhotoToDB(photoID, photoData) {
+    if (db === undefined) { console.log("The database has not been initialized!"); return; }
     let tx = db.transaction('photos', 'readwrite');
     let request = tx.objectStore('photos').add({ id: photoID, value: photoData });
     request.onerror = error => {
@@ -41,6 +44,7 @@ export function addPhotoToDB(photoID, photoData) {
 
 
 export function deletePhoto(photoID) {
+    if (db === undefined) { console.log("The database has not been initialized!"); return; }
     let tx = db.transaction('photos', 'readwrite');
     let request = tx.objectStore('photos').delete({ photoID });
     request.onerror = error => {
