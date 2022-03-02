@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Container, Row } from 'react-bootstrap';
+import { Button, Container, Row, Col } from 'react-bootstrap';
 import { selectCurId, selectReports } from "../../reports/reportsSlice";
 import { addPhoto, deleteAllPhotos, selectAlbums, getPhotoFromID } from '../../photos/albumsSlice';
+import { PhotoCard } from '../../photos/PhotoCard'
 export const ResultsViewPhotos = (props) => {
 
     const dispatch = useDispatch();
@@ -61,8 +62,13 @@ export const ResultsViewPhotos = (props) => {
             <Button onClick={getMostRecentPhotoData()}>
                 Display Most Recent Photo
             </Button>
+            <Row>
+                <Col>
+                    {curReportAlbum === null ? "No Photos"
+                        : curReportAlbum.map((photo) => <PhotoCard name={photo.thumbnail} fullID={photo.full} thumbnailID={photo.thumbnail} />)}
+                </Col>
+            </Row>
 
-            <PhotoData />
         </>
     )
 
