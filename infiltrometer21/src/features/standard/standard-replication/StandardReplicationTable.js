@@ -8,7 +8,8 @@ import { addGeoDataToReading } from "../../useful-functions/usefulFunctions";
 import { useState } from "react";
 import { useRef } from "react";
 import { v4 as uuidv4 } from 'uuid';
-import { RiErrorWarningFill as ErrorMark } from 'react-icons/ri';
+import { ErrorTip } from '../../reused-components/ErrorTip';
+
 export const StandardReplicationTable = ({ intervals }) => {
 
     const timeInterval = useSelector(selectTimeInterval);
@@ -97,15 +98,12 @@ const StandardReplicationRow = ({ time }) => {
         for (let i = 0; i < readings.length; i++) {
             var reading = readings[i];
             //is this us??
-            if (time == reading.secondsElapsed) {
-                if (i >= 1) {
+                if (i > 0) {
                     return (reading.volume <= readings[i - 1].volume);
                 }
                 else {
                     return true;
                 }
-
-            }
         }
         return false;
     }
@@ -150,7 +148,7 @@ const StandardReplicationRow = ({ time }) => {
                         onSubmit={null}
 
                     />
-                    {isValid() ? null : <ErrorMark />}
+                    {isValid() ? null : <ErrorTip size='25px' title="Error!" content="This is an invalid reading."/>}
                 </InputGroup>
             </td>
         </tr>
