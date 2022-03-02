@@ -36,7 +36,10 @@ export const StandardReplicationTable = ({ intervals }) => {
 
         return data;
     };
-
+    const isValid = () => {
+        //return a boolean
+        return false;
+    }
 
     const body = () => {
 
@@ -50,9 +53,10 @@ export const StandardReplicationTable = ({ intervals }) => {
 
         }
 
+
         return (
             <>
-                {rowData().map(row => row.time === 0 ? initial() : <StandardReplicationRow time={row.time} />)}
+                {rowData().map(row => row.time === 0 ? initial() : <StandardReplicationRow time={row.time, isValid} />)}
             </>
 
         );
@@ -82,31 +86,31 @@ export const StandardReplicationTable = ({ intervals }) => {
 
 
 
-const StandardReplicationRow = ({ time }) => {
+const StandardReplicationRow = ({ time, isValid }) => {
     const curInfiltrometerData = useSelector(selectInfiltrometerData);
     const dispatch = useDispatch();
     const reports = useSelector(selectReports);
     const curReport = reports[useSelector(selectCurId)];
     const readings = curReport.readings;
 
-    //check if the previous reading is less than this one
-    function isValid() {
-        if (vol === 0) return true;
-        if (vol < 0) return false;
-        if (time === 0) return true;
+    ////check if the previous reading is less than this one
+    //function isValid() {
+    //    if (vol === 0) return true;
+    //    if (vol < 0) return false;
+    //    if (time === 0) return true;
 
-        for (let i = 0; i < readings.length; i++) {
-            var reading = readings[i];
-            //is this us??
-                if (i > 0) {
-                    return (reading.volume <= readings[i - 1].volume);
-                }
-                else {
-                    return true;
-                }
-        }
-        return false;
-    }
+    //    for (let i = 0; i < readings.length; i++) {
+    //        var reading = readings[i];
+    //        //is this us??
+    //            if (i > 0) {
+    //                return (reading.volume <= readings[i - 1].volume);
+    //            }
+    //            else {
+    //                return true;
+    //            }
+    //    }
+    //    return false;
+    //}
 
     const [vol, setVolume] = useState(0);
 
@@ -148,7 +152,7 @@ const StandardReplicationRow = ({ time }) => {
                         onSubmit={null}
 
                     />
-                    {isValid() ? null : <ErrorTip size='25px' title="Error!" content="This is an invalid reading."/>}
+                    {isValid ? null : <ErrorTip size='25px' title="Error!" content="This is an invalid reading." />}
                 </InputGroup>
             </td>
         </tr>
