@@ -81,7 +81,7 @@ export const ResultsViewPhotos = (props) => {
             </Button>
             <Row>
                 <Col>
-                    {curReportAlbum === null ? "No Photos"
+                    {curReportAlbum === null || curReportAlbum === undefined ? "No Photos"
                         : curReportAlbum.map((photo) => <PhotoCard name={photo.thumbnail} fullID={photo.full} thumbnailID={photo.thumbnail} />)}
                 </Col>
             </Row>
