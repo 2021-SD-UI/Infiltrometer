@@ -9,6 +9,7 @@ import { ResultsViewButtons } from '../../reused-components/results-views/Result
 import { ResultsViewNotes } from '../../reused-components/results-views/ResultsViewNotes';
 import ConductivityForm from './ConductivityForm';
 import ConductivityGraph from './ConductivityGraph';
+import { ResultsViewPhotos } from '../../reused-components/results-views/ResultsViewPhotos';
 const StandardResultsView = () => {
 
 
@@ -25,6 +26,7 @@ const StandardResultsView = () => {
           </Col>
         </Row>
         <ResultsViewNotes />
+        <ResultsViewPhotos />
         <ConductivityForm />
         <ConductivityGraph />
         <ResultsViewButtons protocol={Protocols.Standard} />

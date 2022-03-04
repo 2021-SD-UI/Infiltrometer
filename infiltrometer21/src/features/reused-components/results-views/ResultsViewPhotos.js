@@ -57,34 +57,54 @@ export const ResultsViewPhotos = (props) => {
 
     }
 
-    function getMostRecentPhotoData() {
-        if (numPhotos === 0) {
-            photoData = "No Photos";
-            return;
-        }
-        photoData = "Loading...";
-        getPhotoFromID(curReportAlbum[0].full, function (val) { setPhotoData(val); });
-    }
+
 
     return (
         <>
-            <Button as="input" variant="light" type="file" onChange={handleFile}></Button>
-            <Button onClick={() => {
-                dispatch(deleteAllPhotos({
-                    reportId
-                }));
-            }}>
-                Delete All Photo
-            </Button>
-            <Button onClick={getMostRecentPhotoData()}>
-                Display Most Recent Photo
-            </Button>
             <Row>
                 <Col>
-                    {curReportAlbum === null ? "No Photos"
-                        : curReportAlbum.map((photo, index) => <PhotoCard name={photo.thumbnail} index={index} fullID={photo.full} thumbnailID={photo.thumbnail} />)}
+                    <Row className="m-2">
+
+                        {curReportAlbum === null || curReportAlbum === undefined ? <Row className="m-2 text-center"> No Photos </Row>
+                            : curReportAlbum.map((photo, index) =>
+                                <Col className="m-2">
+                                    <PhotoCard
+                                        id={photo.thumbnail}
+                                        index={index}
+                                        fullID={photo.full}
+                                        thumbnailID={photo.thumbnail}
+                                        reportId={reportId} />
+                                </Col>
+                            )
+
+                        }
+
+                    </Row>
                 </Col>
             </Row>
+
+            <Row className="mt-2 mb-2 text-center">
+                <Col>
+                    <Button className="text-center w-50" variant="success"
+                        size="lg"
+                        as="input" type="file" onChange={handleFile} />
+                </Col>
+            </Row>
+            <Row className="mt-2 mb-5 text-center">
+                <Col>
+                    <Button
+                        className="w-50" variant="danger"
+                        size="lg" onClick={() => {
+                            dispatch(deleteAllPhotos({
+                                reportId
+                            }));
+                        }}>
+                        Delete All Photos
+                    </Button>
+                </Col>
+            </Row>
+
+
 
         </>
     )

@@ -1,40 +1,38 @@
 
 import { useEffect, useState } from 'react';
-import { Card, Button } from 'react-bootstrap'
+import { Card, Button, Spinner, } from 'react-bootstrap'
+import { useDispatch } from 'react-redux';
 
 import { getPhotoFromID, deletePhoto } from './albumsSlice'
 
-export const PhotoCard = ({ name, index, fullID, thumbnailID, reportID, file }) => {
+export const PhotoCard = ({ name, index, fullID, thumbnailID, reportId, file }) => {
 
-    let [data, setData] = useState("No Data");
+    let [data, setData] = useState(null);
+    let dispatch = useDispatch();
 
     // Set file to thumbail size
     let thumbnail = document.getElementById("img");
-        if (thumbnail && thumbnail.style) {
-            thumbnail.style.height = '100px';
-            thumbnail.style.width = '200px';
-        }
-
-    // useEffect(() => {
-    //     getPhotoFromID(fullID, (d) => { setData(d) });
-    // }, []);
-
-    function handleDelete() {
-        deletePhoto({reportID, index});
+    if (thumbnail && thumbnail.style) {
+        thumbnail.style.height = '100px';
+        thumbnail.style.width = '200px';
     }
 
+    useEffect(() => {
+        setData(null)
+        getPhotoFromID(fullID, (d) => { setData(d) });
+    }, [fullID]);
+
     return (
-        <Card style={{ width: '18rem' }}>
-            <Card.Img variant="top" src="holder.js/100px180" />
+        <Card >
+            <Card.Img variant="top" src={data} />
+
+            {data === null ? <Card.Text><Spinner animation="border" /></Card.Text> : null}
             <Card.Body>
-                <Card.Title>
-                    <img src={file} id="img"/>
-                </Card.Title>
-                <Button variant="danger col-12" onClick={handleDelete()}>Delete</Button>
+                <Button variant="danger col-12" onClick={() => {
+                    dispatch(deletePhoto({ reportId, photoIndex: index }));
+                }
+                }>Delete</Button>
             </Card.Body>
-            <Card.Text>
-                {data}
-            </Card.Text>
-        </Card>
+        </Card >
     );
 }

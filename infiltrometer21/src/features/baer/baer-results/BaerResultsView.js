@@ -25,8 +25,9 @@ const BaerResultsView = () => {
           </Col>
         </Row>
         <ResultsViewNotes />
-        <ResultsViewButtons protocol={Protocols.Baer} />
         <ResultsViewPhotos />
+        <ResultsViewButtons protocol={Protocols.Baer} />
+
       </div>
     </Container>
   );

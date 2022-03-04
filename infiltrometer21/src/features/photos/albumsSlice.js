@@ -34,19 +34,20 @@ export const albumsSlice = createSlice({
 
             // Push a new photo into the store
             if (state[reportId]) {
-                state[reportId][fullID] = {
+                state[reportId] = [...state[reportId],
+                {
                     thumbnail: thumbnailID,
                     full: fullID,
-                };
+                }
+                ];
             }
             else {
-                state[reportId] = {
-                    fullID:
+                state[reportId] = [
                     {
                         thumbnail: thumbnailID,
                         full: fullID,
                     }
-                }
+                ];
             }
 
 
@@ -56,21 +57,21 @@ export const albumsSlice = createSlice({
 
             let {
                 reportId,
-                fullID
+                photoIndex
             } = action.payload;
 
             //remove the photo in the state
-            if (state[reportId]) {
-                if (state[reportId][fullID]) {
+            if (state[reportId] != undefined && state[reportId] != null) {
+                if (state[reportId][photoIndex] != null) {
                     //delete the photos from indexDB
-                    deletePhotoFromDB(state[reportId][fullID].thumbnail);
-                    deletePhotoFromDB(state[reportId][fullID].full);
+                    deletePhotoFromDB(state[reportId][photoIndex].thumbnail);
+                    deletePhotoFromDB(state[reportId][photoIndex].full);
                 }
                 else return;
             } else return;
 
             //remove from store
-            state[reportId][fullID] = null;
+            state[reportId].splice(photoIndex, 1);
 
         },
         //deletes all photos on the report group
@@ -78,6 +79,7 @@ export const albumsSlice = createSlice({
 
             let {
                 reportId,
+
             } = action.payload;
 
             //remove the photo in the state
