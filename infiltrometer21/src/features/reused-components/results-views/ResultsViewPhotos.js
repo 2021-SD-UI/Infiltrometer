@@ -13,7 +13,7 @@ export const ResultsViewPhotos = (props) => {
     const curReportAlbum = useSelector(selectAlbums)[reportId];
     const numPhotos = curReportAlbum !== undefined && curReportAlbum !== null ? curReportAlbum.length : 0;
     const [file, setFile] = useState(null);
-    
+
     //const fullImageData = "DUMMY_DATA_FULL";
     const thumbnailData = "DUMMY_DATA_Thumbnail";
 
@@ -41,17 +41,20 @@ export const ResultsViewPhotos = (props) => {
     // }
 
     function handleFile(e) {
-        let fullImageData = URL.createObjectURL(e.target.files[0]);
-        let xhr = new XMLHttpRequest();
-        xhr.open('GET', fullImageData, false);
-        xhr.send(null);
-        let xhrObj = xhr.responseText;
-        dispatch(addPhoto({reportId, thumbnailData, fullImageData}));
-        return (
-            <Row>
-                <PhotoCard file={fullImageData} id={fullImageData}></PhotoCard>
-            </Row>
-        )
+        let url = URL.createObjectURL(e.target.files[0]);
+
+        let xhRequest = new XMLHttpRequest();
+        xhRequest.onload = function () {
+            let reader = new FileReader();
+            reader.onloadend = function () {
+                dispatch(addPhoto({ reportId, thumbnailData: "WIP", fullImageData: reader.result }));
+            }
+            reader.readAsDataURL(xhRequest.response);
+        };
+        xhRequest.open('GET', url);
+        xhRequest.responseType = 'blob';
+        xhRequest.send();
+
     }
 
     function getMostRecentPhotoData() {
@@ -82,23 +85,6 @@ export const ResultsViewPhotos = (props) => {
                         : curReportAlbum.map((photo) => <PhotoCard name={photo.thumbnail} fullID={photo.full} thumbnailID={photo.thumbnail} />)}
                 </Col>
             </Row>
-
-            {
-                curReportAlbum === null ? "No Photos" :
-                curReportAlbum.map((photo) =>
-                    <Container>
-                        <Col>
-                            <PhotoCard 
-                                name={photo.thumbnail} 
-                                fullID={photo.full} 
-                                thumbnailID={photo.thumbnail}
-                                file={file}
-                                index={photo.index}
-                            />
-                        </Col>
-                    </Container>
-                )
-            }
 
         </>
     )

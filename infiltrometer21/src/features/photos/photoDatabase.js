@@ -56,7 +56,7 @@ export function getPhoto(photoID, callback) {
     let transaction = db.transaction("photos");
     let request = transaction.objectStore("photos").get(photoID);
     request.onerror = function (error) { console.log(error); callback(error); }
-    request.onsuccess = function (val) { console.log(val.target.result.value); callback(val.target.result.value); }
+    request.onsuccess = function (val) { if (val.target.result === undefined) return; console.log(val.target.result.value); callback(val.target.result.value); }
 
 }
 
