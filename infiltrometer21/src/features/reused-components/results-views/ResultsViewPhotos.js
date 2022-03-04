@@ -82,7 +82,7 @@ export const ResultsViewPhotos = (props) => {
             <Row>
                 <Col>
                     {curReportAlbum === null ? "No Photos"
-                        : curReportAlbum.map((photo) => <PhotoCard name={photo.thumbnail} fullID={photo.full} thumbnailID={photo.thumbnail} />)}
+                        : curReportAlbum.map((photo, index) => <PhotoCard name={photo.thumbnail} index={index} fullID={photo.full} thumbnailID={photo.thumbnail} />)}
                 </Col>
             </Row>
 
