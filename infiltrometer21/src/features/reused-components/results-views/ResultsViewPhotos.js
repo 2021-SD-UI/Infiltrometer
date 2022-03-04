@@ -12,8 +12,9 @@ export const ResultsViewPhotos = (props) => {
     const reportId = useSelector(selectCurId);
     const curReportAlbum = useSelector(selectAlbums)[reportId];
     const numPhotos = curReportAlbum !== undefined && curReportAlbum !== null ? curReportAlbum.length : 0;
-
-    const fullImageData = "DUMMY_DATA_FULL";
+    const [file, setFile] = useState(null);
+    
+    //const fullImageData = "DUMMY_DATA_FULL";
     const thumbnailData = "DUMMY_DATA_Thumbnail";
 
     let [photoData, setPhotoData] = useState("DATA HERE");
@@ -30,6 +31,29 @@ export const ResultsViewPhotos = (props) => {
     }
 
 
+    // function getMostRecentPhotoData() {
+    //     if (numPhotos === 0) {
+    //         photoData = "No Photos";
+    //         return;
+    //     }
+    //     photoData = "Loading...";
+    //     getPhotoFromID(curReportAlbum[0].full, function (val) { setPhotoData(val); });
+    // }
+
+    function handleFile(e) {
+        let fullImageData = URL.createObjectURL(e.target.files[0]);
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', fullImageData, false);
+        xhr.send(null);
+        let xhrObj = xhr.responseText;
+        dispatch(addPhoto({reportId, thumbnailData, fullImageData}));
+        return (
+            <Row>
+                <PhotoCard file={fullImageData} id={fullImageData}></PhotoCard>
+            </Row>
+        )
+    }
+
     function getMostRecentPhotoData() {
         if (numPhotos === 0) {
             photoData = "No Photos";
@@ -39,18 +63,9 @@ export const ResultsViewPhotos = (props) => {
         getPhotoFromID(curReportAlbum[0].full, function (val) { setPhotoData(val); });
     }
 
-
     return (
         <>
-            <Button onClick={() => {
-                dispatch(addPhoto({
-                    reportId,
-                    thumbnailData,
-                    fullImageData
-                }));
-            }}>
-                Add Photo
-            </Button>
+            <Button as="input" variant="light" type="file" onChange={handleFile}></Button>
             <Button onClick={() => {
                 dispatch(deleteAllPhotos({
                     reportId
@@ -58,7 +73,6 @@ export const ResultsViewPhotos = (props) => {
             }}>
                 Delete All Photo
             </Button>
-
             <Button onClick={getMostRecentPhotoData()}>
                 Display Most Recent Photo
             </Button>
@@ -68,6 +82,23 @@ export const ResultsViewPhotos = (props) => {
                         : curReportAlbum.map((photo) => <PhotoCard name={photo.thumbnail} fullID={photo.full} thumbnailID={photo.thumbnail} />)}
                 </Col>
             </Row>
+
+            {
+                curReportAlbum === null ? "No Photos" :
+                curReportAlbum.map((photo) =>
+                    <Container>
+                        <Col>
+                            <PhotoCard 
+                                name={photo.thumbnail} 
+                                fullID={photo.full} 
+                                thumbnailID={photo.thumbnail}
+                                file={file}
+                                index={photo.index}
+                            />
+                        </Col>
+                    </Container>
+                )
+            }
 
         </>
     )
