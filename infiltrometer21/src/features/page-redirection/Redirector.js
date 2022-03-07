@@ -1,10 +1,6 @@
-import { useDispatch, useSelector } from "react-redux";
-import { selectPage, setPage } from "./redirector-slice";
+import { useSelector } from "react-redux";
+import { selectPage } from "./redirector-slice";
 import { useLocation, Redirect } from "react-router";
-import { Route } from "react-router";
-import { useEffect } from "react";
-import reportsSlice, { selectCurId, selectGatheringData } from "../reports/reportsSlice";
-
 
 export const Pages =
 {
@@ -21,16 +17,11 @@ export const Pages =
   NewBaerManual: "/manuals-newBaer"
 }
 
-
-
-
-
-
 //Used to redirect to new pages from global state
 export const Redirector = ({ protectedElements }) => {
-  const curPage = useLocation().pathname;   //this is the actual url in the browser
-  const page = useSelector(selectPage);     //this is the url in the Redux store
-  //if the urls match, we render the protected elements (JSX passed as a prop to this component)
-  //if the urls do not match, we render a redirect message to the valid url
+  const curPage = useLocation().pathname;   // Current URL in browser
+  const page = useSelector(selectPage);     // Current URL in Redux store
+  // If the URLs match, we render the protected elements (JSX passed as a prop to this component)
+  // If the URLs do not match, we render a redirect message to the valid url
   return page !== curPage ? <Redirect to={page} /> : protectedElements;
 }

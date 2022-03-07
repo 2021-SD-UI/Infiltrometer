@@ -1,18 +1,12 @@
 
-import { useDispatch, useSelector } from "react-redux";
-import { selectPage, setPage } from "../page-redirection/redirector-slice";
+import { useDispatch } from "react-redux";
+import { setPage } from "../page-redirection/redirector-slice";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
-import { useState } from "react";
 import { BaerLogo } from "./baerLogo";
 import { Pages } from "../page-redirection/Redirector";
 export const NavBar = () => {
 
     const dispatch = useDispatch();
-    const initialState = {
-        collapsed: false
-    }
-
-    const [state, setState] = useState(initialState);
     return (
         <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Container>
@@ -24,7 +18,6 @@ export const NavBar = () => {
                                 <BaerLogo width={1} height={110}>
                                 </BaerLogo>
                             </div>
-
                         </div>
                     </div>
 
@@ -32,7 +25,6 @@ export const NavBar = () => {
                 <Navbar.Brand href="https://www.mtu.edu/computing/" >
                     <div className="container">
                         <div className="row">
-
                             <div className="col">
                                 <img
                                     src="https://www.mtu.edu/mtu_resources/images/download-central/logos/husky-icon/white.png"
@@ -40,12 +32,9 @@ export const NavBar = () => {
                                     className="d-inline-block align-top"
                                     alt="MTU logo"
                                 />
-
                             </div>
-
                         </div>
                     </div>
-
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
@@ -55,9 +44,9 @@ export const NavBar = () => {
                         </Nav.Link>
                         <NavDropdown title="New Test" id="new-test-drop-down">
                             <NavDropdown.Item onClick={() => dispatch(setPage(Pages.BaerInitializeView))}>
-                                BAER protocol</NavDropdown.Item>
+                                BAER Protocol</NavDropdown.Item>
                             <NavDropdown.Item onClick={() => dispatch(setPage(Pages.StandardInitializeView))}>
-                                Standard protocol</NavDropdown.Item>
+                                Standard Protocol</NavDropdown.Item>
                         </NavDropdown>
                         <Nav.Link onClick={() => dispatch(setPage(Pages.ReportsView))}>
                             My Reports
@@ -65,7 +54,7 @@ export const NavBar = () => {
                         <NavDropdown title="Manuals" id="manuals-drop-down">
                             <NavDropdown.Divider />
                             <NavDropdown.Item onClick={() => dispatch(setPage(Pages.BaerManual))}>
-                                Field Guide
+                                USDA Field Guide
                             </NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item onClick={() => dispatch(setPage(Pages.NewBaerManual))}>
@@ -73,7 +62,8 @@ export const NavBar = () => {
                             </NavDropdown.Item>
                             <NavDropdown.Divider />
                             <NavDropdown.Item onClick={() => dispatch(setPage(Pages.InfiltrometerManual))}>
-                                Infiltrometer</NavDropdown.Item>
+                                MiniDisk Manual
+                            </NavDropdown.Item>
                             <NavDropdown.Divider />
                         </NavDropdown>
                     </Nav>

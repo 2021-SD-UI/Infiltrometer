@@ -1,8 +1,6 @@
-//The Page we are displaying for the default Initialize view
 import React, { useState, useEffect } from 'react';
-import { Button, Col, Container, Dropdown, DropdownButton, Form, OverlayTrigger, Row, Popover } from 'react-bootstrap';
+import { Button, Col, Container, Dropdown, DropdownButton, Form, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { infiltrometerTypes } from '../../../app/infiltrometerType';
 import { soilTypes } from '../../../app/soilTypes';
 import { Pages } from '../../page-redirection/Redirector';
@@ -12,9 +10,7 @@ import { addReading, newReport } from '../../reports/reportsSlice';
 import { addGeoDataToReading } from '../../useful-functions/usefulFunctions';
 import { setLastVolume, setVolume } from '../reused-slices/replicationSlice';
 import { selectInfiltrometerData, setInfiltrometerData, setInitialVolume } from '../reused-slices/initializeSlice';
-
 import { HelpTip } from '../HelpTip';
-
 
 const InitializeView = ({ protocol }) => {
     const curInfiltrometerData = useSelector(selectInfiltrometerData);
@@ -71,15 +67,15 @@ const InitializeView = ({ protocol }) => {
                 observation
             }
             function updateData() {
-                //set the infitrometer data in the store
+                // Set the infitrometer data in the store
                 dispatch(setInfiltrometerData(infiltrometerData));
 
-                //set the last volume to the initial volume for the replication view
+                // Set the last volume to the initial volume for the replication view
                 dispatch(setInitialVolume(volume));
                 dispatch(setVolume(volume));
                 dispatch(setLastVolume(volume));
 
-                //send out the new report to the store
+                // Send out the new report to the store
                 dispatch(newReport({
                     date: (new Date()).toString(),
                     protocol,
@@ -87,9 +83,8 @@ const InitializeView = ({ protocol }) => {
                 }));
 
             }
-            //do we need geolocation
+            // If there is no lat/long data, try to get it
             if (lat == null || lon == null) {
-                //try to get the geolocation data
                 addGeoDataToReading({ volume, secondsElapsed: 0 }, (reading) => {
                     infiltrometerData.coordinates.lat = reading.lat;
                     infiltrometerData.coordinates.lon = reading.lon
@@ -109,12 +104,8 @@ const InitializeView = ({ protocol }) => {
                     protocol === Protocols.Baer ? Pages.BaerReplicationView : Pages.StandardReplicationView
                 ));
             }
-
-
         }
     }
-
-
 
     const handleReset = () => {
         let site = document.getElementById("site"); site.value = "";
@@ -125,8 +116,8 @@ const InitializeView = ({ protocol }) => {
         let radius = document.getElementById("radius"); radius.value = "";
         let nh0 = document.getElementById("nh0"); nh0.value = "";
         let alpha = document.getElementById("alpha"); alpha.value = "";
-        let lat = document.getElementById("lat"); lat = null;
-        let lon = document.getElementById("lon"); lon = null;
+        let lat = document.getElementById("lat"); lat.value = "";
+        let lon = document.getElementById("lon"); lon.value = "";
     }
 
     const preloadCoordinates = () => {
@@ -139,7 +130,7 @@ const InitializeView = ({ protocol }) => {
 
         addGeoDataToReading(reading, (reading) => {
 
-            //make sure we haven't changed pages while waiting
+            // Make sure we haven't changed pages while waiting
             if (document.getElementById("lat") === null) return;
 
             document.getElementById("lat").value = reading.lat;
@@ -326,7 +317,6 @@ const InitializeView = ({ protocol }) => {
                                         step="any"
                                         size="lg"
                                         min="0"
-                                        defaultValue={null}
                                         placeholder="N/H0"
                                     />
                                     <div className="pt-2" />
@@ -337,7 +327,6 @@ const InitializeView = ({ protocol }) => {
                                         step="any"
                                         size="lg"
                                         min="0"
-                                        defaultValue={null}
                                         placeholder="Alpha"
                                     />
                                     <Form.Control.Feedback type="invalid">
@@ -359,7 +348,6 @@ const InitializeView = ({ protocol }) => {
                                         type="number"
                                         step="any"
                                         size="lg"
-                                        defaultValue={null}
                                         placeholder="Latitude"
                                     />
                                     <div className="pt-2" />
@@ -369,7 +357,6 @@ const InitializeView = ({ protocol }) => {
                                         type="number"
                                         step="any"
                                         size="lg"
-                                        defaultValue={null}
                                         placeholder="Longitude"
                                     />
                                     <Form.Control.Feedback type="invalid">

@@ -1,14 +1,11 @@
 //The Page we are displaying for the baer Initialize view
 import React, { useState } from 'react';
-import ReactDOM from "react-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import reportsSlice, { addReading, selectCurId, selectReports, selectCurReadingID, setGatheringData } from '../../reports/reportsSlice';
-import { selectTimeInterval, selectInitialVolume, setSoilType, selectSoilType } from '../../reused-components/reused-slices/initializeSlice';
-
-
+import { addReading, selectCurReadingID, setGatheringData } from '../../reports/reportsSlice';
+import { selectTimeInterval, selectInitialVolume } from '../../reused-components/reused-slices/initializeSlice';
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import './timer.css'
-import _default from 'react-overlays/esm/Modal';
+// import _default from 'react-overlays/esm/Modal';
 import { setPage } from '../../page-redirection/redirector-slice';
 import Table from '../baer-results/table';
 import { Modal, Button, Form, Container, Row, Col, Accordion, Card } from 'react-bootstrap';
@@ -17,6 +14,7 @@ import { useAudio } from '../../audio/Player';
 import { Pages } from '../../page-redirection/Redirector';
 import beep from '../../audio/beep-01a.mp3';
 import { setVolume, setSecondsElapsed, selectLastVolume, setLastVolume } from '../../reused-components/reused-slices/replicationSlice';
+
 const renderTime = ({ remainingTime }) => {
   if (remainingTime === 0) {
     return <div className="timer">Time is up!</div>;
@@ -31,7 +29,11 @@ const renderTime = ({ remainingTime }) => {
   );
 };
 
-const BaerReplicationView = () => {
+const BaerReplicationView = () => {  
+  const initializeState = {
+    timerIsPlaying: false,
+    key: 0,
+  };
   const timeInterval = useSelector(selectTimeInterval);
   const initialVolume = Number(useSelector(selectInitialVolume));
   const lastVolume = Number(useSelector(selectLastVolume));
@@ -39,15 +41,9 @@ const BaerReplicationView = () => {
   const curID = useSelector(selectCurReadingID);
   const setPlaying = (playing) => setState({ ...state, timerIsPlaying: playing });
   const dispatch = useDispatch();
-
-  const initializeState = {
-    timerIsPlaying: false,
-    key: 0,
-  };
   const [state, setState] = useState(initializeState);
 
   function endProtocol() {
-
     //mark that we are done gathering data on this report
     dispatch(setGatheringData(false));
 
@@ -80,6 +76,7 @@ const BaerReplicationView = () => {
     else {
       handleClose();
       setValidated(false);
+      
       //calculate the total number of elapsed seconds
       let secondsElapsed = (curID + 1) * timeInterval;
 

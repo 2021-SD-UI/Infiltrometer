@@ -1,4 +1,3 @@
-import { useDispatch } from "react-redux";
 /**
  * 
  * @param {Returns the reading with geo data, if possible
@@ -7,7 +6,6 @@ import { useDispatch } from "react-redux";
  * as a param} onFinished 
  */
 export function addGeoDataToReading(reading, onFinished) {
-    const dispatch = useDispatch;
 
     //try to get the geolocation data
     navigator.geolocation.getCurrentPosition((pos) => {

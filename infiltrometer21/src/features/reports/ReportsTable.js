@@ -3,26 +3,21 @@ import { setPage } from "../page-redirection/redirector-slice";
 import { Protocols } from "./protocols";
 import { removeReport, selectReports, setCurId } from "./reportsSlice";
 import { CSVLink } from "react-csv";
-import { makeCSV, makeCSVFromGroupOfReports } from "./reportsDataPackager";
-import { selectCurId } from "./reportsSlice";
+import { makeCSVFromGroupOfReports } from "./reportsDataPackager";
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button, Table, Alert } from "react-bootstrap";
 import { Pages } from "../page-redirection/Redirector";
 import { deleteAllPhotos } from "../photos/albumsSlice";
-const ReportsTable = () => {
 
+const ReportsTable = () => {
     const [selectedReports, setSelectedReports] = useState({});
     const numberOfSelectedReports = Object.keys(selectedReports).length;
-
     const reports = useSelector(selectReports);
-    const curReport = reports[useSelector(selectCurId)]
     const dispatch = useDispatch();
-    /**
-     * Map state to table elements
-     */
+
+    // Map the current state to table elements
     function renderTableData() {
         return Object.keys(reports).map(reportID => {
-
             const report = reports[reportID]
             return (
                 <>
@@ -34,9 +29,9 @@ const ReportsTable = () => {
                                         <Form>
                                             <Form.Check
                                                 label={formatDate(report.date)}
-                                                checked={selectedReports[report.id] != undefined}
+                                                checked={selectedReports[report.id] !== undefined}
                                                 onChange={() => {
-                                                    if (selectedReports[report.id] != undefined) {
+                                                    if (selectedReports[report.id] !== undefined) {
                                                         deselectReport(report);
                                                     }
                                                     else {
@@ -88,7 +83,6 @@ const ReportsTable = () => {
                                             Delete
                                         </Button>
                                     </Col>
-
                                 </Row>
                             </Container>
                         </td>
@@ -98,54 +92,41 @@ const ReportsTable = () => {
         })
     }
 
-    /**
-     * Deselects and deletes the provided report
-     * @param {
-     * } report 
-     */
+    // Removes a report from the selected reports
+    function deselectReport(report) {
+        var _repo = { ...selectedReports };
+        delete _repo[report.id];
+        setSelectedReports(_repo);
+    }
+
+    // Deselects and deletes a report
     function deleteReport(report) {
-        //delete the report from selected if it is in selected
-        if (selectedReports[report.id] != undefined) deselectReport(report);
-        //delete all the photos on this report
+        // Delete the report from selected if it is in selected
+        if (selectedReports[report.id] !== undefined) deselectReport(report);
+        // Delete all the photos on this report
         dispatch(deleteAllPhotos(report.id));
-        //remove the report from the store
+        // Remove the report from the store
         dispatch(removeReport(report.id))
     }
 
-    /**
-     * Deletes all the currently selected reports
-     */
+    // Deselects and deletes all the currently selected reports
     function deleteAllSelected() {
         let selected = { ...selectedReports };
         let reportKeys = Object.keys(selected);
         for (var i = 0; i < reportKeys.length; i++) {
             deleteReport(selected[reportKeys[i]]);
         }
-
         unselectAll();
     }
-
-    /**
-     * Removes the report from the selected reports
-     * @param {} report 
-     */
-    function deselectReport(report) {
-        var _repo = { ...selectedReports };
-        delete _repo[report.id];
-        setSelectedReports(_repo);
-    }
-    /**
-     * Adds the report to the selected reports
-     * @param {} report 
-     */
+    
+    // Adds the report to the selected reports
     function selectReport(report) {
         var _repo = { ...selectedReports };
         _repo[report.id] = report;
         setSelectedReports(_repo);
     }
-    /**
-     * Selects all the reports
-     */
+
+    // Adds all reports to the selected reports
     function selectAll() {
         let reportKeys = Object.keys(reports);
         var _repo = { ...selectedReports };
@@ -154,9 +135,8 @@ const ReportsTable = () => {
         }
         setSelectedReports(_repo);
     }
-    /**
-     * Unselects all reports
-     */
+
+    // Removes all reports from the selected reports
     function unselectAll() {
         let reportKeys = Object.keys(reports);
         var _repo = { ...selectedReports };
@@ -166,6 +146,7 @@ const ReportsTable = () => {
         setSelectedReports(_repo);
     }
 
+    // Sets the page to the result view of the current report
     function showReport(report) {
         switch (report.protocol) {
             case Protocols.Baer:
@@ -184,7 +165,7 @@ const ReportsTable = () => {
 
     }
 
-
+    // Renders dates for the Reports table
     function formatDate(date) {
         let d = new Date(date);
         if (d.toDateString() === new Date().toDateString()) {
@@ -193,9 +174,8 @@ const ReportsTable = () => {
         return (d.toDateString());
     }
 
-    /**
-     * Create header for table
-     */
+
+    // Create header for table
     function renderTableHeader() {
         let header = ['Date', 'Protocol', 'Site', 'Options'];
         return header.map((key, index) => {
@@ -209,15 +189,15 @@ const ReportsTable = () => {
             if (key.toLowerCase() === "protocol") {
                 return <th class="table-dark text-center" key={index}>Protocol</th>
             }
-            if (key.toLowerCase() == "options") {
+            if (key.toLowerCase() === "options") {
                 return <th class="table-dark text-center" key={index}>Options</th>
             }
-
+            return null;
         })
     }
-    /**
-     * Conditional renderer for the download and delete buttons that require selecting
-     */
+
+    // Conditional renderer for the download and delete buttons that require selecting
+    // If no reports are selected, render disabled buttons. Otherwise, render enabled buttons
     function SelectButtons() {
 
         if (numberOfSelectedReports > 0) {
@@ -269,9 +249,8 @@ const ReportsTable = () => {
 
 
     }
-    //see if there is any data
+    // Only render the Reports table if there are reports in the first place
     if (Object.keys(reports).length > 0) {
-        //Whenever our class runs, render method will be called automatically, it may have already defined in the constructor behind the scene.
         return (
             <Container className="mt-3">
                 <div class="rounded border shadow">

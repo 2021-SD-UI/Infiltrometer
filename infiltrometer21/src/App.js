@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { HashRouter, Route, Switch, Link } from 'react-router-dom';
+import { HashRouter, Route, Switch } from 'react-router-dom';
 import BaerInitializeView from './features/baer/baer-initialize/BaerInitializeView';
 import BaerReplicationView from './features/baer/baer-replication/BaerReplicationView';
 import { Redirector } from './features/page-redirection/Redirector';

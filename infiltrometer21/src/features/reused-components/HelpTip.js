@@ -1,4 +1,4 @@
-import { Popover, OverlayTrigger, Row } from 'react-bootstrap';
+import { Popover, OverlayTrigger } from 'react-bootstrap';
 import { BsFillQuestionCircleFill as Qmark } from 'react-icons/bs';
 
 

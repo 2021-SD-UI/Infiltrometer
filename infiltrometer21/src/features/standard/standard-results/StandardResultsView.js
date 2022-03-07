@@ -1,20 +1,14 @@
 //The Page we are displaying for the baer Initialize view
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import { useSelector } from "react-redux";
 import Table from '../../baer/baer-results/table';
 import { Protocols } from '../../reports/protocols';
-import { selectCurId, selectReports } from "../../reports/reportsSlice";
 import { ResultsViewButtons } from '../../reused-components/results-views/ResultsViewButtons';
 import { ResultsViewNotes } from '../../reused-components/results-views/ResultsViewNotes';
 import ConductivityForm from './ConductivityForm';
 import ConductivityGraph from './ConductivityGraph';
 import { ResultsViewPhotos } from '../../reused-components/results-views/ResultsViewPhotos';
 const StandardResultsView = () => {
-
-
-  const reports = useSelector(selectReports);
-  const curReport = reports[useSelector(selectCurId)];
 
   return (
     <Container className="mt-3">

@@ -3,7 +3,7 @@ import { soilTypes } from "../../../app/soilTypes";
 import { selectCurId, selectReports } from "../../reports/reportsSlice";
 import { Button, Col, Container, Dropdown, DropdownButton, Form, Row } from 'react-bootstrap';
 import { setCurInfiltrometerData } from "../../reports/reportsSlice";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { infiltrometerTypes } from "../../../app/infiltrometerType";
 import { selectInfiltrometerData } from "../../reused-components/reused-slices/initializeSlice";
 
@@ -11,7 +11,6 @@ const ConductivityForm = () => {
 
 
     const curInfiltrometerData = useSelector(selectInfiltrometerData);
-    const [validated, setValidated] = useState(true);
     const dispatch = useDispatch();
     const reports = useSelector(selectReports);
     const curReport = reports[useSelector(selectCurId)];
@@ -46,7 +45,7 @@ const ConductivityForm = () => {
     useEffect(() => {
         setSoilPreset(curReport.infiltrometerData.soilType);
         setRadiusPreset(curReport.infiltrometerData.infiltrometerRadius);
-    }, [])
+    }, [curReport.infiltrometerData.soilType, curReport.infiltrometerData.infiltrometerRadius])
 
     function setSoilPreset(event) {
         let nh0 = document.getElementById("nh0");
@@ -60,7 +59,7 @@ const ConductivityForm = () => {
         <>
             <Container className="mt-3">
                 <div class="rounded border shadow">
-                    <Form className="p-5" noValidate validated={validated} onSubmit={handleSubmit}>
+                    <Form className="p-5" noValidate validated onSubmit={handleSubmit}>
                         <Row>
                             <Col>
                                 <Form.Group>

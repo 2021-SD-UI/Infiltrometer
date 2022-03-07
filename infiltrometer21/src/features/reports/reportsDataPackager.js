@@ -1,30 +1,19 @@
 import { SeverityRatings } from "./severityRatings";
 
-
-/**
- * create a csv of the current report
- * @param {The current report} i
- */
+// Create a CSV of the current report
 export function makeCSV(curReport) {
-
-
     let obj = {};
     obj[curReport.id] = curReport;
     return makeCSVFromGroupOfReports(obj);
-
 }
-
 
 function handleTextForCSV(text) {
-    if (text == undefined) return ("");
+    if (text === undefined) return ("");
     return text.toString().replaceAll('"', '""');
-
 }
-/**
- * 
- * @param {Object of key-report pairs} reportGroup 
- * @returns 
- */
+
+// Get data from all selected reports
+// Write to a CSV
 export function makeCSVFromGroupOfReports(reportGroup) {
     let data = [['Date', 'Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'Severity Rating', 'Site Name', 'Observation Name',
         'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude']];
@@ -51,10 +40,7 @@ export function makeCSVFromGroupOfReports(reportGroup) {
     return { data, filename: "reports.csv" }
 }
 
-/**
- * Find ml/min for a reading
- * @param {The current reading index} i
- */
+// Find flow rate (ml/min) for an individual reading in a report
 export function findRate(readingIndex, report) {
     if (readingIndex > 0) {
 
@@ -67,11 +53,7 @@ export function findRate(readingIndex, report) {
     }
 }
 
-/**
- * Find average rate (ml/min)
- * Relies on findRate(i) to get rates for calculating the average
- * @param {The current reading index} i
- */
+// Find average flow rate (mL/min) for a report
 export function findAverageRate(report) {
     let sum = 0;
 
@@ -82,11 +64,8 @@ export function findAverageRate(report) {
     return sum / (report.readings.length - 1);
 }
 
-/**
- * Returns severity rating based on average rate
- * See severityRatings.js for severity rating values
- * @param {Average flow rate} avgRate
- */
+// Returns severity rating based on average rate
+// See severityRatings.js for severity rating values
 export function findSeverityRating(avgRate) {
     if (avgRate >= SeverityRatings.None.min)
         return SeverityRatings.None;
