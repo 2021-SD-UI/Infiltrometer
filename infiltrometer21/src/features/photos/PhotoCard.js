@@ -1,38 +1,34 @@
-
 import { useEffect, useState } from 'react';
-import { Card, Button, Spinner, } from 'react-bootstrap'
-import { useDispatch } from 'react-redux';
-
+import { Card, Col, Button } from 'react-bootstrap'
 import { getPhotoFromID, deletePhoto } from './albumsSlice'
+import { deletePhotoFromDB } from './photoDatabase';
 
-export const PhotoCard = ({ name, index, fullID, thumbnailID, reportId, file }) => {
+export const PhotoCard = ({ name, index, fullID, thumbnailID, reportID, file }) => {
 
-    let [data, setData] = useState(null);
-    let dispatch = useDispatch();
+    let [data, setData] = useState("No Data");
+    // setData(file);
 
     // Set file to thumbail size
     let thumbnail = document.getElementById("img");
-    if (thumbnail && thumbnail.style) {
-        thumbnail.style.height = '100px';
-        thumbnail.style.width = '200px';
+        if (thumbnail && thumbnail.style) {
+            thumbnail.style.height = '100px';
+            thumbnail.style.width = '200px';
+        }
+
+    function handleDelete() {
+        return 0;
     }
 
-    useEffect(() => {
-        setData(null)
-        getPhotoFromID(fullID, (d) => { setData(d) });
-    }, [fullID]);
+    function test() {
+        return true;
+    }
 
     return (
-        <Card >
-            <Card.Img variant="top" src={data} />
-
-            {data === null ? <Card.Text><Spinner animation="border" /></Card.Text> : null}
+        <Card style={{ width: '18rem' }} className="mx-2 my-2">
+            <Card.Img src={file} onClick={test} />
             <Card.Body>
-                <Button variant="danger col-12" onClick={() => {
-                    dispatch(deletePhoto({ reportId, photoIndex: index }));
-                }
-                }>Delete</Button>
+                <Button variant="danger col-12" onClick={handleDelete()}>Delete</Button>
             </Card.Body>
-        </Card >
+        </Card>
     );
 }
