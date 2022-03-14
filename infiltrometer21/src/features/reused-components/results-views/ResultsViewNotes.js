@@ -21,6 +21,7 @@ export const ResultsViewNotes = () => {
                     <TextareaAutosize className="w-100" value={notes} onChange={(e) => changeNotes(e.target.value)} />
                 </Col>
             </Row>
+            <hr/>
         </>
     );
 }

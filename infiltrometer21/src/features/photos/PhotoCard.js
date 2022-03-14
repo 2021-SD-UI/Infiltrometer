@@ -4,17 +4,9 @@ import { useDispatch } from 'react-redux';
 
 import { getPhotoFromID, deletePhoto } from './albumsSlice'
 
-export const PhotoCard = ({ name, index, fullID, thumbnailID, reportId, file }) => {
-
+export const PhotoCard = ({ index, fullID, reportId }) => {
     let [data, setData] = useState(null);
     let dispatch = useDispatch();
-
-    // Set file to thumbail size
-    let thumbnail = document.getElementById("img");
-    if (thumbnail && thumbnail.style) {
-        thumbnail.style.height = '100px';
-        thumbnail.style.width = '200px';
-    }
 
     useEffect(() => {
         setData(null)
@@ -22,12 +14,11 @@ export const PhotoCard = ({ name, index, fullID, thumbnailID, reportId, file }) 
     }, [fullID]);
 
     return (
-        <Card >
-            <Card.Img variant="top" src={data} />
-
+        <Card className="mt-4">
+            <Card.Img className="mt-2" variant="top" src={data} />
+            <Card.Body className="align-content-right">
             {data === null ? <Card.Text><Spinner animation="border" /></Card.Text> : null}
-            <Card.Body>
-                <Button variant="danger col-12" onClick={() => {
+                <Button variant="outline-danger" size="lg" className="w-100" onClick={() => {
                     dispatch(deletePhoto({ reportId, photoIndex: index }));
                 }
                 }>Delete</Button>

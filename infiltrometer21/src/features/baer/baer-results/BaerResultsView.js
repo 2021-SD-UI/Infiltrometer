@@ -12,7 +12,7 @@ const BaerResultsView = () => {
   return (
     <Container className="mt-3">
       <div class="rounded border shadow">
-        <h1 className="pt-5 display-4">Results</h1>
+        <h1 className="pt-4 display-4">Results</h1>
         <Row className="mt-4">
           <Col>
             <Table>{/* This table is rendered from table.js */}</Table>

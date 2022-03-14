@@ -37,3 +37,23 @@
     transform: translateY(0px);
   }
 }
+
+.svg-add-photo {
+  transition: 0.5s;
+}
+
+.svg-add-photo:hover {
+  fill: rgb(92, 99, 106);
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.svg-delete-photo {
+  transition: 0.5s;
+}
+
+.svg-delete-photo:hover {
+  fill: rgb(220, 53, 69);
+  transition: 0.5s;
+  cursor: pointer;
+}
