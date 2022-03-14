@@ -33,7 +33,7 @@ export const albumsSlice = createSlice({
             addPhotoToDB(fullID, fullImageData);
 
             // Push a new photo into the store
-            if (state[reportId]) {
+            if (state[reportId] != undefined) {
                 state[reportId] = [...state[reportId],
                 {
                     thumbnail: thumbnailID,
@@ -61,7 +61,7 @@ export const albumsSlice = createSlice({
             } = action.payload;
 
             //remove the photo in the state
-            if (state[reportId] !== undefined && state[reportId] != null) {
+            if (state[reportId] != undefined && state[reportId] != null) {
                 if (state[reportId][photoIndex] != null) {
                     //delete the photos from indexDB
                     deletePhotoFromDB(state[reportId][photoIndex].thumbnail);
