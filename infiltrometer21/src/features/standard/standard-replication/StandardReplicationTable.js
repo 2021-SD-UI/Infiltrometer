@@ -36,9 +36,31 @@ export const StandardReplicationTable = ({ intervals }) => {
 
         return data;
     };
-    const isValid = () => {
-        //return a boolean
-        return false;
+
+    const reports = useSelector(selectReports);
+    const curReport = reports[useSelector(selectCurId)];
+    const readings = curReport.readings;
+
+    const isValid = (time) => {
+        if (time === 0 ) return true;
+        if (readings.length <= 1) return true;
+
+        let i;
+
+        for (i = 1; i < readings.length; i++) {
+            if (Number(readings[i].secondsElapsed) === time) {
+                break;
+            }
+        }
+
+        if (i >= readings.length) return true;
+        
+        const vol = readings[i].volume;
+
+        if (vol === 0) return true;
+        if (vol < 0) return false;
+
+        return Number(readings[i-1].volume) > Number(vol);
     }
 
     const body = () => {
@@ -56,7 +78,7 @@ export const StandardReplicationTable = ({ intervals }) => {
 
         return (
             <>
-                {rowData().map(row => row.time === 0 ? initial() : <StandardReplicationRow time={row.time, isValid} />)}
+                {rowData().map(row => row.time === 0 ? initial() : <StandardReplicationRow time={ row.time } isValid={ isValid(row.time) } />)}
             </>
 
         );
@@ -92,25 +114,6 @@ const StandardReplicationRow = ({ time, isValid }) => {
     const reports = useSelector(selectReports);
     const curReport = reports[useSelector(selectCurId)];
     const readings = curReport.readings;
-
-    ////check if the previous reading is less than this one
-    //function isValid() {
-    //    if (vol === 0) return true;
-    //    if (vol < 0) return false;
-    //    if (time === 0) return true;
-
-    //    for (let i = 0; i < readings.length; i++) {
-    //        var reading = readings[i];
-    //        //is this us??
-    //            if (i > 0) {
-    //                return (reading.volume <= readings[i - 1].volume);
-    //            }
-    //            else {
-    //                return true;
-    //            }
-    //    }
-    //    return false;
-    //}
 
     const [vol, setVolume] = useState(0);
 
