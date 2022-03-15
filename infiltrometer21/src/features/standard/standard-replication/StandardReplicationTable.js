@@ -42,7 +42,7 @@ export const StandardReplicationTable = ({ intervals }) => {
     const readings = curReport.readings;
 
     const isValid = (time) => {
-        if (time === 0 ) return true;
+        if (time === 0) return true;
         if (readings.length <= 1) return true;
 
         let i;
@@ -54,13 +54,13 @@ export const StandardReplicationTable = ({ intervals }) => {
         }
 
         if (i >= readings.length) return true;
-        
+
         const vol = readings[i].volume;
 
         if (vol === 0) return true;
         if (vol < 0) return false;
 
-        return Number(readings[i-1].volume) > Number(vol);
+        return Number(readings[i - 1].volume) > Number(vol);
     }
 
     const body = () => {
@@ -78,7 +78,7 @@ export const StandardReplicationTable = ({ intervals }) => {
 
         return (
             <>
-                {rowData().map(row => row.time === 0 ? initial() : <StandardReplicationRow time={ row.time } isValid={ isValid(row.time) } />)}
+                {rowData().map(row => row.time === 0 ? initial() : <StandardReplicationRow time={row.time} isValid={isValid(row.time)} />)}
             </>
 
         );

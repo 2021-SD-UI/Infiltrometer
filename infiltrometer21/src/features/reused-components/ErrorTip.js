@@ -15,7 +15,7 @@ export const ErrorTip = ({ title, content, size }) => {
 
     return (
         <>
-            <OverlayTrigger trigger="click" placement="right" overlay={popover}>
+            <OverlayTrigger trigger="click" placement="left" overlay={popover}>
                 <ErrorMark size={size} />
             </OverlayTrigger>
         </>
