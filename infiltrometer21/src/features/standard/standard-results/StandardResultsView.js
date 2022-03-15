@@ -19,10 +19,10 @@ const StandardResultsView = () => {
             <Table>{/* This table is rendered from table.js */}</Table>
           </Col>
         </Row>
-        <ResultsViewNotes />
-        <ResultsViewPhotos />
         <ConductivityForm />
         <ConductivityGraph />
+        <ResultsViewNotes />
+        <ResultsViewPhotos />
         <ResultsViewButtons protocol={Protocols.Standard} />
       </div>
     </Container>
