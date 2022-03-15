@@ -66,7 +66,7 @@ const StandardReplicationView = () => {
   }
 
   /* Modal -------------------------------------------------------------- */
-  const [playing, toggle] = useAudio(beep);
+  const [playing, setAudPlaying] = useAudio(beep);
 
 
   /*Time -----------------------------------------------------------------*/
@@ -74,12 +74,12 @@ const StandardReplicationView = () => {
   const addRow = () => {
 
     //play audio
-    if (!playing) toggle();
+    setAudPlaying(false);
+    setAudPlaying(true);
 
     //increment the interval
     //resume the timer
     setState({ timerIsPlaying: true, key: state.key + 1 });
-    toggle();
   }
 
   /* --------------------------------------------------------------------- */

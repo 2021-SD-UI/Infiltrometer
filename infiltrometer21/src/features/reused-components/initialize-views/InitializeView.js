@@ -99,7 +99,7 @@ const InitializeView = ({ protocol }) => {
             }
             else {
                 updateData();
-                dispatch(addReading({ volume, secondsElapsed: 0 }));
+                dispatch(addReading({ volume, secondsElapsed: 0, lat, lon }));
                 dispatch(setPage(
                     protocol === Protocols.Baer ? Pages.BaerReplicationView : Pages.StandardReplicationView
                 ));

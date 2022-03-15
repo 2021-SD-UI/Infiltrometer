@@ -139,7 +139,7 @@ const ConductivityForm = () => {
                         </Row>
                         <Row className="mt-4">
                             <Col>
-                                <Button type="submit" variant="dark" size="lg" className="w-100">Recalculate Conductivity</Button>
+                                <Button type="submit" variant="dark" size="lg" className="w-100">Calculate Conductivity Graph</Button>
                             </Col>
                         </Row>
                     </Form>

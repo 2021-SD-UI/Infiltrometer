@@ -29,7 +29,7 @@ const renderTime = ({ remainingTime }) => {
   );
 };
 
-const BaerReplicationView = () => {  
+const BaerReplicationView = () => {
   const initializeState = {
     timerIsPlaying: false,
     key: 0,
@@ -53,13 +53,14 @@ const BaerReplicationView = () => {
 
   /* Modal -------------------------------------------------------------- */
   const [show, setShow] = useState(false);
-  const [playing, toggle] = useAudio(beep);
+  const [playing, setAudPlaying] = useAudio(beep);
   const [validated, setValidated] = useState(false);
   const handleClose = () => { setShow(false); setPlaying(false) };
   const handleShow = () => {
 
     //play audio
-    if (!playing) toggle();
+    setAudPlaying(false);
+    setAudPlaying(true);
 
     //open the modal
     setShow(true);
@@ -76,7 +77,7 @@ const BaerReplicationView = () => {
     else {
       handleClose();
       setValidated(false);
-      
+
       //calculate the total number of elapsed seconds
       let secondsElapsed = (curID + 1) * timeInterval;
 
