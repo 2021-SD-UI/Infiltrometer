@@ -1,13 +1,13 @@
 //The Page we are displaying for the baer Initialize view
-import React, { useState } from 'react';
-import { Button, Col, Container, Form, Modal, Row, Card, Accordion } from 'react-bootstrap';
+import React, { useState, useRef } from 'react';
+import { Button, Col, Container, Form, Modal, Row, Card, Accordion, Overlay, Tooltip } from 'react-bootstrap';
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useDispatch, useSelector } from 'react-redux';
 import beep from '../../audio/beep-01a.mp3';
 import { useAudio } from '../../audio/Player';
 import { Pages } from '../../page-redirection/Redirector';
 import { setPage } from '../../page-redirection/redirector-slice';
-import { addReading, selectCurReadingID, setGatheringData } from '../../reports/reportsSlice';
+import { addReading, selectCurReadingID, setGatheringData, selectCurId, selectReports  } from '../../reports/reportsSlice';
 import { selectInitialVolume, selectTimeInterval } from '../../reused-components/reused-slices/initializeSlice';
 import { selectLastVolume, setLastVolume, setSecondsElapsed, setVolume } from '../../reused-components/reused-slices/replicationSlice';
 import { addGeoDataToReading } from '../../useful-functions/usefulFunctions';
@@ -56,6 +56,11 @@ const StandardReplicationView = () => {
   };
   const [state, setState] = useState(initializeState);
   const [remaining, setRemaining] = useState(0);
+
+  const reports = useSelector(selectReports);
+  const curReport = reports[useSelector(selectCurId)];
+  const readings = curReport.readings;
+
   function endProtocol() {
 
     //mark that we are done gathering data on this report
@@ -64,6 +69,17 @@ const StandardReplicationView = () => {
     //go to the results page
     dispatch(setPage(Pages.StandardResultsView))
   }
+  
+  const allValid = () => {
+    for (let i = 1; i < readings.length; i++) {
+      if (readings[i].volume > readings[i-1].volume) {
+        console.log("invalid");
+        return false;
+      }
+    }
+    console.log("all valid");
+    return true;
+  };
 
   /* Modal -------------------------------------------------------------- */
   const [playing, setAudPlaying] = useAudio(beep);
@@ -131,6 +147,7 @@ const StandardReplicationView = () => {
                 className="w-50"
                 size="lg"
                 onClick={endProtocol}
+                disabled={!allValid()}
               >
                 End Protocol
               </Button>
