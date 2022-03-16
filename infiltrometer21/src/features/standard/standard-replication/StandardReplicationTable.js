@@ -60,7 +60,7 @@ export const StandardReplicationTable = ({ intervals }) => {
         if (vol === 0) return true;
         if (vol < 0) return false;
 
-        return Number(readings[i - 1].volume) > Number(vol);
+        return Number(readings[i - 1].volume) >= Number(vol);
     }
 
     const body = () => {
@@ -120,7 +120,7 @@ const StandardReplicationRow = ({ time, isValid }) => {
     const onChange = (event) => {
         var volume = event.target.value;
 
-        if (String(volume).length === 0 || volume == undefined) {
+        if (String(volume).length === 0 || volume == undefined || volume == null) {
             dispatch(removeReadingWithTime(time));
             return;
         }

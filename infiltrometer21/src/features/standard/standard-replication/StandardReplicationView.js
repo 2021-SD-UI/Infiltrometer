@@ -1,13 +1,13 @@
 //The Page we are displaying for the baer Initialize view
 import React, { useState, useRef } from 'react';
-import { Button, Col, Container, Form, Modal, Row, Card, Accordion, Overlay, Tooltip } from 'react-bootstrap';
+import { Button, Col, Container, Form, Modal, Row, Card, Accordion, Overlay, Tooltip, Alert } from 'react-bootstrap';
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useDispatch, useSelector } from 'react-redux';
 import beep from '../../audio/beep-01a.mp3';
 import { useAudio } from '../../audio/Player';
 import { Pages } from '../../page-redirection/Redirector';
 import { setPage } from '../../page-redirection/redirector-slice';
-import { addReading, selectCurReadingID, setGatheringData, selectCurId, selectReports  } from '../../reports/reportsSlice';
+import { addReading, selectCurReadingID, setGatheringData, selectCurId, selectReports } from '../../reports/reportsSlice';
 import { selectInitialVolume, selectTimeInterval } from '../../reused-components/reused-slices/initializeSlice';
 import { selectLastVolume, setLastVolume, setSecondsElapsed, setVolume } from '../../reused-components/reused-slices/replicationSlice';
 import { addGeoDataToReading } from '../../useful-functions/usefulFunctions';
@@ -69,13 +69,17 @@ const StandardReplicationView = () => {
     //go to the results page
     dispatch(setPage(Pages.StandardResultsView))
   }
-  
-  const allValid = () => {
+  function stopProtocol() {
+
+    setState({
+      ...state,
+      timerIsPlaying: false
+    })
+  }
+
+  function allValid() {
     for (let i = 1; i < readings.length; i++) {
-      if (readings[i].volume > readings[i-1].volume) {
-        console.log("invalid");
-        return false;
-      }
+      if (Number(readings[i - 1].volume) < Number(readings[i].volume)) return false;
     }
     console.log("all valid");
     return true;
@@ -140,19 +144,33 @@ const StandardReplicationView = () => {
               </Button>
             </Col>
           </Row>
+          {allValid() ? null :
+            <Row className="text-center mt-2">
+              <Col className="mt-2">
+                <Alert
+                  variant="danger"
+                  className="w-100"
+                  size="lg"
+                  onClick={allValid() ? endProtocol : stopProtocol}
+                >
+                  Please Correct Invalid Data to Continue
+                </Alert>
+              </Col>
+            </Row>
+          }
           <Row className="text-center mt-2">
             <Col className="mt-2">
               <Button
                 variant="secondary"
                 className="w-50"
                 size="lg"
-                onClick={endProtocol}
-                disabled={!allValid()}
+                onClick={allValid() ? endProtocol : stopProtocol}
               >
-                End Protocol
+                {state.timerIsPlaying ? "End Protocol" : "Continue"}
               </Button>
             </Col>
           </Row>
+
           <Row className="mb-5" />
           <Row>
             <Col className="mb-4">

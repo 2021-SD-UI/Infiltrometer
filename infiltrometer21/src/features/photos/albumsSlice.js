@@ -33,7 +33,7 @@ export const albumsSlice = createSlice({
             addPhotoToDB(fullID, fullImageData);
 
             // Push a new photo into the store
-            if (state[reportId] != undefined) {
+            if (state[reportId]!=undefined) {
                 state[reportId] = [...state[reportId],
                 {
                     thumbnail: thumbnailID,
