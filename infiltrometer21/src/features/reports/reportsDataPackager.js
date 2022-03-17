@@ -41,11 +41,12 @@ export function makeCSVFromGroupOfReports(reportGroup) {
 }
 
 // Find flow rate (ml/min) for an individual reading in a report
-export function findRate(readingIndex, report) {
+export function findRate(readingIndex, report, fromBeginning = false) {
     if (readingIndex > 0) {
-
-        let deltaV = report.readings[readingIndex - 1].volume - report.readings[readingIndex].volume;
-        let deltaT = report.readings[readingIndex].secondsElapsed - report.readings[readingIndex - 1].secondsElapsed;
+        var _f = report.readings[readingIndex - 1];
+        var _s = report.readings[fromBeginning ? 0 : readingIndex];
+        let deltaV = _f.volume - _s.volume;
+        let deltaT = _s.secondsElapsed - _f.secondsElapsed;
         return (deltaV) / (deltaT / 60);
     }
     else {

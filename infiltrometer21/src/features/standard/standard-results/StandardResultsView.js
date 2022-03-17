@@ -8,6 +8,7 @@ import { ResultsViewNotes } from '../../reused-components/results-views/ResultsV
 import ConductivityForm from './ConductivityForm';
 import ConductivityGraph from './ConductivityGraph';
 import { ResultsViewPhotos } from '../../reused-components/results-views/ResultsViewPhotos';
+
 const StandardResultsView = () => {
 
   return (
@@ -16,7 +17,7 @@ const StandardResultsView = () => {
         <h1 className="pt-5 display-4">Results</h1>
         <Row className="mt-4">
           <Col>
-            <Table>{/* This table is rendered from table.js */}</Table>
+            <Table protocol={Protocols.Standard}>{/* This table is rendered from table.js */}</Table>
           </Col>
         </Row>
         <ConductivityForm />

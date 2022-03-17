@@ -6,7 +6,7 @@ import '../../../../node_modules/react-linechart/dist/styles.css';
 import React from "react";
 import { Container } from "react-bootstrap";
 import { selectInitialVolume } from "../../reused-components/reused-slices/initializeSlice";
-
+import { findRate } from '../../reports/reportsDataPackager';
 const ConductivityGraph = () => {
 
     const reports = useSelector(selectReports);
