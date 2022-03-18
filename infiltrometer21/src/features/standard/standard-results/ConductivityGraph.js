@@ -75,15 +75,16 @@ const ConductivityGraph = () => {
         });
 
         let result = methods.polynomial(points, { order: 2, precision: 15 });
-        //predict is the polynomial equation
+
+        //update constants in the store
         dispatch(setCurInfiltrometerData(
             {
                 ...curReport.infiltrometerData,
                 C1: result.equation[1],
                 C2: result.equation[0],
-                K: Number(C2 / A())
+                K: Number(result.equation[0] / A())
             }));
-
+        //predict is the polynomial equation
         const predict = (x) => (result.equation[0] * x * x) + (result.equation[1] * x);
 
         let intPoints = [];
