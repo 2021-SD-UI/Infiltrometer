@@ -25,8 +25,8 @@ export const PdfViewer = ({ pdf }) => {
     }
 
     function setPDFScale() {
-        if (window.screen.width < 500)
-            return 0.8;
+        if (window.screen.width < 450)
+            return 0.6;
         else
             return 1;
     }
