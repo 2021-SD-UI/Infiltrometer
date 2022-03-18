@@ -76,7 +76,7 @@ export const StandardReplicationTable = ({ intervals }) => {
 
         return (
             <>
-                {rowData().map(row => row.time === 0 ? initial() : <StandardReplicationRow time={row.time} isValid={isValid(row.time)} index={++rowIndex}/>)}
+                {rowData().map(row => row.time === 0 ? initial() : <StandardReplicationRow time={row.time} isValid={isValid(row.time)} index={++rowIndex} />)}
             </>
 
         );
@@ -114,8 +114,6 @@ const StandardReplicationRow = ({ time, isValid, index }) => {
 
     const onChange = (event) => {
         var volume = event.target.value;
-        let previous = readings[(index+readings.length-1)%readings.length].volume;
-
         if (String(volume).length === 0 || volume == undefined || volume == null) {
             dispatch(removeReadingWithTime(time));
             return;
@@ -126,10 +124,19 @@ const StandardReplicationRow = ({ time, isValid, index }) => {
             lat: curInfiltrometerData.coordinates.lat,
             lon: curInfiltrometerData.coordinates.lon
         }));
-
-        if (volume > previous) return
-        else setMaximum(volume);
     }
+    useEffect(() => {
+        var min = Number(initialVolume);
+        //find the min up to our solution
+        for (var i = 0; i < readings.length; i++) {
+            if (readings[i].secondsElapsed === time) {
+                //this is us, set min
+                setMaximum(min);
+                break;
+            }
+            if (min < Number(readings[i].volume)) { setMaximum(min); }
+        }
+    }, [readings])
 
     return (
 
@@ -149,7 +156,7 @@ const StandardReplicationRow = ({ time, isValid, index }) => {
                         onChange={onChange}
                     />
                 </Form>
-                    {/*isValid ? null : <ErrorTip size='25px' title="Error!" content="This is an invalid reading." />*/}
+                {/*isValid ? null : <ErrorTip size='25px' title="Error!" content="This is an invalid reading." />*/}
 
             </td>
         </tr>
