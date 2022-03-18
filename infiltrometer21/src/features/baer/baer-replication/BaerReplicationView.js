@@ -149,7 +149,7 @@ const BaerReplicationView = () => {
             </Col>
           </Row>
           <Row>
-            <Col className="mb-4">
+            <Col className="mb-4 mt-2">
               <Accordion className="w-50" style={{ margin: "auto" }}>
                 <Card
                   bg='primary'

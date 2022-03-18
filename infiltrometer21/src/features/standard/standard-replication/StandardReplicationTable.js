@@ -13,7 +13,6 @@ import { ErrorTip } from '../../reused-components/ErrorTip';
 export const StandardReplicationTable = ({ intervals }) => {
 
     const timeInterval = useSelector(selectTimeInterval);
-
     const curInfiltrometerData = useSelector(selectInfiltrometerData);
     const initialVolume = curInfiltrometerData.initialVolume;
 
@@ -24,7 +23,6 @@ export const StandardReplicationTable = ({ intervals }) => {
         </>
 
     );
-
 
     const rowData = () => {
         var data = [{ time: 0, volume: initialVolume }];
@@ -40,6 +38,7 @@ export const StandardReplicationTable = ({ intervals }) => {
     const reports = useSelector(selectReports);
     const curReport = reports[useSelector(selectCurId)];
     const readings = curReport.readings;
+    let rowIndex = 0;
 
     const isValid = (time) => {
         if (time === 0) return true;
@@ -75,30 +74,28 @@ export const StandardReplicationTable = ({ intervals }) => {
 
         }
 
-
         return (
             <>
-                {rowData().map(row => row.time === 0 ? initial() : <StandardReplicationRow time={row.time} isValid={isValid(row.time)} />)}
+                {rowData().map(row => row.time === 0 ? initial() : <StandardReplicationRow time={row.time} isValid={isValid(row.time)} index={++rowIndex}/>)}
             </>
 
         );
     }
 
-
     return (
         <Container>
             <Row>
                 <Col>
-                    <Table>
+                    <table class="table table-light table-striped table-hover">
                         <thead>
-                            <tr>
+                            <tr class="table-dark">
                                 {header()}
                             </tr>
                         </thead>
                         <tbody>
                             {body()}
                         </tbody>
-                    </Table>
+                    </table>
 
                 </Col>
             </Row>
@@ -106,19 +103,18 @@ export const StandardReplicationTable = ({ intervals }) => {
     )
 }
 
-
-
-const StandardReplicationRow = ({ time, isValid }) => {
+const StandardReplicationRow = ({ time, isValid, index }) => {
     const curInfiltrometerData = useSelector(selectInfiltrometerData);
+    const initialVolume = curInfiltrometerData.initialVolume;
     const dispatch = useDispatch();
     const reports = useSelector(selectReports);
     const curReport = reports[useSelector(selectCurId)];
     const readings = curReport.readings;
-
-    const [vol, setVolume] = useState(0);
+    const [maximum, setMaximum] = useState(initialVolume);
 
     const onChange = (event) => {
         var volume = event.target.value;
+        let previous = readings[(index+readings.length-1)%readings.length].volume;
 
         if (String(volume).length === 0 || volume == undefined || volume == null) {
             dispatch(removeReadingWithTime(time));
@@ -130,18 +126,17 @@ const StandardReplicationRow = ({ time, isValid }) => {
             lat: curInfiltrometerData.coordinates.lat,
             lon: curInfiltrometerData.coordinates.lon
         }));
-        setVolume(volume);
-    }
 
+        if (volume > previous) return
+        else setMaximum(volume);
+    }
 
     return (
 
         <tr>
             <td>{time}</td>
             <td>
-
-                <InputGroup>
-
+                <Form validated>
                     <Form.Control
                         autoFocus
                         id={"volume" + time}
@@ -149,14 +144,13 @@ const StandardReplicationRow = ({ time, isValid }) => {
                         step="any"
                         size="sm"
                         min="0"
-                        defaultValue={null}
+                        max={maximum}
                         placeholder="Volume (mL)"
                         onChange={onChange}
-                        onSubmit={null}
-
                     />
-                    {isValid ? null : <ErrorTip size='25px' title="Error!" content="This is an invalid reading." />}
-                </InputGroup>
+                </Form>
+                    {/*isValid ? null : <ErrorTip size='25px' title="Error!" content="This is an invalid reading." />*/}
+
             </td>
         </tr>
     );

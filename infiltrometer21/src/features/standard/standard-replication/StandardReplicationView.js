@@ -81,7 +81,6 @@ const StandardReplicationView = () => {
     for (let i = 1; i < readings.length; i++) {
       if (Number(readings[i - 1].volume) < Number(readings[i].volume)) return false;
     }
-    console.log("all valid");
     return true;
   };
 
@@ -108,9 +107,7 @@ const StandardReplicationView = () => {
     <>
       <Container className="mt-3">
         <div class="rounded border shadow">
-
           <Row>
-
             <Col>
               <div className="mt-4 timer-wrapper">
                 <CountdownCircleTimer
@@ -125,11 +122,7 @@ const StandardReplicationView = () => {
               </div>
             </Col>
           </Row>
-          <Row className="mt-4">
-            <Col>
-              <StandardReplicationTable intervals={state.key} />
-            </Col>
-          </Row>
+
           <Row className="text-center">
             <Col className="mt-4">
               <Button
@@ -144,22 +137,9 @@ const StandardReplicationView = () => {
               </Button>
             </Col>
           </Row>
-          {allValid() ? null :
-            <Row className="text-center mt-2">
-              <Col className="mt-2">
-                <Alert
-                  variant="danger"
-                  className="w-100"
-                  size="lg"
-                  onClick={allValid() ? endProtocol : stopProtocol}
-                >
-                  Please Correct Invalid Data to Continue
-                </Alert>
-              </Col>
-            </Row>
-          }
-          <Row className="text-center mt-2">
-            <Col className="mt-2">
+
+          <Row className="text-center mb-4 mt-2">
+            <Col>
               <Button
                 variant="secondary"
                 className="w-50"
@@ -171,9 +151,24 @@ const StandardReplicationView = () => {
             </Col>
           </Row>
 
-          <Row className="mb-5" />
+          {allValid() ? null :
+            <Row className="text-center mb-2">
+              <Col>
+                <Alert
+                  variant="danger"
+                  className="w-100"
+                  size="lg"
+                >
+                  Please correct all invalid data to continue.
+                </Alert>
+              </Col>
+            </Row>
+          }
+
+          <StandardReplicationTable intervals={state.key} />
+
           <Row>
-            <Col className="mb-4">
+            <Col className="mb-4 mt-2">
               <Accordion className="w-50" style={{ margin: "auto" }}>
                 <Card
                   bg='primary'
@@ -186,7 +181,7 @@ const StandardReplicationView = () => {
                         <li>With a full infiltrometer, place the porous disk flat against the soil and perpendicular to the surface. Tap the “Start Protocol" button as soon as the infiltrometer disk and the soil come into contact.</li>
                         <li>At the end of each interval, a field in the above table will automatically appear and be selected for data entry. Record the current volume.</li>
                         <li>Repeat these steps for as many intervals as necessary.</li>
-                        <li>Once all replications have been completed, select the "End Protocol" button</li>
+                        <li>Once all replications have been completed, select the "End Protocol" button.</li>
                       </ol>
                     </Card.Body>
                   </Accordion.Collapse>
