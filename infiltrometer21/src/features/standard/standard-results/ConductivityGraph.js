@@ -6,13 +6,44 @@ import '../../../../node_modules/react-linechart/dist/styles.css';
 import React from "react";
 import { Container } from "react-bootstrap";
 import { selectInitialVolume } from "../../reused-components/reused-slices/initializeSlice";
-import { findRate } from '../../reports/reportsDataPackager';
 const ConductivityGraph = () => {
 
     const reports = useSelector(selectReports);
     const curReport = reports[useSelector(selectCurId)];
     const initialVolume = Number(useSelector(selectInitialVolume));
     const radius = curReport.infiltrometerData.infiltrometerRadius;
+
+
+    //For Conductivity Calcuations ///////////////////////////
+    //THIS IS WHAT IFILTROMETER DATA LOOKS LIKE:
+    /*
+    infiltrometerData = {
+        initialVolume: volume,
+        coordinates: { lat: Number(lat), lon: Number(lon) },
+        soilType: { nh0: nh0, alpha: alpha },
+        infiltrometerRadius: radius,
+        timeInterval: timeInterval,
+        infiltrometerSuction: suction,
+        site,
+        observation
+    }*/
+
+    const N = curReport.infiltrometerData.soilType.nh0;
+    const alpha = curReport.infiltrometerData.soilType.alpha
+    const [C1, setC1] = useState(0);
+    const [C2, setC2] = useState(0);
+    const A = () => {
+        //TODO: Calculate A, this relies on soil data (n) and other stuff
+        //see the specified pages in the Sprint 11 acceptance criteria
+
+
+
+        return 1;
+    }
+    const K = () => C2 / A;
+    ////////////////////////////////////////////////////////////
+
+
 
     // Will give you the format:
     // [{x,y}, {x,y}, ... ]
@@ -44,8 +75,12 @@ const ConductivityGraph = () => {
 
         let result = methods.polynomial(points, { order: 2, precision: 15 });
         console.log(result.equation);
+        //predict is the polynomial equation
 
-        const predict = (x) => (result.equation[0] * x * x) + (result.equation[1] * x);
+        setC1(result.equation[1]);
+        setC2(result.equation[0]);
+
+        const predict = (x) => (C2 * x * x) + (C1 * x);
 
         let intPoints = [];
         for (let i = 0; i <= end; i += (end / steps)) {
