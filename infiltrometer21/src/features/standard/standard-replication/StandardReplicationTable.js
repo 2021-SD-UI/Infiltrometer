@@ -134,7 +134,10 @@ const StandardReplicationRow = ({ time, isValid, index }) => {
                 setMaximum(min);
                 break;
             }
-            if (min < Number(readings[i].volume)) { setMaximum(min); }
+            if (min >= Number(readings[i].volume)) {
+                min = Number(readings[i].volume);
+                setMaximum(min);
+            }
         }
     }, [readings])
 
