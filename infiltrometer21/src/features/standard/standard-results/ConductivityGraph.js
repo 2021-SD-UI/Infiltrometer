@@ -1,15 +1,16 @@
-import { useSelector } from "react-redux";
-import { selectCurId, selectReports } from "../../reports/reportsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { selectCurId, selectReports, setCurInfiltrometerData } from "../../reports/reportsSlice";
 import LineChart from 'react-linechart';
 import { methods } from "../../regression/regression-js";
 import '../../../../node_modules/react-linechart/dist/styles.css';
-import React from "react";
+import React, { useMemo } from "react";
 import { Container } from "react-bootstrap";
 import { selectInitialVolume } from "../../reused-components/reused-slices/initializeSlice";
 const ConductivityGraph = () => {
 
     const reports = useSelector(selectReports);
     const curReport = reports[useSelector(selectCurId)];
+    const soilType = curReport.infiltrometerData.soilType;
     const initialVolume = Number(useSelector(selectInitialVolume));
     const radius = curReport.infiltrometerData.infiltrometerRadius;
 
@@ -25,13 +26,16 @@ const ConductivityGraph = () => {
         timeInterval: timeInterval,
         infiltrometerSuction: suction,
         site,
-        observation
+        observation,
+        C1,
+        C2,
+        K
     }*/
-
-    const N = curReport.infiltrometerData.soilType.nh0;
-    const alpha = curReport.infiltrometerData.soilType.alpha
-    const [C1, setC1] = useState(0);
-    const [C2, setC2] = useState(0);
+    const dispatch = useDispatch();
+    const N = soilType.nh0;
+    const alpha = soilType.alpha
+    const C1 = curReport.infiltrometerData.C1;
+    const C2 = curReport.infiltrometerData.C2;
     const A = () => {
         //TODO: Calculate A, this relies on soil data (n) and other stuff
         //see the specified pages in the Sprint 11 acceptance criteria
@@ -63,9 +67,6 @@ const ConductivityGraph = () => {
     }
 
     function interpolatedPoints(end, steps) {
-
-
-
         //get the equation
         let points = [];
         curReport.readings.forEach(r => {
@@ -74,13 +75,16 @@ const ConductivityGraph = () => {
         });
 
         let result = methods.polynomial(points, { order: 2, precision: 15 });
-        console.log(result.equation);
         //predict is the polynomial equation
+        dispatch(setCurInfiltrometerData(
+            {
+                ...curReport.infiltrometerData,
+                C1: result.equation[1],
+                C2: result.equation[0],
+                K: Number(C2 / A())
+            }));
 
-        setC1(result.equation[1]);
-        setC2(result.equation[0]);
-
-        const predict = (x) => (C2 * x * x) + (C1 * x);
+        const predict = (x) => (result.equation[0] * x * x) + (result.equation[1] * x);
 
         let intPoints = [];
         for (let i = 0; i <= end; i += (end / steps)) {
@@ -88,23 +92,30 @@ const ConductivityGraph = () => {
         }
         return intPoints;
     }
-    const data = [
-        {
-            id: "1",
-            name: "Interpolated",
-            color: "red",
-            points: readingsArray().length >= 1 ? interpolatedPoints(readingsArray()[readingsArray().length - 1].x, 100) : null
-        },
-        {
 
-            id: "0",
-            name: "Actual Data",
-            color: "Blue",
-            points: readingsArray(),
-            interpolate: "none"
-        }
 
-    ];
+
+    const data = useMemo(() =>
+
+        [
+            {
+                id: "1",
+                name: "Interpolated",
+                color: "red",
+                points: readingsArray().length >= 1 ? interpolatedPoints(readingsArray()[readingsArray().length - 1].x, 100) : null
+            },
+            {
+
+                id: "0",
+                name: "Actual Data",
+                color: "Blue",
+                points: readingsArray(),
+                interpolate: "none"
+            }
+
+        ]
+        , [radius, soilType]);
+
 
     // The graph must be given data, even if its empty.
     const noData = [
