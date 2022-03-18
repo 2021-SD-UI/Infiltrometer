@@ -1,5 +1,6 @@
 import { SeverityRatings } from "./severityRatings";
-
+import { useSelector } from "react-redux";
+import { getPhotoFromID, selectAlbums } from "../photos/albumsSlice";
 // Create a CSV of the current report
 export function makeCSV(curReport) {
     let obj = {};
@@ -63,6 +64,40 @@ export function findAverageRate(report) {
     }
 
     return sum / (report.readings.length - 1);
+}
+
+//downloads all the images of an album
+export function downloadAllImages(reportAlbum) {
+    //some constants to declare
+    const hasPhotos = reportAlbum !== null && reportAlbum !== undefined && reportAlbum.length > 0;
+
+    //first get all the image data from a report
+    if (!hasPhotos) return; //don't download any photos if we have none
+    let photos = [];
+    let currentlyLoading = 0;
+    reportAlbum.forEach((photo, index) => {
+        //get the actual data from the store
+        currentlyLoading++;
+        console.log(photo, index);
+        getPhotoFromID(photo.full, (d) => {
+            photos = [...photos, { data: d, name: ("site_photo_" + index).toString() }];
+            downloadData(d, ("site_photo_" + index).toString());
+        });
+
+    });
+    photos.forEach((photo) => {
+        downloadData(photo.data, photo.name);
+    })
+
+
+
+}
+
+function downloadData(data, fileName) {
+    const downloadLink = document.createElement("a");
+    downloadLink.href = data;
+    downloadLink.download = fileName;
+    downloadLink.click();
 }
 
 // Returns severity rating based on average rate
