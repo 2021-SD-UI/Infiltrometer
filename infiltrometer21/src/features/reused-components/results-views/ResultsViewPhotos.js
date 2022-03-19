@@ -4,7 +4,7 @@ import { Alert, Container, Row, Col, CardGroup } from 'react-bootstrap';
 import { selectCurId, selectReports } from "../../reports/reportsSlice";
 import { addPhoto, deleteAllPhotos, selectAlbums } from '../../photos/albumsSlice';
 import { PhotoCard } from '../../photos/PhotoCard'
-import { downloadAllImages } from '../../reports/reportsDataPackager';
+import { fetchAllImages } from '../../reports/reportsDataPackager';
 export const ResultsViewPhotos = (props) => {
     const dispatch = useDispatch();
     const reportId = useSelector(selectCurId);
@@ -79,7 +79,9 @@ export const ResultsViewPhotos = (props) => {
                     }
                 </Row>
             </Container>
-            <button onClick={() => downloadAllImages(curReportAlbum)}>
+            <button onClick={() => fetchAllImages(curReportAlbum).then((photos) => {
+                photos.forEach(p => console.log(p.name, p.data));
+            })}>
                 Download all Photos
             </button>
         </>

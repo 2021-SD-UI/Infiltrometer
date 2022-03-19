@@ -10,14 +10,14 @@ export const PhotoCard = ({ index, fullID, reportId }) => {
 
     useEffect(() => {
         setData(null)
-        getPhotoFromID(fullID, (d) => { setData(d) });
+        getPhotoFromID(fullID).then((d) => { setData(d) });
     }, [fullID]);
 
     return (
         <Card className="mt-4">
             <Card.Img className="mt-2" variant="top" src={data} />
             <Card.Body className="align-content-right">
-            {data === null ? <Card.Text><Spinner animation="border" /></Card.Text> : null}
+                {data === null ? <Card.Text><Spinner animation="border" /></Card.Text> : null}
                 <Button variant="outline-danger" size="lg" className="w-100" onClick={() => {
                     dispatch(deletePhoto({ reportId, photoIndex: index }));
                 }

@@ -74,30 +74,28 @@ export function findAverageRate(report) {
     return sum / (report.readings.length - 1);
 }
 
-//downloads all the images of an album
-export function downloadAllImages(reportAlbum) {
+//downloads all the images of an album, returns promise with all the images
+export function fetchAllImages(reportAlbum) {
     //some constants to declare
     const hasPhotos = reportAlbum !== null && reportAlbum !== undefined && reportAlbum.length > 0;
+    return new Promise((resolve, reject) => {
+        //first get all the image data from a report
+        if (!hasPhotos) resolve([]); //don't download any photos if we have none
+        let promises = [];
 
-    //first get all the image data from a report
-    if (!hasPhotos) return; //don't download any photos if we have none
-    let photos = [];
-    let currentlyLoading = 0;
-    reportAlbum.forEach((photo, index) => {
-        //get the actual data from the store
-        currentlyLoading++;
-        console.log(photo, index);
-        getPhotoFromID(photo.full, (d) => {
-            photos = [...photos, { data: d, name: ("site_photo_" + index).toString() }];
-            downloadData(d, ("site_photo_" + index).toString());
-        });
+        for (let i = 0; i < reportAlbum.length; i++) {
+            promises.push(getPhotoFromID(reportAlbum[i].full));
+        }
+        let photos = [];
+        Promise.all(promises).then((data) => {
+            data.forEach((photo, i) => {
+                photos.push({ data, name: ("site_photo_" + i).toString() });
+            });
+            resolve(photos);
+        }
+        );
 
-    });
-    photos.forEach((photo) => {
-        downloadData(photo.data, photo.name);
     })
-
-
 
 }
 
