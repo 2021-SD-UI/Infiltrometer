@@ -1,6 +1,12 @@
 import { SeverityRatings } from "./severityRatings";
 import { useSelector } from "react-redux";
+import { saveAs } from "file-saver";
 import { getPhotoFromID, selectAlbums } from "../photos/albumsSlice";
+
+
+const JSZip = require("jszip");
+
+
 // Create a CSV of the current report
 export function makeCSV(curReport) {
     let obj = {};
@@ -74,7 +80,7 @@ export function findAverageRate(report) {
     return sum / (report.readings.length - 1);
 }
 
-//downloads all the images of an album, returns promise with all the images
+//fetches all the images of an album, returns promise with all the images
 export function fetchAllImages(reportAlbum) {
     //some constants to declare
     const hasPhotos = reportAlbum !== null && reportAlbum !== undefined && reportAlbum.length > 0;
@@ -89,7 +95,7 @@ export function fetchAllImages(reportAlbum) {
         let photos = [];
         Promise.all(promises).then((data) => {
             data.forEach((photo, i) => {
-                photos.push({ data, name: ("site_photo_" + i).toString() });
+                photos.push({ data: photo, name: ("site_photo_" + i).toString() });
             });
             resolve(photos);
         }
@@ -97,6 +103,25 @@ export function fetchAllImages(reportAlbum) {
 
     })
 
+}
+
+//downloads all the images on a report album as a zip
+export function downloadAllImages(reportAlbum) {
+    fetchAllImages(reportAlbum).then((photos) => {
+        var zip = new JSZip();
+        zip.folder("images", "Hello World\n");
+        var img = zip.folder("images");
+
+        photos.forEach((photo) => {
+            console.log(photo.data);
+            img.file(photo.name, photo.data);
+        });
+        zip.generateAsync({ type: "blob" })
+            .then(function (content) {
+                // see FileSaver.js
+                saveAs(content, "images.zip");
+            });
+    });
 }
 
 function downloadData(data, fileName) {
