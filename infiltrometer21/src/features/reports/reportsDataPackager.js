@@ -95,7 +95,13 @@ export function fetchAllImages(reportAlbum) {
         let photos = [];
         Promise.all(promises).then((data) => {
             data.forEach((photo, i) => {
-                photos.push({ data: photo, name: ("site_photo_" + i).toString() });
+
+                //we need to seperate the extension and the data
+                //the photo data comes as: data:image/png;base64, <actualData>
+
+                let ext = photo.match(/[^:/]\w+(?=;|,)/)[0];
+                let actualData = photo.split(',')[1];
+                photos.push({ data: actualData, name: ("site_photo_" + i + "." + ext).toString() });
             });
             resolve(photos);
         }
@@ -108,13 +114,15 @@ export function fetchAllImages(reportAlbum) {
 //downloads all the images on a report album as a zip
 export function downloadAllImages(reportAlbum) {
     fetchAllImages(reportAlbum).then((photos) => {
+        //make sure we actually have images
+        if (photos.length === 0) return;
+
         var zip = new JSZip();
         zip.folder("images", "Hello World\n");
         var img = zip.folder("images");
-
         photos.forEach((photo) => {
             console.log(photo.data);
-            img.file(photo.name, photo.data);
+            img.file(photo.name, photo.data, { base64: true });
         });
         zip.generateAsync({ type: "blob" })
             .then(function (content) {
@@ -124,12 +132,6 @@ export function downloadAllImages(reportAlbum) {
     });
 }
 
-function downloadData(data, fileName) {
-    const downloadLink = document.createElement("a");
-    downloadLink.href = data;
-    downloadLink.download = fileName;
-    downloadLink.click();
-}
 
 // Returns severity rating based on average rate
 // See severityRatings.js for severity rating values

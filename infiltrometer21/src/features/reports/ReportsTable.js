@@ -104,7 +104,7 @@ const ReportsTable = () => {
         // Delete the report from selected if it is in selected
         if (selectedReports[report.id] !== undefined) deselectReport(report);
         // Delete all the photos on this report
-        dispatch(deleteAllPhotos(report.id));
+        dispatch(deleteAllPhotos({ reportId: report.id }));
         // Remove the report from the store
         dispatch(removeReport(report.id))
     }
@@ -118,7 +118,7 @@ const ReportsTable = () => {
         }
         unselectAll();
     }
-    
+
     // Adds the report to the selected reports
     function selectReport(report) {
         var _repo = { ...selectedReports };
