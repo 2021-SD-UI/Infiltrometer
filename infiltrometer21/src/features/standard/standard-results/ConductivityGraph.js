@@ -12,7 +12,7 @@ const ConductivityGraph = () => {
     const curReport = reports[useSelector(selectCurId)];
     const soilType = curReport.infiltrometerData.soilType;
     const initialVolume = Number(useSelector(selectInitialVolume));
-    const radius = curReport.infiltrometerData.infiltrometerRadius;
+
 
 
     //For Conductivity Calcuations ///////////////////////////
@@ -33,7 +33,9 @@ const ConductivityGraph = () => {
     }*/
     const dispatch = useDispatch();
     const N = soilType.nh0;
+    const h = curReport.infiltrometerData.suction;
     const alpha = soilType.alpha
+    const radius = curReport.infiltrometerData.infiltrometerRadius;
     const C1 = curReport.infiltrometerData.C1;
     const C2 = curReport.infiltrometerData.C2;
     const A = () => {

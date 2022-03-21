@@ -2,8 +2,7 @@ import { SeverityRatings } from "./severityRatings";
 import { useSelector } from "react-redux";
 import { saveAs } from "file-saver";
 import { getPhotoFromID, selectAlbums } from "../photos/albumsSlice";
-
-
+import { Protocols } from './protocols'
 const JSZip = require("jszip");
 
 
@@ -22,43 +21,60 @@ function handleTextForCSV(text) {
 // Get data from all selected reports
 // Write to a CSV
 export function makeCSVFromGroupOfReports(reportGroup) {
-        let data;
-        let curReportData;
-        Object.keys(reportGroup).forEach(reportID => {
-            let curReport = reportGroup[reportID];
-            if(curReport.protocol === "BAER") {
-                //Download for BAER
-                data = [['Date','Time', 'Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'Severity Rating', 'Site Name', 'Observation Name',
-                    'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude']];
-                curReportData = [curReport.date.toLocaleDateString, curReport.date.toLocaleTimeString, curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
-                    findAverageRate(curReport), findSeverityRating(findAverageRate(curReport)).name, handleTextForCSV(curReport.infiltrometerData.site),
-                    handleTextForCSV(curReport.infiltrometerData.observation), handleTextForCSV(curReport.notes)];
-            }
-            else{
-                //Download for standard
-                data = [['Date','Time','Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'C1','C2','K', 'Site Name', 'Observation Name',
-                    'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude']];
-                curReportData = [curReport.date, curReport.date.toLocaleTimeString, curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
-                    findAverageRate(curReport), curReport.infiltrometerData.C1,curReport.infiltrometerData.C2, curReport.infiltrometerData.K, handleTextForCSV(curReport.infiltrometerData.site),
-                    handleTextForCSV(curReport.infiltrometerData.observation), handleTextForCSV(curReport.notes)];
-            }
-            let i = 0;
-            //readings data
-            curReport.readings.forEach(reading => {
-                //reading data
-                let row = [...curReportData];
+    let data;
+    let curReportData;
+    Object.keys(reportGroup).forEach(reportID => {
+        let curReport = reportGroup[reportID];
+        if (curReport.protocol === Protocols.Baer) {
+            //Download for BAER
+            data = [['Date', 'Time', 'Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'Severity Rating', 'Site Name', 'Observation Name',
+                'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude']];
+            curReportData = [curReport.date.toLocaleDateString, curReport.date.toLocaleTimeString, curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
+            findAverageRate(curReport, false), findSeverityRating(findAverageRate(curReport)).name, handleTextForCSV(curReport.infiltrometerData.site),
+            handleTextForCSV(curReport.infiltrometerData.observation), handleTextForCSV(curReport.notes)];
+        }
+        else {
+            //Download for standard
+            data = [['Date', 'Time', 'Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'C1', 'C2', 'K', 'Site Name', 'Observation Name',
+                'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude']];
+            curReportData = [curReport.date, curReport.date.toLocaleTimeString, curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
+            findAverageRate(curReport, true), curReport.infiltrometerData.C1, curReport.infiltrometerData.C2, curReport.infiltrometerData.K, handleTextForCSV(curReport.infiltrometerData.site),
+            handleTextForCSV(curReport.infiltrometerData.observation), handleTextForCSV(curReport.notes)];
+        }
+        let i = 0;
+        //readings data
+        curReport.readings.forEach(reading => {
+            //reading data
+            let row = [...curReportData];
 
-                row.push((i + 1).toString(), reading.secondsElapsed,
-                    reading.volume,
-                    findRate(i, curReport), reading.lat, reading.lon);
+            row.push((i + 1).toString(), reading.secondsElapsed,
+                reading.volume,
+                findRate(i, curReport), reading.lat, reading.lon);
 
-                data.push(row);
-                i++;
-            });
+            data.push(row);
+            i++;
         });
-        return {data, filename: "reports.csv"}
+    });
+
+    var zip = new JSZip();
+
+
+
+
+    var rep = zip.file("reports.csv", toCsv(data));
+
+    zip.generateAsync({ type: "blob" })
+        .then(function (content) {
+            // see FileSaver.js
+            saveAs(content, "report.zip");
+        });
+    //TODO: don't return anymore
+    return { data, filename: "reports.csv" }
 }
 
+function toCsv(input) {
+    return input.map(row => row.join(',')).join('\n')
+}
 
 // Find flow rate (ml/min) for an individual reading in a report
 export function findRate(readingIndex, report, fromBeginning = false) {
@@ -83,11 +99,11 @@ export function findRate(readingIndex, report, fromBeginning = false) {
 }
 
 // Find average flow rate (mL/min) for a report
-export function findAverageRate(report) {
+export function findAverageRate(report, fromBeginning = false) {
     let sum = 0;
 
     for (let i = 0; i < report.readings.length; i++) {
-        sum += findRate(i, report);
+        sum += findRate(i, report, fromBeginning);
     }
 
     return sum / (report.readings.length - 1);
@@ -97,6 +113,7 @@ export function findAverageRate(report) {
 export function fetchAllImages(reportAlbum) {
     //some constants to declare
     const hasPhotos = reportAlbum !== null && reportAlbum !== undefined && reportAlbum.length > 0;
+
     return new Promise((resolve, reject) => {
         //first get all the image data from a report
         if (!hasPhotos) resolve([]); //don't download any photos if we have none
@@ -105,6 +122,7 @@ export function fetchAllImages(reportAlbum) {
         for (let i = 0; i < reportAlbum.length; i++) {
             promises.push(getPhotoFromID(reportAlbum[i].full));
         }
+
         let photos = [];
         Promise.all(promises).then((data) => {
             data.forEach((photo, i) => {
@@ -114,6 +132,7 @@ export function fetchAllImages(reportAlbum) {
 
                 let ext = photo.match(/[^:/]\w+(?=;|,)/)[0];
                 let actualData = photo.split(',')[1];
+
                 photos.push({ data: actualData, name: ("site_photo_" + i + "." + ext).toString() });
             });
             resolve(photos);
@@ -131,10 +150,10 @@ export function downloadAllImages(reportAlbum) {
         if (photos.length === 0) return;
 
         var zip = new JSZip();
-        zip.folder("images", "Hello World\n");
+
         var img = zip.folder("images");
         photos.forEach((photo) => {
-            console.log(photo.data);
+            //console.log(photo.data);
             img.file(photo.name, photo.data, { base64: true });
         });
         zip.generateAsync({ type: "blob" })
