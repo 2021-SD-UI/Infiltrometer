@@ -22,17 +22,26 @@ function handleTextForCSV(text) {
 // Get data from all selected reports
 // Write to a CSV
 export function makeCSVFromGroupOfReports(reportGroup) {
-
-    //Download for BAER
-    if(curReport.protocol === "BAER") {
-        let data = [['Date','Time', 'Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'Severity Rating', 'Site Name', 'Observation Name',
-            'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude']];
+        let data;
+        let curReportData;
         Object.keys(reportGroup).forEach(reportID => {
             let curReport = reportGroup[reportID];
-            let curReportData = [curReport.date.toLocaleDateString, curReport.date.toLocaleTimeString,curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
-                findAverageRate(curReport), findSeverityRating(findAverageRate(curReport)).name, handleTextForCSV(curReport.infiltrometerData.site),
-                handleTextForCSV(curReport.infiltrometerData.observation), handleTextForCSV(curReport.notes)];
-
+            if(curReport.protocol === "BAER") {
+                //Download for BAER
+                data = [['Date','Time', 'Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'Severity Rating', 'Site Name', 'Observation Name',
+                    'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude']];
+                curReportData = [curReport.date.toLocaleDateString, curReport.date.toLocaleTimeString, curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
+                    findAverageRate(curReport), findSeverityRating(findAverageRate(curReport)).name, handleTextForCSV(curReport.infiltrometerData.site),
+                    handleTextForCSV(curReport.infiltrometerData.observation), handleTextForCSV(curReport.notes)];
+            }
+            else{
+                //Download for standard
+                data = [['Date','Time','Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'C1','C2','K', 'Site Name', 'Observation Name',
+                    'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude']];
+                curReportData = [curReport.date, curReport.date.toLocaleTimeString, curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
+                    findAverageRate(curReport), curReport.infiltrometerData.C1,curReport.infiltrometerData.C2, curReport.infiltrometerData.K, handleTextForCSV(curReport.infiltrometerData.site),
+                    handleTextForCSV(curReport.infiltrometerData.observation), handleTextForCSV(curReport.notes)];
+            }
             let i = 0;
             //readings data
             curReport.readings.forEach(reading => {
@@ -48,34 +57,6 @@ export function makeCSVFromGroupOfReports(reportGroup) {
             });
         });
         return {data, filename: "reports.csv"}
-    }
-    //Download for Standard
-    if(curReport.protocol === "Standard") {
-        let data = [['Date','Time','Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'C1','C2','K', 'Site Name', 'Observation Name',
-            'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude']];
-        Object.keys(reportGroup).forEach(reportID => {
-            let curReport = reportGroup[reportID];
-            let curReportData = [curReport.date, curReport.date.toLocaleTimeString, curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
-                findAverageRate(curReport), curReport.infiltrometerData.C1,curReport.infiltrometerData.C2, curReport.infiltrometerData.K, handleTextForCSV(curReport.infiltrometerData.site),
-                handleTextForCSV(curReport.infiltrometerData.observation), handleTextForCSV(curReport.notes)];
-
-            let i = 0;
-            //readings data
-            curReport.readings.forEach(reading => {
-                //reading data
-                let row = [...curReportData];
-
-                row.push((i + 1).toString(), reading.secondsElapsed,
-                    reading.volume,
-                    findRate(i, curReport), reading.lat, reading.lon);
-
-                data.push(row);
-                i++;
-            });
-        });
-        return {data, filename: "reports.csv"}
-    }
-
 }
 
 
