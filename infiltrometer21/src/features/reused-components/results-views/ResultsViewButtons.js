@@ -18,7 +18,7 @@ export const ResultsViewButtons = ({ protocol }) => {
 
     return (
         <>
-            <hr/>
+            <hr />
             < Row className="mt-4 text-center" >
                 <Col>
                     <Button
@@ -53,12 +53,9 @@ export const ResultsViewButtons = ({ protocol }) => {
             </Row>
             <Row className="mb-4 text-center">
                 <Col>
-                    <CSVLink
-                        {/*onClick ->*/ ...makeCSV(curReport)}
-                        class="btn btn-success btn-lg w-50"
-                    >
+                    <Button variant="success" size="lg" className="w-50" onClick={(event) => { event.stopPropagation(); makeCSV(curReport); }}>
                         Download Report
-                    </CSVLink>
+                    </Button>
                 </Col>
             </Row>
         </>
