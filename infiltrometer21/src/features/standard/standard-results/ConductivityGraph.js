@@ -33,20 +33,19 @@ const ConductivityGraph = () => {
     }*/
     const dispatch = useDispatch();
     const N = soilType.nh0;
-    const h = curReport.infiltrometerData.suction;
+    const h = curReport.infiltrometerData.infiltrometerSuction;
     const alpha = soilType.alpha
     const radius = curReport.infiltrometerData.infiltrometerRadius;
     const C1 = curReport.infiltrometerData.C1;
     const C2 = curReport.infiltrometerData.C2;
     const A = () => {
-        //TODO: Calculate A, this relies on soil data (n) and other stuff
-        //see the specified pages in the Sprint 11 acceptance criteria
-
-
-
-        return 1;
+        if (N >= 1.9) {
+            return [11.65 * (Math.pow(N, 0.1) - 1) * Math.exp(2.92 * (N - 1.9) * alpha * h)] / [Math.pow(alpha * radius, 0.91)];
+        }
+        // N < 1.9
+        return [11.65 * (Math.pow(N, 0.1) - 1) * Math.exp(7.5 * (N - 1.9) * alpha * h)] / [Math.pow(alpha * radius, 0.91)];
     }
-    const K = () => C2 / A;
+    const K = C1 / A();
     ////////////////////////////////////////////////////////////
 
 
@@ -163,6 +162,7 @@ const ConductivityGraph = () => {
         <>
             <Container className="text-center my-4">
                 <Graph />
+                <h2>C1: {`${C1.toFixed(4)}`}, C2: {`${C2.toFixed(4)}`}, K: {`${K.toFixed(4)}`}</h2>
             </Container>
         </>
     );
