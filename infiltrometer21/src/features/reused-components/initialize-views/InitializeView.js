@@ -191,7 +191,7 @@ const InitializeView = ({ protocol }) => {
                     <Row className="mt-5 display-6">
                         <Col>
                             <Form.Group>
-                                <Form.Label>Volume (mL)*{"  "}
+                                <Form.Label>Volume (mL)* <br />
                                     <HelpTip size="25px" title="Volume" content="The initial volume of water in the lower chamber of the infiltrometer (in mL)." />
                                 </Form.Label>
                                 <Form.Control
