@@ -154,7 +154,7 @@ const BaerReplicationView = () => {
 
         {/* Help Button */}
         <Row>
-          <Col className="mb-4 mt-2">
+          <Col className="mb-4 mt-2 mx-2">
             <Accordion className="w-100">
               <Card
                 bg='primary'

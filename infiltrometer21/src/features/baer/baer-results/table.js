@@ -67,7 +67,7 @@ const Table = ({ protocol }) => {
     }
 
     return (
-        <div className="mx-3">
+        <div className="mx-4">
             <table class="table table-light table-striped table-hover" id='students'>
                 <tbody>
                     <tr class="table-dark">{renderTableHeader()}</tr>

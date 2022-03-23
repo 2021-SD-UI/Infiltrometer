@@ -167,9 +167,9 @@ const StandardReplicationView = () => {
 
           <StandardReplicationTable intervals={state.key} />
 
-          <Row>
-            <Col className="mb-4 mt-2">
-              <Accordion className="w-50" style={{ margin: "auto" }}>
+          <Row className="mb-4 mt-2 mx-1">
+            <Col>
+              <Accordion className="w-100">
                 <Card
                   bg='primary'
                   text='white'>

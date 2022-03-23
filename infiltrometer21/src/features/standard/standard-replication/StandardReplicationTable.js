@@ -84,7 +84,7 @@ export const StandardReplicationTable = ({ intervals }) => {
 
     return (
         <Container>
-            <Row>
+            <Row className="mx-4">
                 <Col>
                     <table class="table table-light table-striped table-hover">
                         <thead>
@@ -157,7 +157,7 @@ const StandardReplicationRow = ({ time, isValid, index }) => {
                         max={maximum}
                         placeholder="Volume (mL)"
                         onChange={onChange}
-                        onSubmit={(e) => {e.preventDefault()}}
+                        onSubmit={(e) => { e.preventDefault() }}
                     />
                 </Form>
                 {/*isValid ? null : <ErrorTip size='25px' title="Error!" content="This is an invalid reading." />*/}

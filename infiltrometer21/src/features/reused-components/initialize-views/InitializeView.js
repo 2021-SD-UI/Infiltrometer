@@ -191,7 +191,7 @@ const InitializeView = ({ protocol }) => {
                     <Row className="mt-5 display-6">
                         <Col>
                             <Form.Group>
-                                <Form.Label>Volume (mL)* <br />
+                                <Form.Label>Volume (mL)* {" "}
                                     <HelpTip size="25px" title="Volume" content="The initial volume of water in the lower chamber of the infiltrometer (in mL)." />
                                 </Form.Label>
                                 <Form.Control
@@ -211,7 +211,7 @@ const InitializeView = ({ protocol }) => {
                         </Col>
                         <Col>
                             <Form.Group>
-                                <Form.Label>Time {protocol === Protocols.Baer ? "" : "Interval"} (s)*{"  "}
+                                <Form.Label>Time (s)*{"   "}
                                     <HelpTip
                                         size="25px"
                                         title={protocol === Protocols.Baer ? "Time" : "Time Interval"}
