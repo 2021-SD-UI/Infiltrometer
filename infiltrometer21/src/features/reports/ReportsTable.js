@@ -214,10 +214,9 @@ const ReportsTable = () => {
                     </Col>
 
                     <Col className="m-2 col-6 col-md-3 col-lg-2 text-center">
-                       //TODO Replace with button
-                        <CSVLink {...makeCSVFromGroupOfReports(selectedReports)} class="btn btn-success w-100">
+                        <Button onClick={()=>makeCSVFromGroupOfReports(selectedReports)} variant="success" className="w-100">
                             Download ({numberOfSelectedReports})
-                        </CSVLink>
+                        </Button>
                     </Col>
                 </>
             );

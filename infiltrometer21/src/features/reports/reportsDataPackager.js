@@ -23,53 +23,57 @@ function handleTextForCSV(text) {
 export function makeCSVFromGroupOfReports(reportGroup) {
     let data;
     let curReportData;
-    Object.keys(reportGroup).forEach(reportID => {
+    var rep;
+    var zip = new JSZip();
+    Object.keys(reportGroup).forEach((reportID,index) => {
         let curReport = reportGroup[reportID];
         if (curReport.protocol === Protocols.Baer) {
             //Download for BAER
-            data = [['Date', 'Time', 'Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'Severity Rating', 'Site Name', 'Observation Name',
-                'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude']];
-            curReportData = [curReport.date.toLocaleDateString, curReport.date.toLocaleTimeString, curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
+            data = [['Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'Severity Rating', 'Site Name', 'Observation Name',
+                'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude', 'Date', 'Time']];
+            curReportData = [curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
             findAverageRate(curReport, false), findSeverityRating(findAverageRate(curReport)).name, handleTextForCSV(curReport.infiltrometerData.site),
             handleTextForCSV(curReport.infiltrometerData.observation), handleTextForCSV(curReport.notes)];
         }
         else {
             //Download for standard
-            data = [['Date', 'Time', 'Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'C1', 'C2', 'K', 'Site Name', 'Observation Name',
-                'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude']];
-            curReportData = [curReport.date, curReport.date.toLocaleTimeString, curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
+            data = [['Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'C1', 'C2', 'K', 'Site Name', 'Observation Name',
+                'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude', 'Date', 'Time']];
+            curReportData = [curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
             findAverageRate(curReport, true), curReport.infiltrometerData.C1, curReport.infiltrometerData.C2, curReport.infiltrometerData.K, handleTextForCSV(curReport.infiltrometerData.site),
             handleTextForCSV(curReport.infiltrometerData.observation), handleTextForCSV(curReport.notes)];
         }
         let i = 0;
+        let date = new Date(curReport.date).toDateString();
+
+
         //readings data
         curReport.readings.forEach(reading => {
             //reading data
             let row = [...curReportData];
+            //Actual time of the reading
+            let time = new Date(curReport.date)
+            time = new Date(time.setSeconds(time.getSeconds() + reading.secondsElapsed)).toTimeString();
 
             row.push((i + 1).toString(), reading.secondsElapsed,
                 reading.volume,
-                findRate(i, curReport), reading.lat, reading.lon);
+                findRate(i, curReport), reading.lat, reading.lon,date,time);
 
             data.push(row);
             i++;
         });
+
+        rep = zip.file("report_" + index + ".csv", toCsv(data));
+
+        //function call to add to zip
+
     });
-
-    var zip = new JSZip();
-
-
-
-
-    var rep = zip.file("reports.csv", toCsv(data));
 
     zip.generateAsync({ type: "blob" })
         .then(function (content) {
             // see FileSaver.js
-            saveAs(content, "report.zip");
+            saveAs(content, "reports.zip");
         });
-    //TODO: don't return anymore
-    return { data, filename: "reports.csv" }
 }
 
 function toCsv(input) {
