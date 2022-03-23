@@ -37,7 +37,7 @@ export function makeCSVFromGroupOfReports(reportGroup) {
         }
         else {
             //Download for standard
-            data = [['Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'C1', 'C2', 'K', 'Site Name', 'Observation Name',
+            data = [['Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'C1 (cm/s^(½))', 'C2 (cm/s)', 'K (cm/s^(½))', 'Site Name', 'Observation Name',
                 'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude', 'Date', 'Time']];
             curReportData = [curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
             findAverageRate(curReport, true), curReport.infiltrometerData.C1, curReport.infiltrometerData.C2, curReport.infiltrometerData.K, handleTextForCSV(curReport.infiltrometerData.site),
