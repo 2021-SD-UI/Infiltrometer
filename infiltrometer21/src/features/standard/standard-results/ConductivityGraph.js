@@ -162,7 +162,10 @@ const ConductivityGraph = () => {
         <>
             <Container className="text-center my-4">
                 <Graph />
-                <h2>C1: {`${C1.toFixed(4)}`}, C2: {`${C2.toFixed(4)}`}, K: {`${K.toFixed(4)}`}</h2>
+                {
+                    C1 && C2 && K &&
+                    < h2 > C1: {`${C1.toFixed(4)}`}, C2: {`${C2.toFixed(4)}`}, K: {`${K.toFixed(4)}`}</h2>
+                }
             </Container>
         </>
     );
