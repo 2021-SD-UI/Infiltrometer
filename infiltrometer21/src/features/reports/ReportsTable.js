@@ -7,14 +7,15 @@ import { makeCSVFromGroupOfReports } from "./reportsDataPackager";
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button, Table, Alert } from "react-bootstrap";
 import { Pages } from "../page-redirection/Redirector";
-import { deleteAllPhotos } from "../photos/albumsSlice";
+import { deleteAllPhotos } from "../photos/albumsSlice"
+import { selectAlbums } from "../photos/albumsSlice";
 
 const ReportsTable = () => {
     const [selectedReports, setSelectedReports] = useState({});
     const numberOfSelectedReports = Object.keys(selectedReports).length;
     const reports = useSelector(selectReports);
     const dispatch = useDispatch();
-
+    const reportAlbums = useSelector(selectAlbums);
     // Map the current state to table elements
     function renderTableData() {
         return Object.keys(reports).map(reportID => {
@@ -214,7 +215,7 @@ const ReportsTable = () => {
                     </Col>
 
                     <Col className="m-2 col-6 col-md-3 col-lg-2 text-center">
-                        <Button onClick={()=>makeCSVFromGroupOfReports(selectedReports)} variant="success" className="w-100">
+                        <Button onClick={() => makeCSVFromGroupOfReports(selectedReports, reportAlbums)} variant="success" className="w-100">
                             Download ({numberOfSelectedReports})
                         </Button>
                     </Col>

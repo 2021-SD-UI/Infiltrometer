@@ -79,9 +79,6 @@ export const ResultsViewPhotos = (props) => {
                     }
                 </Row>
             </Container>
-            <button onClick={() => downloadAllImages(curReportAlbum)}>
-                Download all Photos
-            </button>
         </>
     )
 

@@ -7,10 +7,10 @@ const JSZip = require("jszip");
 
 
 // Create a CSV of the current report
-export function makeCSV(curReport) {
+export function makeCSV(curReport, reportAlbums) {
     let obj = {};
     obj[curReport.id] = curReport;
-    return makeCSVFromGroupOfReports(obj);
+    return makeCSVFromGroupOfReports(obj, reportAlbums);
 }
 
 function handleTextForCSV(text) {
@@ -20,61 +20,95 @@ function handleTextForCSV(text) {
 
 // Get data from all selected reports
 // Write to a CSV
-export function makeCSVFromGroupOfReports(reportGroup) {
-    let data;
-    let curReportData;
-    var rep;
+export function makeCSVFromGroupOfReports(reportGroup, reportAlbums) {
     var zip = new JSZip();
-    Object.keys(reportGroup).forEach((reportID,index) => {
-        let curReport = reportGroup[reportID];
-        if (curReport.protocol === Protocols.Baer) {
-            //Download for BAER
-            data = [['Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'Severity Rating', 'Site Name', 'Observation Name',
-                'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude', 'Date', 'Time']];
-            curReportData = [curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
-            findAverageRate(curReport, false), findSeverityRating(findAverageRate(curReport)).name, handleTextForCSV(curReport.infiltrometerData.site),
-            handleTextForCSV(curReport.infiltrometerData.observation), handleTextForCSV(curReport.notes)];
-        }
-        else {
-            //Download for standard
-            data = [['Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'C1 (cm/s^(½))', 'C2 (cm/s)', 'K (cm/s^(½))', 'Site Name', 'Observation Name',
-                'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude', 'Date', 'Time']];
-            curReportData = [curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
-            findAverageRate(curReport, true), curReport.infiltrometerData.C1, curReport.infiltrometerData.C2, curReport.infiltrometerData.K, handleTextForCSV(curReport.infiltrometerData.site),
-            handleTextForCSV(curReport.infiltrometerData.observation), handleTextForCSV(curReport.notes)];
-        }
-        let i = 0;
-        let date = new Date(curReport.date).toDateString();
+    let reportPromises = [];
+    Object.keys(reportGroup).forEach((reportID, index) => {
+        reportPromises.push(new Promise((resolve, reject) => {
+            let folderName = "report_" + index;
+            let folder = zip.folder(folderName);
+            let curReport = reportGroup[reportID];
+            let csvData = makeCSVDataFromReading(curReport);
+
+            let reportAlbum = reportAlbums == null ? null : reportAlbums[reportID];
+
+            //add csv data tot he folder
+            folder.file(folderName + ".csv", csvData);
+
+            //put all the images on this report in their own images folder
+            if (reportAlbum == null ||
+                reportAlbum == undefined ||
+                reportAlbum.length == 0) resolve();
+            else {
+                fetchAllImages(reportAlbum).then((imageData) => {
+                    //make sure we actually have images
+                    if (imageData.length === 0) resolve();
+                    var img = folder.folder("images");
+                    imageData.forEach((photo) => {
+                        img.file(photo.name, photo.data, { base64: true });
+                    });
+                    //resolve with the folder contents
+                    resolve();
+                });
+            }
 
 
-        //readings data
-        curReport.readings.forEach(reading => {
-            //reading data
-            let row = [...curReportData];
-            //Actual time of the reading
-            let time = new Date(curReport.date)
-            time = new Date(time.setSeconds(time.getSeconds() + reading.secondsElapsed)).toTimeString();
-
-            row.push((i + 1).toString(), reading.secondsElapsed,
-                reading.volume,
-                findRate(i, curReport), reading.lat, reading.lon,date,time);
-
-            data.push(row);
-            i++;
-        });
-
-        rep = zip.file("report_" + index + ".csv", toCsv(data));
-
-        //function call to add to zip
-
+        }));
+    });
+    Promise.all(reportPromises).then(() => {
+        zip.generateAsync({ type: "blob" })
+            .then(function (content) {
+                // see FileSaver.js
+                saveAs(content, "reports.zip");
+            });
     });
 
-    zip.generateAsync({ type: "blob" })
-        .then(function (content) {
-            // see FileSaver.js
-            saveAs(content, "reports.zip");
-        });
+
 }
+
+
+
+function makeCSVDataFromReading(curReport) {
+    let data = [];
+    let curReportData = [];
+    if (curReport.protocol === Protocols.Baer) {
+        //Download for BAER
+        data = [['Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'Severity Rating', 'Site Name', 'Observation Name',
+            'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude', 'Date', 'Time']];
+        curReportData = [curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
+        findAverageRate(curReport, false), findSeverityRating(findAverageRate(curReport)).name, handleTextForCSV(curReport.infiltrometerData.site),
+        handleTextForCSV(curReport.infiltrometerData.observation), handleTextForCSV(curReport.notes)];
+    }
+    else {
+        //Download for standard
+        data = [['Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'C1 (cm/s^(½))', 'C2 (cm/s)', 'K (cm/s^(½))', 'Site Name', 'Observation Name',
+            'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude', 'Date', 'Time']];
+        curReportData = [curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
+        findAverageRate(curReport, true), curReport.infiltrometerData.C1, curReport.infiltrometerData.C2, curReport.infiltrometerData.K, handleTextForCSV(curReport.infiltrometerData.site),
+        handleTextForCSV(curReport.infiltrometerData.observation), handleTextForCSV(curReport.notes)];
+    }
+    let i = 0;
+    let date = new Date(curReport.date).toDateString();
+
+
+    //readings data
+    curReport.readings.forEach(reading => {
+        //reading data
+        let row = [...curReportData];
+        //Actual time of the reading
+        let time = new Date(curReport.date)
+        time = new Date(time.setSeconds(time.getSeconds() + reading.secondsElapsed)).toTimeString();
+
+        row.push((i + 1).toString(), reading.secondsElapsed,
+            reading.volume,
+            findRate(i, curReport), reading.lat, reading.lon, date, time);
+
+        data.push(row);
+        i++;
+    });
+    return toCsv(data);
+}
+
 
 function toCsv(input) {
     return input.map(row => row.join(',')).join('\n')

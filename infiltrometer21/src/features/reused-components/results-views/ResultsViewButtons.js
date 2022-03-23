@@ -1,23 +1,20 @@
-/* React/Redux Imports */
+
 import React from 'react';
 import { useSelector, useDispatch } from "react-redux";
-import { Button, Col, Row } from 'react-bootstrap';
-
-/* Slice Imports */
 import { selectCurId, selectReports } from "../../reports/reportsSlice";
 import { setPage } from '../../page-redirection/redirector-slice';
-
-/* Other Imports */
+import { CSVLink } from "react-csv";
 import { makeCSV } from "../../reports/reportsDataPackager";
+import { Button, Col, Row } from 'react-bootstrap';
 import { Pages } from '../../page-redirection/Redirector';
 import { Protocols } from '../../reports/protocols';
-
+import { selectAlbums } from '../../photos/albumsSlice';
 
 export const ResultsViewButtons = ({ protocol }) => {
     const reports = useSelector(selectReports);
     const curReport = reports[useSelector(selectCurId)];
     const dispatch = useDispatch();
-
+    const reportAlbums = useSelector(selectAlbums);
     return (
         <>
             <hr />
@@ -55,7 +52,7 @@ export const ResultsViewButtons = ({ protocol }) => {
             </Row>
             <Row className="mb-4 text-center">
                 <Col>
-                    <Button variant="success" size="lg" className="w-50" onClick={() => { makeCSV(curReport) }}>
+                    <Button variant="success" size="lg" className="w-50" onClick={() => { makeCSV(curReport, reportAlbums) }}>
                         Download Report
                     </Button>
                 </Col>
