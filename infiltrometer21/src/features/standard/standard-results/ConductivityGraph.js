@@ -4,7 +4,7 @@ import LineChart from 'react-linechart';
 import { methods } from "../../regression/regression-js";
 import '../../../../node_modules/react-linechart/dist/styles.css';
 import React, { useMemo } from "react";
-import { Container } from "react-bootstrap";
+import { Container, Row, Col, Table } from "react-bootstrap";
 import { selectInitialVolume } from "../../reused-components/reused-slices/initializeSlice";
 const ConductivityGraph = () => {
 
@@ -164,7 +164,57 @@ const ConductivityGraph = () => {
                 <Graph />
                 {
                     C1 && C2 && K &&
-                    < h2 > C1: {`${C1.toFixed(4)}`}, C2: {`${C2.toFixed(4)}`}, K: {`${K.toFixed(4)}`}</h2>
+                    <Row className="mt-4">
+                        <Col>
+                            <Table className="table table-striped table-hover">
+                                <thead>
+                                    <tr class="table-dark">
+                                        <th>
+                                            C1 (cm/s^(½))
+                                        </th>
+                                        <th>
+                                            C2 (cm/s)
+                                        </th>
+                                        <th>
+                                            K (cm/s^(½))
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        < td>
+                                            <Container className="my-2">
+                                                <Row>
+                                                    <Col>
+                                                        {`${C1.toFixed(4)}`}
+                                                    </Col>
+                                                </Row>
+                                            </Container>
+                                        </td>
+                                        < td>
+                                            <Container className="my-2">
+                                                <Row>
+                                                    <Col>
+                                                        {`${C2.toFixed(4)}`}
+                                                    </Col>
+                                                </Row>
+                                            </Container>
+                                        </td>
+                                        < td>
+                                            <Container className="my-2">
+                                                <Row>
+                                                    <Col>
+                                                        {`${K.toFixed(4)}`}
+                                                    </Col>
+                                                </Row>
+                                            </Container>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </Table>
+                        </Col>
+                    </Row>
+
                 }
             </Container>
         </>
