@@ -1,4 +1,4 @@
-const DEFAULT_OPTIONS = { order: 2, precision: 2, period: null };
+// const DEFAULT_OPTIONS = { order: 2, precision: 2, period: null };
 
 /**
 * Determine the coefficient of determination (r^2) of a fit from the observations
@@ -308,17 +308,17 @@ export const methods = {
   },
 };
 
-function createWrapper() {
-  const reduce = (accumulator, name) => ({
-    _round: round,
-    ...accumulator,
-    [name](data, supplied) {
-      return methods[name](data, {
-        ...DEFAULT_OPTIONS,
-        ...supplied,
-      });
-    },
-  });
+// function createWrapper() {
+//   const reduce = (accumulator, name) => ({
+//     _round: round,
+//     ...accumulator,
+//     [name](data, supplied) {
+//       return methods[name](data, {
+//         ...DEFAULT_OPTIONS,
+//         ...supplied,
+//       });
+//     },
+//   });
 
-  return Object.keys(methods).reduce(reduce, {});
-}
+//   return Object.keys(methods).reduce(reduce, {});
+// }

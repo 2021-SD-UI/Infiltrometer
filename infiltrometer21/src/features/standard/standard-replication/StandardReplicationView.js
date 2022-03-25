@@ -1,13 +1,13 @@
 //The Page we are displaying for the baer Initialize view
-import React, { useState } from 'react';
-import { Button, Col, Container, Form, Modal, Row, Card, Accordion } from 'react-bootstrap';
+import React, { useState, useRef } from 'react';
+import { Button, Col, Container, Form, Modal, Row, Card, Accordion, Overlay, Tooltip, Alert } from 'react-bootstrap';
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useDispatch, useSelector } from 'react-redux';
 import beep from '../../audio/beep-01a.mp3';
 import { useAudio } from '../../audio/Player';
 import { Pages } from '../../page-redirection/Redirector';
 import { setPage } from '../../page-redirection/redirector-slice';
-import { addReading, selectCurReadingID, setGatheringData } from '../../reports/reportsSlice';
+import { addReading, selectCurReadingID, setGatheringData, selectCurId, selectReports } from '../../reports/reportsSlice';
 import { selectInitialVolume, selectTimeInterval } from '../../reused-components/reused-slices/initializeSlice';
 import { selectLastVolume, setLastVolume, setSecondsElapsed, setVolume } from '../../reused-components/reused-slices/replicationSlice';
 import { addGeoDataToReading } from '../../useful-functions/usefulFunctions';
@@ -56,6 +56,11 @@ const StandardReplicationView = () => {
   };
   const [state, setState] = useState(initializeState);
   const [remaining, setRemaining] = useState(0);
+
+  const reports = useSelector(selectReports);
+  const curReport = reports[useSelector(selectCurId)];
+  const readings = curReport.readings;
+
   function endProtocol() {
 
     //mark that we are done gathering data on this report
@@ -64,9 +69,23 @@ const StandardReplicationView = () => {
     //go to the results page
     dispatch(setPage(Pages.StandardResultsView))
   }
+  function stopProtocol() {
+
+    setState({
+      ...state,
+      timerIsPlaying: false
+    })
+  }
+
+  function allValid() {
+    for (let i = 1; i < readings.length; i++) {
+      if (Number(readings[i - 1].volume) < Number(readings[i].volume)) return false;
+    }
+    return true;
+  };
 
   /* Modal -------------------------------------------------------------- */
-  const [playing, toggle] = useAudio(beep);
+  const [playing, setAudPlaying] = useAudio(beep);
 
 
   /*Time -----------------------------------------------------------------*/
@@ -74,12 +93,12 @@ const StandardReplicationView = () => {
   const addRow = () => {
 
     //play audio
-    if (!playing) toggle();
+    setAudPlaying(false);
+    setAudPlaying(true);
 
     //increment the interval
     //resume the timer
     setState({ timerIsPlaying: true, key: state.key + 1 });
-    toggle();
   }
 
   /* --------------------------------------------------------------------- */
@@ -88,9 +107,7 @@ const StandardReplicationView = () => {
     <>
       <Container className="mt-3">
         <div class="rounded border shadow">
-
           <Row>
-
             <Col>
               <div className="mt-4 timer-wrapper">
                 <CountdownCircleTimer
@@ -105,11 +122,7 @@ const StandardReplicationView = () => {
               </div>
             </Col>
           </Row>
-          <Row className="mt-4">
-            <Col>
-              <StandardReplicationTable intervals={state.key} />
-            </Col>
-          </Row>
+
           <Row className="text-center">
             <Col className="mt-4">
               <Button
@@ -124,22 +137,39 @@ const StandardReplicationView = () => {
               </Button>
             </Col>
           </Row>
-          <Row className="text-center mt-2">
-            <Col className="mt-2">
+
+          <Row className="text-center mb-4 mt-2">
+            <Col>
               <Button
                 variant="secondary"
                 className="w-50"
                 size="lg"
-                onClick={endProtocol}
+                onClick={allValid() ? endProtocol : stopProtocol}
               >
-                End Protocol
+                {state.timerIsPlaying ? "End Protocol" : "Continue"}
               </Button>
             </Col>
           </Row>
-          <Row className="mb-5" />
-          <Row>
-            <Col className="mb-4">
-              <Accordion className="w-50" style={{ margin: "auto" }}>
+
+          {allValid() ? null :
+            <Row className="text-center mb-2">
+              <Col>
+                <Alert
+                  variant="danger"
+                  className="w-100"
+                  size="lg"
+                >
+                  Please correct all invalid data to continue.
+                </Alert>
+              </Col>
+            </Row>
+          }
+
+          <StandardReplicationTable intervals={state.key} />
+
+          <Row className="mb-4 mt-2 mx-1">
+            <Col>
+              <Accordion className="w-100">
                 <Card
                   bg='primary'
                   text='white'>
@@ -149,9 +179,9 @@ const StandardReplicationView = () => {
                       <ol type="1">
                         <li>Expose the soil about 1 to 3 cm in depth, removing any overlying ash or minerals.</li>
                         <li>With a full infiltrometer, place the porous disk flat against the soil and perpendicular to the surface. Tap the “Start Protocol" button as soon as the infiltrometer disk and the soil come into contact.</li>
-                        <li>At the end of each interval, remove the infiltrometer from the soil and hold the top of the tube so that the water is at eye level. A field in the above table will automatically appear and be selected for data entry. Record the end volume.</li>
+                        <li>At the end of each interval, a field in the above table will automatically appear and be selected for data entry. Record the current volume.</li>
                         <li>Repeat these steps for as many intervals as necessary.</li>
-                        <li>Once all replications have been completed, select the "End Protocol" button</li>
+                        <li>Once all replications have been completed, select the "End Protocol" button.</li>
                       </ol>
                     </Card.Body>
                   </Accordion.Collapse>

@@ -1,10 +1,7 @@
-import { Popover, OverlayTrigger } from 'react-bootstrap';
-import { BsFillQuestionCircleFill as Qmark } from 'react-icons/bs';
+import { OverlayTrigger, Popover } from 'react-bootstrap';
+import { RiErrorWarningFill as ErrorMark } from 'react-icons/ri';
 
-
-
-
-export const HelpTip = ({ title, content, size }) => {
+export const ErrorTip = ({ title, content, size }) => {
 
 
     const popover = (
@@ -18,8 +15,8 @@ export const HelpTip = ({ title, content, size }) => {
 
     return (
         <>
-            <OverlayTrigger trigger="click" placement="right" overlay={popover}>
-                <Qmark size={size} />
+            <OverlayTrigger trigger="click" placement="left" overlay={popover}>
+                <ErrorMark size={size} />
             </OverlayTrigger>
         </>
     );

@@ -1,19 +1,15 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 
-
-
-//empty array of reports
+// Empty array of reports
 const initialState = {
   reports: {},
   curId: "-1",
-
 };
 
 export const reportsSlice = createSlice({
   name: 'reports',
   initialState,
-  // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
     newReport: (state, action) => {
       // Push a new report onto the report stack and increment the id
@@ -29,7 +25,7 @@ export const reportsSlice = createSlice({
         gatheringData: true,
         notes: "",
       }
-      //add it to the reports
+      // Add it to the reports
       state.reports[newReport.id] = newReport;
 
     },
@@ -41,7 +37,7 @@ export const reportsSlice = createSlice({
      * 
      */
     addReading: (state, action) => {
-      //add the reading to based on the reading's time and
+      // Add the reading to based on the reading's time and
       let _readings = state.reports[state.curId].readings;
 
       if (_readings.length === 0) {
@@ -51,50 +47,47 @@ export const reportsSlice = createSlice({
 
       for (let i = 0; i < _readings.length; i++) {
         if (_readings[i].secondsElapsed === action.payload.secondsElapsed) {
-          //modify the elements
+          // Modify the elements
           _readings[i] = action.payload;
           return;
-
         }
-
       }
       _readings.push(action.payload);
 
-      //sort the elements
+      // Sort the elements
       _readings.sort((a, b) => (a.secondsElapsed > b.secondsElapsed) ? 1 : -1);
     },
+
     removeReadingWithTime: (state, action) => {
-      //remove the reading to based on the reading's time
+      // Remove the reading to based on the reading's time
       let _readings = [...state.reports[state.curId].readings];
-
-      state.reports[state.curId].readings = [..._readings].filter(r => r.secondsElapsed != action.payload);
-
+      state.reports[state.curId].readings = [..._readings].filter(r => r.secondsElapsed !== action.payload);
     },
-    //sets the current gathering data report
+
+    // Sets the current gathering data report
     setGatheringData: (state, action) => {
       state.reports[state.curId].gatheringData = action.payload;
     },
+
     removeReport: (state, action) => {
-
-
-      //remove the report with the id provided in action.payload
+      // Remove the report with the id provided in action.payload
       delete state.reports[action.payload];
 
-      //if the current report is the one we are trying to delete, set a new current id
-      if (state.curId == action.payload) {
+      // If the current report is the one we are trying to delete, set a new current id
+      if (state.curId === action.payload) {
         state.curId = Object.keys(state.reports)[0];
       }
-
-
-
     },
+
     setCurId: (state, action) => {
       state.curId = action.payload;
     },
+
     setNotes: (state, action) => {
       state.reports[state.curId].notes = action.payload;
     },
-    //sets the current report's infiltrometer Data
+
+    // Sets the current report's infiltrometer data
     setCurInfiltrometerData: (state, action) => {
 
       state.reports[state.curId].infiltrometerData = action.payload;

@@ -1,7 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { useDispatch } from 'react-redux';
-import { soilTypes } from '../../../app/soilTypes';
-
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   initialVolume: 95,
@@ -24,17 +21,12 @@ const initialState = {
 
 };
 
-
-
-/**
- * We need slices to 
- */
 export const InitializeSlice = createSlice({
 
   name: 'baerInitialize',
 
   initialState,
-  // The `reducers` field lets us define reducers and generate associated actions
+
   reducers: {
     setInitialVolume: (state, action) => {
 
@@ -64,28 +56,12 @@ export const InitializeSlice = createSlice({
   }
 });
 
-/**
- * A selector returning the current type of the infiltrometer
- * @param {*} state 
- * @returns 
- */
-
 export const selectInfiltrometerRadius = (state) => state.baerInitialize.infiltrometerR;
-
 export const selectInfiltrometerSuction = (state) => state.baerInitialize.suction;
-
 export const selectSoilType = (state) => state.baerInitialize.soilType;
-
 export const selectInitialVolume = (state) => state.baerInitialize.initialVolume;
-
 export const selectInfiltrometerData = (state) => state.baerInitialize;
-
 export const selectTimeInterval = (state) => state.baerInitialize.timeInterval;
-
-
-//export the actions
 export const { setInitialVolume, setInfiltrometerSuction, setTimeInterval, setSoilType, setInfiltrometerData } = InitializeSlice.actions;
-
-
 
 export default InitializeSlice.reducer;

@@ -8,17 +8,17 @@ import { makeCSV } from "../../reports/reportsDataPackager";
 import { Button, Col, Row } from 'react-bootstrap';
 import { Pages } from '../../page-redirection/Redirector';
 import { Protocols } from '../../reports/protocols';
-
+import { selectAlbums } from '../../photos/albumsSlice';
 
 export const ResultsViewButtons = ({ protocol }) => {
     const reports = useSelector(selectReports);
     const curReport = reports[useSelector(selectCurId)];
-
     const dispatch = useDispatch();
-
+    const reportAlbums = useSelector(selectAlbums);
     return (
         <>
-            < Row className="my-2 text-center" >
+            <hr />
+            < Row className="mt-4 text-center" >
                 <Col>
                     <Button
                         variant="dark"
@@ -38,7 +38,7 @@ export const ResultsViewButtons = ({ protocol }) => {
                     </Button>
                 </Col>
             </Row >
-            <Row className="text-center">
+            <Row className="my-2 text-center">
                 <Col>
                     <Button
                         variant="secondary"
@@ -50,14 +50,11 @@ export const ResultsViewButtons = ({ protocol }) => {
                     </Button>
                 </Col>
             </Row>
-            <Row className="mt-2 mb-5 text-center">
+            <Row className="mb-4 text-center">
                 <Col>
-                    <CSVLink
-                        {/*onClick ->*/ ...makeCSV(curReport)}
-                        class="btn btn-success btn-lg w-50"
-                    >
+                    <Button variant="success" size="lg" className="w-50" onClick={() => { makeCSV(curReport, reportAlbums) }}>
                         Download Report
-                    </CSVLink>
+                    </Button>
                 </Col>
             </Row>
         </>
