@@ -186,7 +186,7 @@ const ConductivityGraph = () => {
                                             <Container className="my-2">
                                                 <Row>
                                                     <Col>
-                                                        {`${C1.toFixed(4)}`}
+                                                        {`${Number.parseFloat(C1).toExponential(4)}`}
                                                     </Col>
                                                 </Row>
                                             </Container>
@@ -195,7 +195,7 @@ const ConductivityGraph = () => {
                                             <Container className="my-2">
                                                 <Row>
                                                     <Col>
-                                                        {`${C2.toFixed(4)}`}
+                                                        {`${Number.parseFloat(C2).toExponential(4)}`}
                                                     </Col>
                                                 </Row>
                                             </Container>
@@ -204,7 +204,7 @@ const ConductivityGraph = () => {
                                             <Container className="my-2">
                                                 <Row>
                                                     <Col>
-                                                        {`${K.toFixed(4)}`}
+                                                        {`${Number.parseFloat(K).toExponential(4)}`}
                                                     </Col>
                                                 </Row>
                                             </Container>
