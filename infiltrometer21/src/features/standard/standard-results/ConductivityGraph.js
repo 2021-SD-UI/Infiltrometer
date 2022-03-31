@@ -176,7 +176,7 @@ const ConductivityGraph = () => {
                                             C2 (cm/s)
                                         </th>
                                         <th>
-                                            K (cm/s^(½))
+                                            K (cm/s)
                                         </th>
                                     </tr>
                                 </thead>
