@@ -45,7 +45,7 @@ const ConductivityGraph = () => {
         // N < 1.9
         return [11.65 * (Math.pow(N, 0.1) - 1) * Math.exp(7.5 * (N - 1.9) * alpha * h)] / [Math.pow(alpha * radius, 0.91)];
     }
-    const K = C1 / A();
+    const K = curReport.infiltrometerData.K;
     ////////////////////////////////////////////////////////////
 
 

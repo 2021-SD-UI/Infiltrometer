@@ -1,6 +1,6 @@
 //The Page we are displaying for the baer Initialize view
 import React, { useState, useRef } from 'react';
-import { Button, Col, Container, Form, Modal, Row, Card, Accordion, Overlay, Tooltip, Alert } from 'react-bootstrap';
+import { Button, Col, Container, Form, ProgressBar, Row, Card, Accordion, Overlay, Tooltip, Alert } from 'react-bootstrap';
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useDispatch, useSelector } from 'react-redux';
 import beep from '../../audio/beep-01a.mp3';
@@ -123,6 +123,13 @@ const StandardReplicationView = () => {
             </Col>
           </Row>
 
+
+
+
+
+
+
+          <StandardReplicationTable intervals={state.key} />
           <Row className="text-center">
             <Col className="mt-4">
               <Button
@@ -137,20 +144,6 @@ const StandardReplicationView = () => {
               </Button>
             </Col>
           </Row>
-
-          <Row className="text-center mb-4 mt-2">
-            <Col>
-              <Button
-                variant="secondary"
-                className="w-50"
-                size="lg"
-                onClick={allValid() ? endProtocol : stopProtocol}
-              >
-                {state.timerIsPlaying ? "End Protocol" : "Continue"}
-              </Button>
-            </Col>
-          </Row>
-
           {allValid() ? null :
             <Row className="text-center mb-2">
               <Col>
@@ -159,14 +152,25 @@ const StandardReplicationView = () => {
                   className="w-100"
                   size="lg"
                 >
-                  Please correct all invalid data to continue.
+                  Please correct all invalid data before continuing.
                 </Alert>
               </Col>
             </Row>
           }
+          <Row className="text-center mb-4 mt-2">
+            <Col>
+              <Button
+                variant="secondary"
+                className="w-50"
+                size="lg"
+                onClick={allValid() ? endProtocol : state.timerIsPlaying ? stopProtocol : endProtocol}
+              >
+                {state.timerIsPlaying ? "End Protocol" : "Continue"}
+              </Button>
+            </Col>
+          </Row>
 
-          <StandardReplicationTable intervals={state.key} />
-
+          <ProgressBar now={(remaining / (timeInterval)) * 100} />
           <Row className="mb-4 mt-2 mx-1">
             <Col>
               <Accordion className="w-100">

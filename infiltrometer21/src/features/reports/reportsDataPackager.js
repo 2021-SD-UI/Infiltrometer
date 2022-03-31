@@ -82,7 +82,7 @@ function makeCSVDataFromReading(curReport) {
     else {
         //Download for standard
         data = [['Protocol', 'Soil Alpha', 'Soil NH/O', 'C1 (cm/s^(½))', 'C2 (cm/s)', 'K (cm/s)', 'Site Name', 'Observation Name',
-            'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude', 'Date', 'Time']];
+            'Notes', 'Reading Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude', 'Date', 'Time']];
         curReportData = [curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
         curReport.infiltrometerData.C1, curReport.infiltrometerData.C2, curReport.infiltrometerData.K, handleTextForCSV(curReport.infiltrometerData.site),
         handleTextForCSV(curReport.infiltrometerData.observation), handleTextForCSV(curReport.notes)];
