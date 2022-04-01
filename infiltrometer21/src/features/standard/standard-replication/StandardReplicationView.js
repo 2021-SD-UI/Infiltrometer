@@ -169,8 +169,9 @@ const StandardReplicationView = () => {
               </Button>
             </Col>
           </Row>
-
-          <ProgressBar now={(remaining / (timeInterval)) * 100} />
+          <div className="fixed-bottom">
+            <ProgressBar now={(remaining / (timeInterval)) * 100} />
+          </div>
           <Row className="mb-4 mt-2 mx-1">
             <Col>
               <Accordion className="w-100">

@@ -2,7 +2,17 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
-import { Modal, Button, Form, Container, Row, Col, Accordion, Card } from 'react-bootstrap';
+import {
+  Modal,
+  Button,
+  Form,
+  Container,
+  Row,
+  Col,
+  Accordion,
+  Card,
+  ProgressBar
+} from 'react-bootstrap';
 
 /* Slice Imports */
 import { addReading, selectCurReadingID, setGatheringData } from '../../reports/reportsSlice';
@@ -21,40 +31,27 @@ import beep from '../../audio/beep-01a.mp3';
 import { Pages } from '../../page-redirection/Redirector';
 
 
-
-/* Handles render logic for the countdown timer */
-const renderTime = ({ remainingTime }) => {
-  if (remainingTime === 0) {
-    return <div className="timer">Time is up!</div>;
-  }
-
-  return (
-    <div className="timer">
-      <div className="text">Time remaining:</div>
-      <div className="value">{remainingTime}</div>
-      <div className="text">seconds</div>
-    </div>
-  );
-};
-
-
-
 const BaerReplicationView = () => {
   const initializeState = {
     timerIsPlaying: false,
-    key: 0,
+    key: 0
   };
   const curID = useSelector(selectCurReadingID); // ID of reading, not report
   const initialVolume = Number(useSelector(selectInitialVolume));
+
+
   let timeInterval = useSelector(selectTimeInterval);
+  const [remaining, setRemaining] = useState(timeInterval);
   let lastVolume = Number(useSelector(selectLastVolume));
   let maxVolume = Math.min(initialVolume, lastVolume);
-  let setPlaying = (playing) => setState({ ...state, timerIsPlaying: playing });
+  let setPlaying = (playing) => setState({
+    ...state,
+    timerIsPlaying: playing
+  });
   let dispatch = useDispatch();
   let [state, setState] = useState(initializeState);
 
-  function endProtocol() {
-    // Mark that we are done gathering data on this report
+  function endProtocol() { // Mark that we are done gathering data on this report
     dispatch(setGatheringData(false));
 
     // Go to the results page
@@ -64,8 +61,33 @@ const BaerReplicationView = () => {
   // Modal ==============================================================================
   let [show, setShow] = useState(false);
   let [playing, setAudPlaying] = useAudio(beep);
-  const handleClose = () => { setShow(false); setPlaying(false) };
-  const handleOpen = () => { setAudPlaying(false); setAudPlaying(true); setShow(true); }
+  const handleClose = () => {
+    setShow(false);
+    setPlaying(false)
+  };
+  const handleOpen = () => {
+    setAudPlaying(false);
+    setAudPlaying(true);
+    setShow(true);
+  }
+  /* Handles render logic for the countdown timer */
+  const renderTime = ({ remainingTime }) => {
+
+    setRemaining(remainingTime);
+
+    if (remainingTime === 0) {
+      return <div className="timer">Time is up!</div>;
+    }
+
+    return (
+      <div className="timer">
+        <div className="text">Time remaining:</div>
+        <div className="value">
+          {remainingTime}</div>
+        <div className="text">seconds</div>
+      </div>
+    );
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -74,9 +96,7 @@ const BaerReplicationView = () => {
 
     if (form.checkValidity() === false) {
       event.stopPropagation();
-    }
-    else {
-      // Calculate the total number of elapsed seconds
+    } else { // Calculate the total number of elapsed seconds
       let secondsElapsed = (curID + 1) * timeInterval;
 
       // Set the volume and time in the replication store
@@ -86,7 +106,10 @@ const BaerReplicationView = () => {
 
       // Add the reading using the reports slice
       // Try to gather geo data
-      addGeoDataToReading({ volume: volumeReading, secondsElapsed }, (newReading) => {
+      addGeoDataToReading({
+        volume: volumeReading,
+        secondsElapsed
+      }, (newReading) => {
         dispatch(addReading(newReading));
       });
 
@@ -99,21 +122,38 @@ const BaerReplicationView = () => {
   return (
     <>
       <Container className="mt-5 rounded border shadow">
-        <h1 className="pt-5 display-4">Current Replication: {curID + 1}</h1>
+        <h1 className="pt-5 display-4">Current Replication: {
+          curID + 1
+        }</h1>
 
         {/* Timer */}
         <Row>
           <Col>
             <div className="mt-4 timer-wrapper">
-              <CountdownCircleTimer
-                key={state.key}
-                isPlaying={state.timerIsPlaying}
-                duration={Number(timeInterval)}
-                colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
-                onComplete={() => handleOpen()}
-              >
-                {renderTime}
-              </CountdownCircleTimer>
+              <CountdownCircleTimer key={
+                state.key
+              }
+                isPlaying={
+                  state.timerIsPlaying
+                }
+                duration={
+                  Number(timeInterval)
+                }
+                colors={
+                  [
+                    [
+                      "#004777", 0.33
+                    ],
+                    [
+                      "#F7B801", 0.33
+                    ],
+                    ["#A30000"]
+                  ]
+                }
+                onComplete={
+                  () => handleOpen()
+                }>
+                {renderTime} </CountdownCircleTimer>
             </div>
           </Col>
         </Row>
@@ -121,25 +161,27 @@ const BaerReplicationView = () => {
         {/* Buttons */}
         <Row className="text-center">
           <Col className="mt-4">
-            <Button
-              variant="dark"
-              className="w-50"
-              size="lg"
-              disabled={state.timerIsPlaying}
-              onClick={() => { setState({ timerIsPlaying: true, key: state.key + 1 }); }}
-            >
-              {!state.timerIsPlaying ? "Start Replication" : "Replication Running..."}
-            </Button>
+            <Button variant="dark" className="w-50" size="lg"
+              disabled={
+                state.timerIsPlaying
+              }
+              onClick={
+                () => {
+                  setState({
+                    timerIsPlaying: true,
+                    key: state.key + 1
+                  });
+                }
+              }>
+              {
+                !state.timerIsPlaying ? "Start Replication" : "Replication Running..."
+              } </Button>
           </Col>
         </Row>
         <Row className="text-center">
           <Col className="mt-2">
-            <Button
-              variant="secondary"
-              className="w-50"
-              size="lg"
-              onClick={endProtocol}
-            >
+            <Button variant="secondary" className="w-50" size="lg"
+              onClick={endProtocol}>
               End Protocol
             </Button>
           </Col>
@@ -156,12 +198,15 @@ const BaerReplicationView = () => {
         <Row>
           <Col className="mb-4 mt-2 mx-2">
             <Accordion className="w-100">
-              <Card
-                bg='primary'
-                text='white'>
-                <Accordion.Toggle as={Card.Header} eventKey="0" className='text-center'>Help</Accordion.Toggle>
+              <Card bg='primary' text='white'>
+                <Accordion.Toggle as={
+                  Card.Header
+                }
+                  eventKey="0"
+                  className='text-center'>Help</Accordion.Toggle>
                 <Accordion.Collapse eventKey="0">
-                  <Card.Body><h2>How to conduct a replication:</h2>
+                  <Card.Body>
+                    <h2>How to conduct a replication:</h2>
                     <ol type="1">
                       <li>Expose the soil about 1 to 3 cm in depth, removing any overlying ash or minerals.</li>
                       <li>With a full infiltrometer, place the porous disk flat against the soil and perpendicular to the surface. Tap the “Start Replication” button as soon as the infiltrometer disk and the soil come into contact.</li>
@@ -184,55 +229,43 @@ const BaerReplicationView = () => {
         </Row>
 
       </Container>
-
+      <div className="fixed-bottom">
+        <ProgressBar now={
+          (remaining / (timeInterval)) * 100
+        } />
+      </div>
       {/* Modal */}
-      <Modal
-        show={show}
+      <Modal show={show}
         onHide={handleClose}
         backdrop="static"
-        centered
-      >
+        centered>
         <Modal.Header>
-          <Modal.Title>Enter volumetric data for replication: {curID + 1}</Modal.Title>
+          <Modal.Title>Enter volumetric data for replication: {
+            curID + 1
+          }</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Form
-            noValidate
-            validated
-            onSubmit={handleSubmit}
-          >
+          <Form noValidate validated
+            onSubmit={handleSubmit}>
             <Form.Group>
               <Form.Text muted>
-                Previous volume: {maxVolume} mL
+                Previous volume: {maxVolume}
+                mL
               </Form.Text>
-              <Form.Control
-                required
-                autofocus
-                type="number"
-                step="any"
-                size="lg"
-                min="0"
+              <Form.Control required autofocus type="number" step="any" size="lg" min="0"
                 max={maxVolume}
                 id="volumeReading"
-                placeholder="Volume (mL)"
-              />
+                placeholder="Volume (mL)" />
               <Form.Control.Feedback type="invalid">
                 Enter a valid reading, or hit "Cancel".
               </Form.Control.Feedback>
             </Form.Group>
             <Modal.Footer>
-              <Button
-                variant="outline-secondary"
-                size="lg"
-                onClick={handleClose}
-              >
+              <Button variant="outline-secondary" size="lg"
+                onClick={handleClose}>
                 Cancel
               </Button>
-              <Button
-                type="submit"
-                variant="dark"
-                size="lg"
-              >
+              <Button type="submit" variant="dark" size="lg">
                 Submit
               </Button>
             </Modal.Footer>
