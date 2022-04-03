@@ -82,7 +82,7 @@ function makeCSVDataFromReading(curReport) {
     else {
         //Download for standard
         data = [['Protocol', 'Soil Alpha', 'Soil NH/O', 'C1 (cm/s^(½))', 'C2 (cm/s)', 'K (cm/s)', 'Site Name', 'Observation Name',
-            'Notes', 'Reading Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude', 'Date', 'Time']];
+            'Notes', 'Reading Number', 'Time (sec)', 'Volume(mL)', 'Latitude', 'Longitude', 'Date', 'Time']];
         curReportData = [curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
         curReport.infiltrometerData.C1, curReport.infiltrometerData.C2, curReport.infiltrometerData.K, handleTextForCSV(curReport.infiltrometerData.site),
         handleTextForCSV(curReport.infiltrometerData.observation), handleTextForCSV(curReport.notes)];
@@ -99,9 +99,17 @@ function makeCSVDataFromReading(curReport) {
         let time = new Date(curReport.date)
         time = new Date(time.setSeconds(time.getSeconds() + reading.secondsElapsed)).toTimeString();
 
-        row.push((i + 1).toString(), reading.secondsElapsed,
-            reading.volume,
-            findRate(i, curReport), reading.lat, reading.lon, date, time);
+        if (curReport.protocol === Protocols.Baer) {
+            //Download for BAER
+            row.push((i + 1).toString(), reading.secondsElapsed,
+                reading.volume,
+                findRate(i, curReport), reading.lat, reading.lon, date, time);
+        } else {
+            //Download for Standard (No Rate)
+            row.push((i + 1).toString(), reading.secondsElapsed,
+                reading.volume,
+                reading.lat, reading.lon, date, time);
+        }
 
         data.push(row);
         i++;

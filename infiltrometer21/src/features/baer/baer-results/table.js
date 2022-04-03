@@ -28,14 +28,23 @@ const Table = ({ protocol }) => {
     function renderTableData() {
         return filterReadings().reports.map((report, index) => {
             const { id, Time, Volume, Rate } = report //destructuring
-            return (
-                <tr key={id}>
-                    <td>{id}</td>
-                    <td>{Time}</td>
-                    <td>{Volume}</td>
-                    <td>{Rate.toPrecision(4)}</td>
-                </tr>
-            )
+            
+            if (protocol === Protocols.Baer) { 
+                return (
+                    <tr key={id}>
+                        <td>{id}</td>
+                        <td>{Time}</td>
+                        <td>{Volume}</td>
+                        <td>{Rate.toPrecision(4)}</td>
+                    </tr>
+            )} else {
+                return (
+                    <tr key={id}>
+                        <td>{id}</td>
+                        <td>{Time}</td>
+                        <td>{Volume}</td>
+                    </tr>
+            )}
         })
     }
 
@@ -54,9 +63,14 @@ const Table = ({ protocol }) => {
                 if (key.toUpperCase() === "VOLUME") {
                     return <th key={index}>{key.toUpperCase() + " (mL)"}</th>
                 }
-                if (key.toUpperCase() === "RATE") {
-                    return <th key={index}>{key.toUpperCase() + " (mL/min)"}</th>
+                if (protocol === Protocols.Baer) {
+                    if (key.toUpperCase() === "RATE") {
+                        return <th key={index}>{key.toUpperCase() + " (mL/min)"}</th>
+                    }
+                } else {
+                    return;
                 }
+                
                 return <th key={0}>No Readings To Display</th>;
             })
         }
