@@ -73,18 +73,20 @@ function makeCSVDataFromReading(curReport) {
     let curReportData = [];
     if (curReport.protocol === Protocols.Baer) {
         //Download for BAER
-        data = [['Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'Severity Rating', 'Site Name', 'Observation Name',
+        data = [['Protocol', 'Soil Alpha', 'Soil NH/O', 'Average Rate (mL/min)', 'Suction', 'Radius', 'Severity Rating', 'Site Name', 'Observation Name',
             'Notes', 'Replication Number', 'Time (sec)', 'Volume(mL)', 'Rate(mL / min)', 'Latitude', 'Longitude', 'Date', 'Time']];
         curReportData = [curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
-        findAverageRate(curReport, false), findSeverityRating(findAverageRate(curReport)).name, handleTextForCSV(curReport.infiltrometerData.site),
+        findAverageRate(curReport, false), curReport.infiltrometerData.infiltrometerSuction, curReport.infiltrometerData.infiltrometerRadius,
+        findSeverityRating(findAverageRate(curReport)).name, handleTextForCSV(curReport.infiltrometerData.site),
         handleTextForCSV(curReport.infiltrometerData.observation), handleTextForCSV(curReport.notes)];
     }
     else {
         //Download for standard
-        data = [['Protocol', 'Soil Alpha', 'Soil NH/O', 'C1 (cm/s^(½))', 'C2 (cm/s)', 'K (cm/s)', 'Site Name', 'Observation Name',
+        data = [['Protocol', 'Soil Alpha', 'Soil NH/O', 'C1 (cm/s^(½))', 'C2 (cm/s)', 'K (cm/s)', 'Suction', 'Radius', 'Site Name', 'Observation Name',
             'Notes', 'Reading Number', 'Time (sec)', 'Volume(mL)', 'Latitude', 'Longitude', 'Date', 'Time']];
         curReportData = [curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
-        curReport.infiltrometerData.C1, curReport.infiltrometerData.C2, curReport.infiltrometerData.K, handleTextForCSV(curReport.infiltrometerData.site),
+        curReport.infiltrometerData.C1, curReport.infiltrometerData.C2, curReport.infiltrometerData.K, 
+        curReport.infiltrometerData.infiltrometerSuction, curReport.infiltrometerData.infiltrometerRadius, handleTextForCSV(curReport.infiltrometerData.site),
         handleTextForCSV(curReport.infiltrometerData.observation), handleTextForCSV(curReport.notes)];
     }
     let i = 0;

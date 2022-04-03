@@ -149,7 +149,7 @@ const ConductivityGraph = () => {
                     width={380}
                     height={400}
                     xLabel="Square Root of Time (s)"
-                    yLabel="Infiltration (cm)"
+                    yLabel="Cumulative Infiltration (cm)"
                     data={data}
                     hideLines={false}
                     hidePoints={false}
