@@ -71,7 +71,7 @@ const BaerReplicationView = () => {
     setShow(true);
   }
   /* Handles render logic for the countdown timer */
-  const renderTime = ({ remainingTime }) => {
+  function renderTime({ remainingTime }) {
 
     setRemaining(remainingTime);
 
@@ -130,30 +130,15 @@ const BaerReplicationView = () => {
         <Row>
           <Col>
             <div className="mt-4 timer-wrapper">
-              <CountdownCircleTimer key={
-                state.key
-              }
-                isPlaying={
-                  state.timerIsPlaying
-                }
-                duration={
-                  Number(timeInterval)
-                }
-                colors={
-                  [
-                    [
-                      "#004777", 0.33
-                    ],
-                    [
-                      "#F7B801", 0.33
-                    ],
-                    ["#A30000"]
-                  ]
-                }
-                onComplete={
-                  () => handleOpen()
-                }>
-                {renderTime} </CountdownCircleTimer>
+              <CountdownCircleTimer
+                key={state.key}
+                isPlaying={state.timerIsPlaying}
+                duration={Number(timeInterval)}
+                colors={[["#004777", 0.33], ["#F7B801", 0.33], ["#A30000"]]}
+                onComplete={() => handleOpen()}
+              >
+                {renderTime}
+              </CountdownCircleTimer>
             </div>
           </Col>
         </Row>
