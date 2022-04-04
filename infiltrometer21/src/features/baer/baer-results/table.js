@@ -1,18 +1,23 @@
-import React, { useState } from 'react'
-import { useSelector } from "react-redux";
-import { Button, Modal, Form } from 'react-bootstrap';
-import { selectCurId, selectReports } from "../../reports/reportsSlice";
+import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from "react-redux";
+import { Container, Button, Modal, Form, Alert, Row } from 'react-bootstrap';
+import { selectCurId, selectReports, addReading, removeReadingWithTime } from "../../reports/reportsSlice";
 import { findAverageRate, findSeverityRating, findRate } from '../../reports/reportsDataPackager';
+import { selectInfiltrometerData } from '../../reused-components/reused-slices/initializeSlice';
 import { Protocols } from '../../reports/protocols';
 const Table = ({ protocol, editable }) => {
     const rawReports = useSelector(selectReports);
+    const curInfiltrometerData = useSelector(selectInfiltrometerData);
+    const dispatch = useDispatch();
     const curReport = rawReports[useSelector(selectCurId)];
     const [state] = useState(filterReadings());
+    const [curVolume, setCurVolume] = useState(0);
     const [modalData, setModalData] = useState(
         {
             visible: false,
             curTime: 0,
-            curVolume: 0
+            curVolume: 0,
+            curId: 0
         }
     )
     // Create an array to use for a table row from reading data
@@ -41,7 +46,10 @@ const Table = ({ protocol, editable }) => {
                     <tr key={id} onClick={
                         () => {
                             if (!editable) return;
-                            setModalData({ curTime: Time, curVolume: Volume, visible: true })
+                            setModalData({ curTime: Time, curVolume: Volume, curId: id, visible: true })
+                            setCurVolume(Volume);
+                            
+                            
                         }
                     }>
                         <td>{id}</td>
@@ -55,7 +63,9 @@ const Table = ({ protocol, editable }) => {
                     <tr key={id} onClick={
                         () => {
                             if (!editable) return;
-                            setModalData({ curTime: Time, curVolume: Volume, visible: true })
+                            setModalData({ curTime: Time, curVolume: Volume, curId: id, visible: true });
+                            setCurVolume(Volume);
+                            
                         }
                     }>
                         <td>{id}</td>
@@ -72,7 +82,6 @@ const Table = ({ protocol, editable }) => {
         try {
             let header = Object.keys(state.reports[0])
             return header.map((key, index) => {
-                console.log(key.toUpperCase())
                 if (key.toUpperCase() === "ID") {
                     return <th key={index}>{key.toUpperCase()}</th>
                 }
@@ -90,58 +99,112 @@ const Table = ({ protocol, editable }) => {
                     return;
                 }
 
-                return <th key={0}>No Readings To Display</th>;
+                return <th key={0} className="text-center">No Readings To Display</th>;
             })
         }
         catch (e) {
-            return <th key={0}>No Readings To Display</th>;
+            return <th key={0} className="text-center">No Readings To Display</th>;
         }
 
     }
 
-    return (
-        <div className="mx-4">
-            <table class="table table-light table-striped table-hover" id='students'>
-                <tbody>
-                    <tr class="table-dark">{renderTableHeader()}</tr>
-                    {renderTableData()}
-                </tbody>
-            </table>
-            {protocol === Protocols.Baer ?
-                <table class="table table-light table-striped table-hover">
-                    <tbody>
-                        <tr class="table-dark">
-                            <th class="text-center">AVERAGE (mL/min)</th>
-                            <th className="text-center">SEVERITY RATING</th>
-                        </tr>
+    // Handle submit of modal
+    const handleSubmit = (event) => {
+        let newVolume = document.getElementById("newVolume");
+        event.preventDefault();
+        if (event.currentTarget.checkValidity() === true) {
+            setModalData({ visible: false });
+            if (String(newVolume.value).length === 0 || newVolume.value === null || newVolume.value === undefined) {
+                dispatch(removeReadingWithTime(modalData.curTime));
+                return;
+            }
+            else {
+                dispatch(addReading({
+                    volume: modalData.curVolume,
+                    secondsElapsed: modalData.curTime,
+                    lat: curInfiltrometerData.coordinates.lat,
+                    lon: curInfiltrometerData.coordinates.lon
+                }));
+            }
+        }
+        else return;
+    }
 
-                        <tr class="table-striped">
-                            <td className="text-center">{findAverageRate(curReport).toPrecision(4)}</td>
-                            <td class="text-center">{findSeverityRating(findAverageRate(curReport)).name}</td>
-                        </tr>
+    return (
+        <Container>
+            <Row>
+                <table class="table table-light table-striped table-hover" id='students'>
+                    <tbody>
+                        <tr class="table-dark">{renderTableHeader()}</tr>
+                        {renderTableData()}
                     </tbody>
                 </table>
-                : null}
-            <Modal show={modalData.visible} >
+                {protocol === Protocols.Baer ?
+                    <table class="table table-light table-striped table-hover">
+                        <tbody>
+                            <tr class="table-dark">
+                                <th class="text-center">AVERAGE (mL/min)</th>
+                                <th className="text-center">SEVERITY RATING</th>
+                            </tr>
+                            <tr class="table-striped">
+                                <td className="text-center">{findAverageRate(curReport).toPrecision(4)}</td>
+                                <td class="text-center">{findSeverityRating(findAverageRate(curReport)).name}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    : null}
+            </Row>
+
+            <Modal show={modalData.visible}>
                 <Modal.Header>
                     <Modal.Title>Enter new volumetric data for time {modalData.curTime}</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>The last reading was {modalData.curVolume} mL</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setModalData({ ...modalData, visible: false })}>
-                        Close
-                    </Button>
-                    <Button variant="primary">
-                        Save Changes
-                    </Button>
-                </Modal.Footer>
+                <Form validated onSubmit={handleSubmit}>
+                    <Modal.Body>
+                        <Form.Text>Current volume: {curVolume} mL</Form.Text>
+                        <Form.Control
+                            id="newVolume"
+                            type="number"
+                            placeholder="New volume"
+                            min="0"
+                            defaultValue=""
+                            onChange={() => setModalData({ ...modalData, curVolume: document.getElementById("newVolume").value })}
+                        />
+                        {
+                            // Why are there two checks?
+                            // document.getElementById("newVolume") doesn't exist until the modal is rendered.
+                            // If you try to read the value of an element that doesn't exist, compiler will throw an error.
+                            // So, first check if the element exists. Then, if it does, check if its empty.
+                            !document.getElementById("newVolume") ? 
+                            <Alert variant="danger" className="text-center mt-3">Submitting an empty value will remove this table entry!</Alert>
+                            : 
+                            document.getElementById("newVolume").value === "" ? 
+                            <Alert variant="danger" className="text-center mt-3">Submitting an empty value will remove this table entry!</Alert>
+                            :
+                            null
+                        }
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button 
+                            variant="secondary" 
+                            onClick={() => setModalData({ ...modalData, visible: false })}
+                        >
+                            Cancel
+                        </Button>
+                        <Button 
+                            type="submit" 
+                            variant="primary"
+                        >
+                            Save Changes
+                        </Button>
+                    </Modal.Footer>
+                </Form>
             </Modal>
-
-        </div>
+        </Container>
     )
 }
 Table.defaultProps = {
     protocol: Protocols.Baer, editable: false
 }
 
-export default Table //exporting a component make it reusable and this is the beauty of react
+export default Table
