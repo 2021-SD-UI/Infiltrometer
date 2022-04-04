@@ -15,7 +15,7 @@ const BaerResultsView = () => {
         <h1 className="pt-4 display-4">Results</h1>
         <Row className="mt-4">
           <Col>
-            <Table protocol={Protocols.Baer}>{/* This table is rendered from table.js */}</Table>
+            <Table protocol={Protocols.Baer} editable>{/* This table is rendered from table.js */}</Table>
           </Col>
         </Row>
         <ResultsViewNotes />

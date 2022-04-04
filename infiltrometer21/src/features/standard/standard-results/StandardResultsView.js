@@ -17,7 +17,7 @@ const StandardResultsView = () => {
         <h1 className="pt-5 display-4">Results</h1>
         <Row className="mt-4">
           <Col>
-            <Table protocol={Protocols.Standard}>{/* This table is rendered from table.js */}</Table>
+            <Table protocol={Protocols.Standard} editable>{/* This table is rendered from table.js */}</Table>
           </Col>
         </Row>
         <ConductivityForm />
