@@ -57,7 +57,7 @@ const ConductivityForm = () => {
     //show graph here, data is valid
     return (
         <>
-            <Container className="mt-3">
+            <Container>
                 <div class="rounded border shadow">
                     <Form className="p-5" noValidate validated onSubmit={handleSubmit}>
                         <Row>

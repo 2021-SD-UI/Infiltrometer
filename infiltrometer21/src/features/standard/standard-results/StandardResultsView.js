@@ -1,6 +1,6 @@
 //The Page we are displaying for the baer Initialize view
 import React from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row, Alert } from 'react-bootstrap';
 import Table from '../../baer/baer-results/table';
 import { Protocols } from '../../reports/protocols';
 import { ResultsViewButtons } from '../../reused-components/results-views/ResultsViewButtons';
@@ -12,14 +12,21 @@ import { ResultsViewPhotos } from '../../reused-components/results-views/Results
 const StandardResultsView = () => {
 
   return (
-    <Container className="mt-3">
+    <Container className="mt-5">
       <div class="rounded border shadow">
-        <h1 className="pt-5 display-4">Results</h1>
-        <Row className="mt-4">
+        <h1 className="mt-5 display-4">Results</h1>
+        <Row className="mt-5">
           <Col>
             <Table protocol={Protocols.Standard} editable>{/* This table is rendered from table.js */}</Table>
           </Col>
         </Row>
+        <Container>
+          <Row className="justify-content-center">
+            <Col>
+              <Alert variant="info" className="text-center">Need to change volume data? Tap corrosponding table entries to edit.</Alert>
+            </Col>
+          </Row>
+        </Container>
         <ConductivityForm />
         <ConductivityGraph />
         <ResultsViewNotes />

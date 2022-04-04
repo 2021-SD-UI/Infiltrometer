@@ -234,8 +234,7 @@ const BaerReplicationView = () => {
             onSubmit={handleSubmit}>
             <Form.Group>
               <Form.Text muted>
-                Previous volume: {maxVolume}
-                mL
+                Previous volume: {maxVolume} mL
               </Form.Text>
               <Form.Control required autofocus type="number" step="any" size="lg" min="0"
                 max={maxVolume}

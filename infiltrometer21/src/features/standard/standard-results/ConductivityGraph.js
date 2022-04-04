@@ -182,31 +182,13 @@ const ConductivityGraph = () => {
                                 <tbody>
                                     <tr>
                                         < td>
-                                            <Container className="my-2">
-                                                <Row>
-                                                    <Col>
-                                                        {`${Number.parseFloat(C1).toExponential(4)}`}
-                                                    </Col>
-                                                </Row>
-                                            </Container>
+                                            {`${Number.parseFloat(C1).toExponential(4)}`}
                                         </td>
                                         < td>
-                                            <Container className="my-2">
-                                                <Row>
-                                                    <Col>
-                                                        {`${Number.parseFloat(C2).toExponential(4)}`}
-                                                    </Col>
-                                                </Row>
-                                            </Container>
+                                            {`${Number.parseFloat(C2).toExponential(4)}`}
                                         </td>
                                         < td>
-                                            <Container className="my-2">
-                                                <Row>
-                                                    <Col>
-                                                        {`${Number.parseFloat(K).toExponential(4)}`}
-                                                    </Col>
-                                                </Row>
-                                            </Container>
+                                            {`${Number.parseFloat(K).toExponential(4)}`}
                                         </td>
                                     </tr>
                                 </tbody>
