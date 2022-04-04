@@ -1,6 +1,19 @@
 //The Page we are displaying for the baer Initialize view
 import React, { useState, useRef } from 'react';
-import { Button, Col, Container, Form, ProgressBar, Row, Card, Accordion, Overlay, Tooltip, Alert } from 'react-bootstrap';
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  ProgressBar,
+  Row,
+  Card,
+  Accordion,
+  Overlay,
+  Tooltip,
+  Alert,
+  Modal
+} from 'react-bootstrap';
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useDispatch, useSelector } from 'react-redux';
 import beep from '../../audio/beep-01a.mp3';
@@ -56,7 +69,7 @@ const StandardReplicationView = () => {
   };
   const [state, setState] = useState(initializeState);
   const [remaining, setRemaining] = useState(0);
-
+  const [show, setShow] = useState(false);
   const reports = useSelector(selectReports);
   const curReport = reports[useSelector(selectCurId)];
   const readings = curReport.readings;
@@ -69,6 +82,10 @@ const StandardReplicationView = () => {
     //go to the results page
     dispatch(setPage(Pages.StandardResultsView))
   }
+  function endProtocolInvalid(){
+    stopProtocol();
+    setShow(true);
+  }
   function stopProtocol() {
 
     setState({
@@ -76,7 +93,16 @@ const StandardReplicationView = () => {
       timerIsPlaying: false
     })
   }
-
+  function handleClose(){
+    setShow(false);
+    setState({
+      ...state,
+      timerIsPlaying: true
+    })
+  }
+  function handleSubmit(){
+    endProtocol();
+  }
   function allValid() {
     for (let i = 1; i < readings.length; i++) {
       if (Number(readings[i - 1].volume) < Number(readings[i].volume)) return false;
@@ -163,7 +189,7 @@ const StandardReplicationView = () => {
                 variant="secondary"
                 className="w-50"
                 size="lg"
-                onClick={allValid() ? endProtocol : state.timerIsPlaying ? stopProtocol : endProtocol}
+                onClick={allValid() ? endProtocol : endProtocolInvalid}
               >
                 {state.timerIsPlaying ? "End Protocol" : "Continue"}
               </Button>
@@ -196,6 +222,27 @@ const StandardReplicationView = () => {
           </Row>
         </div>
       </Container>
+      {/* Modal */}
+      <Modal show={show}
+             onHide={handleClose}
+             backdrop="static"
+             centered>
+        <Modal.Header>
+          <Modal.Title>Continue with invalid data?</Modal.Title>
+        </Modal.Header>
+          <Form noValidate validated
+                onSubmit={handleSubmit}>
+            <Modal.Footer>
+              <Button variant="outline-secondary" size="lg"
+                      onClick={handleClose}>
+                Cancel
+              </Button>
+              <Button type="submit" variant="dark" size="lg">
+                Continue
+              </Button>
+            </Modal.Footer>
+          </Form>
+      </Modal>
     </>
   );
 
