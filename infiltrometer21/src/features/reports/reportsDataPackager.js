@@ -82,10 +82,10 @@ function makeCSVDataFromReading(curReport) {
     }
     else {
         //Download for standard
-        data = [['Protocol', 'Soil Alpha', 'Soil NH/O', 'C1 (cm/s^(½))', 'C2 (cm/s)', 'K (cm/s)', 'Suction', 'Radius', 'Site Name', 'Observation Name',
-            'Notes', 'Reading Number', 'Time (sec)', 'Volume(mL)', 'Latitude', 'Longitude', 'Date', 'Time']];
+        data = [['Protocol', 'Soil Alpha', 'Soil NH/O', 'C1 (cm/s^(½))', 'C2 (cm/s)', 'K (cm/s)', 'A (No Units)', 'Suction', 'Radius', 'Site Name', 
+            'Observation Name', 'Notes', 'Reading Number', 'Time (sec)', 'Volume(mL)', 'Latitude', 'Longitude', 'Date', 'Time']];
         curReportData = [curReport.protocol, curReport.infiltrometerData.soilType.alpha, curReport.infiltrometerData.soilType.nh0,
-        curReport.infiltrometerData.C1, curReport.infiltrometerData.C2, curReport.infiltrometerData.K, 
+        curReport.infiltrometerData.C1, curReport.infiltrometerData.C2, curReport.infiltrometerData.K, curReport.infiltrometerData.A,
         curReport.infiltrometerData.infiltrometerSuction, curReport.infiltrometerData.infiltrometerRadius, handleTextForCSV(curReport.infiltrometerData.site),
         handleTextForCSV(curReport.infiltrometerData.observation), handleTextForCSV(curReport.notes)];
     }
