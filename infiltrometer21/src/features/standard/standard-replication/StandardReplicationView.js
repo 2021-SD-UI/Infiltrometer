@@ -82,7 +82,7 @@ const StandardReplicationView = () => {
     //go to the results page
     dispatch(setPage(Pages.StandardResultsView))
   }
-  function endProtocolInvalid(){
+  function endProtocolInvalid() {
     stopProtocol();
     setShow(true);
   }
@@ -93,14 +93,14 @@ const StandardReplicationView = () => {
       timerIsPlaying: false
     })
   }
-  function handleClose(){
+  function handleClose() {
     setShow(false);
     setState({
       ...state,
-      timerIsPlaying: true
+      timerIsPlaying: false
     })
   }
-  function handleSubmit(){
+  function handleSubmit() {
     endProtocol();
   }
   function allValid() {
@@ -224,24 +224,24 @@ const StandardReplicationView = () => {
       </Container>
       {/* Modal */}
       <Modal show={show}
-             onHide={handleClose}
-             backdrop="static"
-             centered>
+        onHide={handleClose}
+        backdrop="static"
+        centered>
         <Modal.Header>
           <Modal.Title>Continue with invalid data?</Modal.Title>
         </Modal.Header>
-          <Form noValidate validated
-                onSubmit={handleSubmit}>
-            <Modal.Footer>
-              <Button variant="outline-secondary" size="lg"
-                      onClick={handleClose}>
-                Cancel
-              </Button>
-              <Button type="submit" variant="dark" size="lg">
-                Continue
-              </Button>
-            </Modal.Footer>
-          </Form>
+        <Form noValidate validated
+          onSubmit={handleSubmit}>
+          <Modal.Footer>
+            <Button variant="outline-secondary" size="lg"
+              onClick={handleClose}>
+              Edit Fields
+            </Button>
+            <Button type="submit" variant="dark" size="lg">
+              Continue
+            </Button>
+          </Modal.Footer>
+        </Form>
       </Modal>
     </>
   );

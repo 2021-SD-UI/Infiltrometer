@@ -48,8 +48,6 @@ const ConductivityGraph = () => {
     const K = curReport.infiltrometerData.K;
     ////////////////////////////////////////////////////////////
 
-
-
     // Will give you the format:
     // [{x,y}, {x,y}, ... ]
     // to be used in regression
@@ -83,7 +81,8 @@ const ConductivityGraph = () => {
                 ...curReport.infiltrometerData,
                 C1: result.equation[1],
                 C2: result.equation[0],
-                K: Number(result.equation[0] / A())
+                K: Number(result.equation[0] / A()),
+                A: A()
             }));
         //predict is the polynomial equation
         const predict = (x) => (result.equation[0] * x * x) + (result.equation[1] * x);
