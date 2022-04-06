@@ -197,7 +197,7 @@ const Table = ({ protocol, editable }) => {
                             type="submit"
                             variant="primary"
                         >
-                            Save Changes
+                            {!document.getElementById("newVolume") || document.getElementById("newVolume").value === "" ? "Delete Reading" : "Save Changes"}
                         </Button>
                     </Modal.Footer>
                 </Form>

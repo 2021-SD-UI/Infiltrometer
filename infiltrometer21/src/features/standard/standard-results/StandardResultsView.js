@@ -23,7 +23,7 @@ const StandardResultsView = () => {
         <Container>
           <Row className="justify-content-center">
             <Col>
-              <Alert variant="info" className="text-center">Need to change volume data? Tap corrosponding table entries to edit.</Alert>
+              <Alert variant="info" className="text-center">Need to change volume data? Tap corresponding table entries to edit.</Alert>
             </Col>
           </Row>
         </Container>
