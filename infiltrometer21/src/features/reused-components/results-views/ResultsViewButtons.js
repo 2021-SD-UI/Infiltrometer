@@ -18,7 +18,7 @@ export const ResultsViewButtons = ({ protocol }) => {
     return (
         <>
             <hr />
-            < Row className="mt-4 text-center" >
+            < Row className="text-center" >
                 <Col>
                     <Button
                         variant="dark"
@@ -50,7 +50,7 @@ export const ResultsViewButtons = ({ protocol }) => {
                     </Button>
                 </Col>
             </Row>
-            <Row className="mb-4 text-center">
+            <Row className="text-center">
                 <Col>
                     <Button variant="success" size="lg" className="w-50" onClick={() => { makeCSV(curReport, reportAlbums) }}>
                         Download Report

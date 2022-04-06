@@ -15,7 +15,7 @@ export const ResultsViewNotes = () => {
     useEffect(() => setState(notes), [notes]);
     return (
         <>
-            <Row className="justify-content-center mb-5">
+            <Row className="justify-content-center">
                 <Col xs={11}>
                     <Form.Label as="h4">Notes</Form.Label>
                     <TextareaAutosize className="w-100" value={notes} onChange={(e) => changeNotes(e.target.value)} />
