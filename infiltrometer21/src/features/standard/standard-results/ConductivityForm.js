@@ -18,34 +18,19 @@ const ConductivityForm = () => {
     const handleSubmit = (event) => {
         event.preventDefault();
 
-        //get the current data
+        // Get the current data
         let infilData = { ...curReport.infiltrometerData };
         let nh0 = document.getElementById("nh0");
         let alpha = document.getElementById("alpha");
         let radius = document.getElementById("radius");
 
-        //update it
+        // Update it
         infilData.infiltrometerRadius = radius.value;
         infilData.soilType = { nh0: nh0.value, alpha: alpha.value };
 
-        //send to store
+        // Send to store
         dispatch(setCurInfiltrometerData(infilData));
-
     }
-
-    function setRadiusPreset(event) {
-        let radius = document.getElementById("radius");
-        radius.value = event;
-    }
-
-
-
-
-    //set the initial values
-    useEffect(() => {
-        setSoilPreset(curReport.infiltrometerData.soilType);
-        setRadiusPreset(curReport.infiltrometerData.infiltrometerRadius);
-    }, [curReport.infiltrometerData.soilType, curReport.infiltrometerData.infiltrometerRadius])
 
     function setSoilPreset(event) {
         let nh0 = document.getElementById("nh0");
@@ -54,7 +39,18 @@ const ConductivityForm = () => {
         alpha.value = event.alpha;
     }
 
-    //show graph here, data is valid
+    function setRadiusPreset(event) {
+        let radius = document.getElementById("radius");
+        radius.value = event;
+    }
+
+    // Automatically update soil and radius input values
+    // to match the current report data
+    useEffect(() => {
+        setSoilPreset(curReport.infiltrometerData.soilType);
+        setRadiusPreset(curReport.infiltrometerData.infiltrometerRadius);
+    }, [curReport.infiltrometerData.soilType, curReport.infiltrometerData.infiltrometerRadius])
+
     return (
         <>
             <Container>
@@ -65,18 +61,19 @@ const ConductivityForm = () => {
                                 <Form.Group>
                                     <Form.Label className="pt-3 display-6">Soil Type</Form.Label>
                                     <DropdownButton variant="dark" title="Preset Soil Types">
-                                        <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.undefined)}> Unknown </Dropdown.Item>
-                                        <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.clay)}> Clay </Dropdown.Item>
-                                        <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.clayLoam)}> Clay Loam </Dropdown.Item>
-                                        <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.loam)}> Loam </Dropdown.Item>
-                                        <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.loamySand)}> Loamy Sand </Dropdown.Item>
-                                        <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.sand)}> Sand </Dropdown.Item>
-                                        <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.sandyClay)}> Sandy Clay </Dropdown.Item>
-                                        <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.sandyLoam)}> Sandy Loam </Dropdown.Item>
-                                        <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.silt)}> Silt </Dropdown.Item>
-                                        <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.siltLoam)}> Silt Loam </Dropdown.Item>
-                                        <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.siltyClay)}> Silty Clay </Dropdown.Item>
-                                        <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.siltyClayLoam)}> Silty Clay Loam </Dropdown.Item>
+                                        <Dropdown.Item onClick={() => setSoilPreset(soilTypes.sand)}> Sand </Dropdown.Item>
+                                        <Dropdown.Item onClick={() => setSoilPreset(soilTypes.loamySand)}> Loamy Sand </Dropdown.Item>
+                                        <Dropdown.Item onClick={() => setSoilPreset(soilTypes.sandyLoam)}> Sandy Loam </Dropdown.Item>
+                                        <Dropdown.Item onClick={() => setSoilPreset(soilTypes.loam)}> Loam </Dropdown.Item>
+                                        <Dropdown.Item onClick={() => setSoilPreset(soilTypes.silt)}> Silt </Dropdown.Item>
+                                        <Dropdown.Item onClick={() => setSoilPreset(soilTypes.siltLoam)}> Silt Loam </Dropdown.Item>
+                                        <Dropdown.Item onClick={() => setSoilPreset(soilTypes.sandyClayLoam)}> Sandy Clay Loam </Dropdown.Item>
+                                        <Dropdown.Item onClick={() => setSoilPreset(soilTypes.clayLoam)}> Clay Loam </Dropdown.Item>
+                                        <Dropdown.Item onClick={() => setSoilPreset(soilTypes.siltyClayLoam)}> Silty Clay Loam </Dropdown.Item>
+                                        <Dropdown.Item onClick={() => setSoilPreset(soilTypes.sandyClay)}> Sandy Clay </Dropdown.Item>
+                                        <Dropdown.Item onClick={() => setSoilPreset(soilTypes.siltyClay)}> Silty Clay </Dropdown.Item>
+                                        <Dropdown.Item onClick={() => setSoilPreset(soilTypes.clay)}> Clay </Dropdown.Item>
+                                        <Dropdown.Item onClick={() => setSoilPreset(soilTypes.undefined)}> Unknown </Dropdown.Item>
                                     </DropdownButton>
                                     <div className="pt-2" />
                                     <Form.Label>N/H0</Form.Label>
@@ -146,7 +143,6 @@ const ConductivityForm = () => {
                 </div>
             </Container>
         </>);
-
 }
 
 

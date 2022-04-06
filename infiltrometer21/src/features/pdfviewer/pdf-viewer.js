@@ -33,60 +33,57 @@ export const PdfViewer = ({ pdf }) => {
 
     return (
         <>
-            <Container>
-                <div className="rounded border shadow">
-                    <h1 className="pt-2 display-4">Manuals</h1>
-                    <Row className="p-3 text-center">
-                        <Col></Col>
-                        <Col>
-                            <Document
-                                className="text-center"
-                                file={pdf}
-                                onLoadSuccess={onDocumentLoadSuccess}
-                            >
-
-                                <Page
-                                    pageNumber={pageNumber}
-                                    renderAnnotationLayer={false}
-                                    renderTextLayer={false}
-                                    scale={setPDFScale()}
-                                    loading={
-                                        // This prevents the webpage
-                                        // from scrolling back to the top
-                                        // when you change PDF page numbers
-                                        <Page pageNumber={1}></Page>
-                                    }
-                                />
-                                <div className="rounded border shadow">
-                                    <Row><Form.Label>Page {pageNumber} of {numPages}</Form.Label></Row>
-                                    <Row className="pb-3 text-center">
-                                        <Col>
-                                            <Button
-                                                variant="secondary"
-                                                className="w-75"
-                                                disabled={pageNumber <= 1}
-                                                onClick={previousPage}
-                                            >
-                                                Previous
-                                            </Button>
-                                        </Col>
-                                        <Col>
-                                            <Button
-                                                variant="dark"
-                                                className="w-75"
-                                                disabled={pageNumber >= numPages}
-                                                onClick={nextPage}
-                                            >
-                                                Next
-                                            </Button>
-                                        </Col>
-                                    </Row>
-                                </div>
-                            </Document>
-                        </Col>
-                        <Col></Col>
-                    </Row>
-                </div>
+            <Container className="mt-4 p-3 rounded border shadow">
+                <h1 className="mb-4 display-4">Manuals</h1>
+                <Row>
+                    <Col></Col>
+                    <Col>
+                        <Document
+                            className="text-center"
+                            file={pdf}
+                            onLoadSuccess={onDocumentLoadSuccess}
+                        >
+                            <Page
+                                pageNumber={pageNumber}
+                                renderAnnotationLayer={false}
+                                renderTextLayer={false}
+                                scale={setPDFScale()}
+                                loading={
+                                    // This prevents the webpage
+                                    // from scrolling back to the top
+                                    // when you change PDF page numbers
+                                    <Page pageNumber={1}></Page>
+                                }
+                            />
+                            <Container className="rounded border shadow">
+                                <Row><Form.Label>Page {pageNumber} of {numPages}</Form.Label></Row>
+                                <Row className="pb-3 text-center">
+                                    <Col>
+                                        <Button
+                                            variant="secondary"
+                                            className="w-75"
+                                            disabled={pageNumber <= 1}
+                                            onClick={previousPage}
+                                        >
+                                            Previous
+                                        </Button>
+                                    </Col>
+                                    <Col>
+                                        <Button
+                                            variant="dark"
+                                            className="w-75"
+                                            disabled={pageNumber >= numPages}
+                                            onClick={nextPage}
+                                        >
+                                            Next
+                                        </Button>
+                                    </Col>
+                                </Row>
+                            </Container>
+                        </Document>
+                    </Col>
+                    <Col></Col>
+                </Row>
             </Container>
         </>
     );
