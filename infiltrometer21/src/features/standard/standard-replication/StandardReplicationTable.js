@@ -157,7 +157,7 @@ const StandardReplicationRow = ({ time, isValid, index }) => {
                         max={maximum}
                         placeholder="Volume (mL)"
                         onChange={onChange}
-                        onSubmit={(e) => { e.preventDefault() }}
+                        onSubmit={onChange}
                     />
                 </Form>
                 {/*isValid ? null : <ErrorTip size='25px' title="Error!" content="This is an invalid reading." />*/}

@@ -48,8 +48,8 @@ const Table = ({ protocol, editable }) => {
                             if (!editable) return;
                             setModalData({ curTime: Time, curVolume: Volume, curId: id, visible: true })
                             setCurVolume(Volume);
-                            
-                            
+
+
                         }
                     }>
                         <td>{id}</td>
@@ -65,7 +65,7 @@ const Table = ({ protocol, editable }) => {
                             if (!editable) return;
                             setModalData({ curTime: Time, curVolume: Volume, curId: id, visible: true });
                             setCurVolume(Volume);
-                            
+
                         }
                     }>
                         <td>{id}</td>
@@ -157,10 +157,12 @@ const Table = ({ protocol, editable }) => {
 
             <Modal show={modalData.visible}>
                 <Modal.Header>
-                    <Modal.Title>Enter new volumetric data for time {modalData.curTime}</Modal.Title>
+                    <Modal.Title>Enter New Volumetric Data</Modal.Title>
                 </Modal.Header>
                 <Form validated onSubmit={handleSubmit}>
                     <Modal.Body>
+                        <Form.Text>Current time: {modalData.curTime} s</Form.Text>
+                        <br></br>
                         <Form.Text>Current volume: {curVolume} mL</Form.Text>
                         <Form.Control
                             id="newVolume"
@@ -175,24 +177,24 @@ const Table = ({ protocol, editable }) => {
                             // document.getElementById("newVolume") doesn't exist until the modal is rendered.
                             // If you try to read the value of an element that doesn't exist, compiler will throw an error.
                             // So, first check if the element exists. Then, if it does, check if its empty.
-                            !document.getElementById("newVolume") ? 
-                            <Alert variant="danger" className="text-center mt-3">Submitting an empty value will remove this table entry!</Alert>
-                            : 
-                            document.getElementById("newVolume").value === "" ? 
-                            <Alert variant="danger" className="text-center mt-3">Submitting an empty value will remove this table entry!</Alert>
-                            :
-                            null
+                            !document.getElementById("newVolume") ?
+                                <Alert variant="danger" className="text-center mt-3">Submitting an empty value will remove this table entry!</Alert>
+                                :
+                                document.getElementById("newVolume").value === "" ?
+                                    <Alert variant="danger" className="text-center mt-3">Submitting an empty value will remove this table entry!</Alert>
+                                    :
+                                    null
                         }
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button 
-                            variant="secondary" 
+                        <Button
+                            variant="secondary"
                             onClick={() => setModalData({ ...modalData, visible: false })}
                         >
                             Cancel
                         </Button>
-                        <Button 
-                            type="submit" 
+                        <Button
+                            type="submit"
                             variant="primary"
                         >
                             Save Changes
