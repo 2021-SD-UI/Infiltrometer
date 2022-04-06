@@ -84,7 +84,7 @@ export const StandardReplicationTable = ({ intervals }) => {
 
     return (
         <Container>
-            <Row className="mx-4">
+            <Row>
                 <Col>
                     <table class="table table-light table-striped table-hover">
                         <thead>

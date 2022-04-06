@@ -2,17 +2,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
-import {
-  Modal,
-  Button,
-  Form,
-  Container,
-  Row,
-  Col,
-  Accordion,
-  Card,
-  ProgressBar
-} from 'react-bootstrap';
+import { Modal, Button, Form, Container, Row, Col, ProgressBar, Offcanvas } from 'react-bootstrap';
 
 /* Slice Imports */
 import { addReading, selectCurReadingID, setGatheringData } from '../../reports/reportsSlice';
@@ -42,6 +32,7 @@ const BaerReplicationView = () => {
 
   let timeInterval = useSelector(selectTimeInterval);
   const [remaining, setRemaining] = useState(timeInterval);
+  const [showHelp, setShowHelp] = useState(false);
   let lastVolume = Number(useSelector(selectLastVolume));
   let maxVolume = Math.min(initialVolume, lastVolume);
   let setPlaying = (playing) => setState({
@@ -70,7 +61,7 @@ const BaerReplicationView = () => {
     setAudPlaying(true);
     setShow(true);
   }
-  /* Handles render logic for the countdown timer */
+  // Handles render logic for the countdown timer
   function renderTime({ remainingTime }) {
 
     setRemaining(remainingTime);
@@ -121,10 +112,8 @@ const BaerReplicationView = () => {
 
   return (
     <>
-      <Container className="mt-5 rounded border shadow">
-        <h1 className="pt-5 display-4">Current Replication: {
-          curID + 1
-        }</h1>
+      <Container className="mt-4 p-3 rounded border shadow">
+        <h1 className="mb-4 display-4">Current Replication: {curID + 1}</h1>
 
         {/* Timer */}
         <Row>
@@ -180,45 +169,39 @@ const BaerReplicationView = () => {
         </Row>
 
         {/* Help Button */}
-        <Row>
-          <Col className="mb-4 mt-2 mx-2">
-            <Accordion className="w-100">
-              <Card bg='primary' text='white'>
-                <Accordion.Toggle as={
-                  Card.Header
-                }
-                  eventKey="0"
-                  className='text-center'>Help</Accordion.Toggle>
-                <Accordion.Collapse eventKey="0">
-                  <Card.Body>
-                    <h2>How to conduct a replication:</h2>
-                    <ol type="1">
-                      <li>Expose the soil about 1 to 3 cm in depth, removing any overlying ash or minerals.</li>
-                      <li>With a full infiltrometer, place the porous disk flat against the soil and perpendicular to the surface. Tap the “Start Replication” button as soon as the infiltrometer disk and the soil come into contact.</li>
-                      <li>At the end of the timer, remove the infiltrometer from the soil and hold the top of the tube so that the water is at eye level. Record the end volume.</li>
-                      <li>Repeat these steps for as many replications as necessary.</li>
-                      <li>Once all replications have been completed, select the "End Protocol" button</li>
-                    </ol>
-                    <hr />
-                    <h2>Hydrophobicity Classification</h2>
-                    <ol type="1">
-                      <li>{"Strong ( 0 to < 3 mL/min)"}</li>
-                      <li> {"Weak ( 3 to < 8 mL/min)"}</li>
-                      <li>{"None ( > 8 mL/min)"}</li>
-                    </ol>
-                  </Card.Body>
-                </Accordion.Collapse>
-              </Card>
-            </Accordion>
-          </Col>
-        </Row>
+          <Row className="justify-content-center">
+            <Button 
+              variant="primary" 
+              hidden={state.timerIsPlaying}
+              className="w-50"
+              size="lg"
+              onClick={() => setShowHelp(true)}
+            >
+              Help
+            </Button>
+            <Offcanvas
+              show={showHelp}
+              onHide={() => setShowHelp(false)}
+              placement="bottom"
+            >
+              <Offcanvas.Header closeButton>
+                <Offcanvas.Title>Protocol Guide</Offcanvas.Title>
+              </Offcanvas.Header>
+              <Offcanvas.Body>
+                <h4>To properly conduct a replication:</h4>
+                <ol>
+                  <li>Expose the soil about 1 to 3 cm in depth, removing any overlying ash or minerals.</li>
+                  <li>With a full infiltrometer, place the porous disk flat against the soil and perpendicular to the surface. Tap the “Start Replication” button as soon as the infiltrometer disk and the soil come into contact.</li>
+                  <li>At the end of the timer, remove the infiltrometer from the soil and hold the top of the tube so that the water is at eye level. Record the end volume.</li>
+                  <li>Repeat these steps for as many replications as necessary.</li>
+                  <li>Once all replications have been completed, select the "End Protocol" button</li>
+                </ol>
+              </Offcanvas.Body>
+            </Offcanvas>
+          </Row>
 
       </Container>
-      <div className="fixed-bottom">
-        <ProgressBar now={
-          (remaining / (timeInterval)) * 100
-        } />
-      </div>
+
       {/* Modal */}
       <Modal show={show}
         onHide={handleClose}
@@ -256,6 +239,8 @@ const BaerReplicationView = () => {
           </Form>
         </Modal.Body>
       </Modal>
+
+      <ProgressBar className="fixed-bottom" now={ (remaining / (timeInterval)) * 100} />
     </>
   );
 

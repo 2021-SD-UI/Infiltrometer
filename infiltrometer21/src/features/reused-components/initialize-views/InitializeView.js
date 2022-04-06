@@ -149,7 +149,7 @@ const InitializeView = ({ protocol }) => {
 
     return (
         <>
-            <Container className="mt-4 p-5 rounded border shadow">
+            <Container className="mt-4 p-4 rounded border shadow">
                 <h1 className="display-4 mb-4">Initialize {protocol} Protocol </h1>
 
                 <Form validated onSubmit={handleSubmit}>
