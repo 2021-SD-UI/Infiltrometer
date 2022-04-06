@@ -149,21 +149,22 @@ const InitializeView = ({ protocol }) => {
 
     return (
         <>
-            <Container className="mt-5 rounded border shadow">
-                <h1 className="pt-5 display-4">Initialize {protocol} Protocol </h1>
+            <Container className="mt-4 p-5 rounded border shadow">
+                <h1 className="display-4 mb-4">Initialize {protocol} Protocol </h1>
 
-                <Form className="p-5" noValidate validated onSubmit={handleSubmit}>
+                <Form validated onSubmit={handleSubmit}>
+
+                    {/* Site and Observation Name */}
                     <Row>
                         <Col>
                             <Form.Group>
-                                <Form.Label className='display-6'>Site Name{"  "}
+                                <Form.Label className="display-6">Site Name{"  "}
                                     <HelpTip
                                         size="25px"
                                         title="Site Name"
                                         content="Where you are recording data from, for organizational purposes." 
                                     />
                                 </Form.Label>
-
                                 <Form.Control
                                     id="site"
                                     type="text"
@@ -175,7 +176,6 @@ const InitializeView = ({ protocol }) => {
                                 <Form.Label className='display-6'>Observation Name{"  "}
                                     <HelpTip size="25px" title="Observation Name" content="The name of the observation you are recording, for organizational purposes." />
                                 </Form.Label>
-
                                 <Form.Control
                                     id="observation"
                                     type="text"
@@ -190,6 +190,7 @@ const InitializeView = ({ protocol }) => {
 
                     <hr className="mt-5" />
 
+                    {/* Time and Volume */}
                     <Row className="mt-5 display-6">
                         <Col>
                             <Form.Group>
@@ -238,6 +239,7 @@ const InitializeView = ({ protocol }) => {
 
                     <hr className="mt-5" />
 
+                    {/* Suction and Radius */}
                     <Row className="mt-5 display-6">
                         <Col>
                             <Form.Group>
@@ -306,6 +308,7 @@ const InitializeView = ({ protocol }) => {
 
                     <hr className="mt-5" />
 
+                    {/* Soil Type */}
                     <Row className="mt-5">
                         <Col>
                             <Form.Group>
@@ -356,6 +359,7 @@ const InitializeView = ({ protocol }) => {
 
                     <hr className="mt-5" />
 
+                    {/* Location */}
                     <Row className="mt-5">
                         <Col>
                             <Form.Group>
@@ -389,6 +393,7 @@ const InitializeView = ({ protocol }) => {
 
                     <hr className="mt-5" />
 
+                    {/* Buttons */}
                     <Row className="mt-5">
                         <Col>
                             <Button type="submit" variant="dark" size="lg" className="w-100">Start Protocol</Button>
