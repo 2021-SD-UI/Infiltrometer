@@ -157,9 +157,11 @@ const InitializeView = ({ protocol }) => {
                         <Col>
                             <Form.Group>
                                 <Form.Label className='display-6'>Site Name{"  "}
-                                    <HelpTip size="25px"
+                                    <HelpTip
+                                        size="25px"
                                         title="Site Name"
-                                        content="Where you are recording data from, for organizational purposes." />
+                                        content="Where you are recording data from, for organizational purposes." 
+                                    />
                                 </Form.Label>
 
                                 <Form.Control
@@ -245,15 +247,15 @@ const InitializeView = ({ protocol }) => {
                                             "For the BAER protocol the suction tube should be adjusted so that the 1 cm mark is aligned with the surface of the water in the upper chamber of the infiltrometer."
                                             : "The suction of the infiltrometer device."} />
                                 </Form.Label>
-                                <DropdownButton variant="dark" title="Preset Suction Values">
-                                    <Dropdown.Item onSelect={() => setSuctionPreset(-0.5)}> -0.5 </Dropdown.Item>
-                                    <Dropdown.Item onSelect={() => setSuctionPreset(-1)}> -1 </Dropdown.Item>
-                                    <Dropdown.Item onSelect={() => setSuctionPreset(-2)}> -2 </Dropdown.Item>
-                                    <Dropdown.Item onSelect={() => setSuctionPreset(-3)}> -3 </Dropdown.Item>
-                                    <Dropdown.Item onSelect={() => setSuctionPreset(-4)}> -4 </Dropdown.Item>
-                                    <Dropdown.Item onSelect={() => setSuctionPreset(-5)}> -5 </Dropdown.Item>
-                                    <Dropdown.Item onSelect={() => setSuctionPreset(-6)}> -6 </Dropdown.Item>
-                                    <Dropdown.Item onSelect={() => setSuctionPreset(-7)}> -7 </Dropdown.Item>
+                                <DropdownButton onSelect={(e) => setSuctionPreset(e)} variant="dark" title="Preset Suction Values">
+                                    <Dropdown.Item eventKey="-0.5"> -0.5 </Dropdown.Item>
+                                    <Dropdown.Item eventKey="-1"> -1 </Dropdown.Item>
+                                    <Dropdown.Item eventKey="-2"> -2 </Dropdown.Item>
+                                    <Dropdown.Item eventKey="-3"> -3 </Dropdown.Item>
+                                    <Dropdown.Item eventKey="-4"> -4 </Dropdown.Item>
+                                    <Dropdown.Item eventKey="-5"> -5 </Dropdown.Item>
+                                    <Dropdown.Item eventKey="-6"> -6 </Dropdown.Item>
+                                    <Dropdown.Item eventKey="-7"> -7 </Dropdown.Item>
                                 </DropdownButton>
                                 <div className="pt-2" />
                                 <Form.Control
@@ -276,11 +278,11 @@ const InitializeView = ({ protocol }) => {
                                 <Form.Label className="display-6">Radius (cm){"  "}
                                     <HelpTip size="25px" title="Radius" content="Radius of the infiltrometer device being used. You may select from one of the preset types below, or input your own custom radius." />
                                 </Form.Label>
-                                <DropdownButton variant="dark" title="Preset Infiltrometer Types">
-                                    <Dropdown.Item onSelect={() => setRadiusPreset(infiltrometerTypes.MiniDisk.radius)}>
+                                <DropdownButton onSelect={(e) => setRadiusPreset(e)}variant="dark" title="Preset Infiltrometer Types">
+                                    <Dropdown.Item eventKey={infiltrometerTypes.MiniDisk.radius}>
                                         {infiltrometerTypes.MiniDisk.displayName}
                                     </Dropdown.Item>
-                                    <Dropdown.Item onSelect={() => setRadiusPreset(infiltrometerTypes.MiniDiskV1.radius)}>
+                                    <Dropdown.Item eventKey={infiltrometerTypes.MiniDiskV1.radius}>
                                         {infiltrometerTypes.MiniDiskV1.displayName}
                                     </Dropdown.Item>
                                 </DropdownButton>
@@ -311,19 +313,19 @@ const InitializeView = ({ protocol }) => {
                                     <HelpTip size="25px" title="Soil Type" content="The type of soil you are conducting the protocol on. You may select a preset soil type from the menu below to automatically load all the necessary data, or input the N/H0 and Alpha values of a custom soil type if yours is not represented." />
                                 </Form.Label>
                                 <DropdownButton variant="dark" title="Preset Soil Types">
-                                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.undefined)}> Unknown </Dropdown.Item>
-                                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.sand)}> Sand </Dropdown.Item>
-                                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.loamySand)}> Loamy Sand </Dropdown.Item>
-                                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.sandyLoam)}> Sandy Loam </Dropdown.Item>
-                                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.loam)}> Loam </Dropdown.Item>
-                                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.silt)}> Silt </Dropdown.Item>
-                                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.siltLoam)}> Silt Loam </Dropdown.Item>
-                                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.sandyClayLoam)}> Sandy Clay Loam </Dropdown.Item>
-                                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.clayLoam)}> Clay Loam </Dropdown.Item>
-                                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.siltyClayLoam)}> Silty Clay Loam </Dropdown.Item>
-                                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.sandyClay)}> Sandy Clay </Dropdown.Item>
-                                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.siltyClay)}> Silty Clay </Dropdown.Item>
-                                    <Dropdown.Item onSelect={() => setSoilPreset(soilTypes.clay)}> Clay </Dropdown.Item>
+                                    <Dropdown.Item onClick={() => setSoilPreset(soilTypes.sand)}> Sand </Dropdown.Item>
+                                    <Dropdown.Item onClick={() => setSoilPreset(soilTypes.loamySand)}> Loamy Sand </Dropdown.Item>
+                                    <Dropdown.Item onClick={() => setSoilPreset(soilTypes.sandyLoam)}> Sandy Loam </Dropdown.Item>
+                                    <Dropdown.Item onClick={() => setSoilPreset(soilTypes.loam)}> Loam </Dropdown.Item>
+                                    <Dropdown.Item onClick={() => setSoilPreset(soilTypes.silt)}> Silt </Dropdown.Item>
+                                    <Dropdown.Item onClick={() => setSoilPreset(soilTypes.siltLoam)}> Silt Loam </Dropdown.Item>
+                                    <Dropdown.Item onClick={() => setSoilPreset(soilTypes.sandyClayLoam)}> Sandy Clay Loam </Dropdown.Item>
+                                    <Dropdown.Item onClick={() => setSoilPreset(soilTypes.clayLoam)}> Clay Loam </Dropdown.Item>
+                                    <Dropdown.Item onClick={() => setSoilPreset(soilTypes.siltyClayLoam)}> Silty Clay Loam </Dropdown.Item>
+                                    <Dropdown.Item onClick={() => setSoilPreset(soilTypes.sandyClay)}> Sandy Clay </Dropdown.Item>
+                                    <Dropdown.Item onClick={() => setSoilPreset(soilTypes.siltyClay)}> Silty Clay </Dropdown.Item>
+                                    <Dropdown.Item onClick={() => setSoilPreset(soilTypes.clay)}> Clay </Dropdown.Item>
+                                    <Dropdown.Item onClick={() => setSoilPreset(soilTypes.undefined)}> Unknown </Dropdown.Item>
                                 </DropdownButton>
                                 <div className="pt-2" />
                                 <Form.Label>N/H0</Form.Label>

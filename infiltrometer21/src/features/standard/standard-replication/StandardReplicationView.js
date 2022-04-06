@@ -1,5 +1,5 @@
 //The Page we are displaying for the baer Initialize view
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Col,
@@ -7,12 +7,9 @@ import {
   Form,
   ProgressBar,
   Row,
-  Card,
-  Accordion,
-  Overlay,
-  Tooltip,
   Alert,
-  Modal
+  Modal,
+  Offcanvas
 } from 'react-bootstrap';
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,10 +17,9 @@ import beep from '../../audio/beep-01a.mp3';
 import { useAudio } from '../../audio/Player';
 import { Pages } from '../../page-redirection/Redirector';
 import { setPage } from '../../page-redirection/redirector-slice';
-import { addReading, selectCurReadingID, setGatheringData, selectCurId, selectReports } from '../../reports/reportsSlice';
+import { selectCurReadingID, setGatheringData, selectCurId, selectReports } from '../../reports/reportsSlice';
 import { selectInitialVolume, selectTimeInterval } from '../../reused-components/reused-slices/initializeSlice';
-import { selectLastVolume, setLastVolume, setSecondsElapsed, setVolume } from '../../reused-components/reused-slices/replicationSlice';
-import { addGeoDataToReading } from '../../useful-functions/usefulFunctions';
+import { selectLastVolume } from '../../reused-components/reused-slices/replicationSlice';
 import { StandardReplicationTable } from './StandardReplicationTable';
 import './timer.css';
 
@@ -70,6 +66,7 @@ const StandardReplicationView = () => {
   const [state, setState] = useState(initializeState);
   const [remaining, setRemaining] = useState(0);
   const [show, setShow] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
   const reports = useSelector(selectReports);
   const curReport = reports[useSelector(selectCurId)];
   const readings = curReport.readings;
@@ -131,11 +128,10 @@ const StandardReplicationView = () => {
 
   return (
     <>
-      <Container className="mt-3">
-        <div class="rounded border shadow">
+      <Container className="mt-3 rounded border shadow">
           <Row>
             <Col>
-              <div className="mt-4 timer-wrapper">
+              <div className="my-3 timer-wrapper">
                 <CountdownCircleTimer
                   key={state.key}
                   isPlaying={state.timerIsPlaying}
@@ -148,79 +144,72 @@ const StandardReplicationView = () => {
               </div>
             </Col>
           </Row>
-
-
-
-
-
-
-
           <StandardReplicationTable intervals={state.key} />
-          <Row className="text-center">
-            <Col className="mt-4">
-              <Button
-                variant="dark"
-                className="w-50"
-                size="lg"
-                id="startButton"
-                disabled={state.timerIsPlaying}
-                onClick={() => { setState({ timerIsPlaying: true, key: state.key + 1 }); hideStartButton() }}
-              >
-                {!state.timerIsPlaying ? "Start Protocol" : "Replication Running..."}
-              </Button>
-            </Col>
+          <Row className="justify-content-center">
+            <Button
+              variant="dark"
+              className="w-50"
+              size="lg"
+              id="startButton"
+              disabled={state.timerIsPlaying}
+              onClick={() => { setState({ timerIsPlaying: true, key: state.key + 1 }); hideStartButton() }}
+            >
+              {!state.timerIsPlaying ? "Start Protocol" : "Replication Running..."}
+            </Button>
           </Row>
           {allValid() ? null :
             <Row className="text-center mb-2">
-              <Col>
-                <Alert
-                  variant="danger"
-                  className="w-100"
-                  size="lg"
-                >
-                  Please correct all invalid data before continuing.
-                </Alert>
-              </Col>
+              <Alert
+                variant="danger"
+                className="w-100"
+              >
+                Please correct all invalid data before continuing.
+              </Alert>
             </Row>
           }
-          <Row className="text-center mb-4 mt-2">
-            <Col>
-              <Button
-                variant="secondary"
-                className="w-50"
-                size="lg"
-                onClick={allValid() ? endProtocol : endProtocolInvalid}
-              >
-                {state.timerIsPlaying ? "End Protocol" : "Continue"}
-              </Button>
-            </Col>
+          <Row className="justify-content-center mt-2">
+            <Button
+              variant="secondary"
+              className="w-50"
+              size="lg"
+              onClick={allValid() ? endProtocol : endProtocolInvalid}
+            >
+              {state.timerIsPlaying ? "End Protocol" : "Continue"}
+            </Button>
           </Row>
           <div className="fixed-bottom">
             <ProgressBar now={(remaining / (timeInterval)) * 100} />
           </div>
-          <Row className="mb-4 mt-2 mx-1">
-            <Col>
-              <Accordion className="w-100">
-                <Card
-                  bg='primary'
-                  text='white'>
-                  <Accordion.Toggle as={Card.Header} eventKey="0" className='text-center'>Help</Accordion.Toggle>
-                  <Accordion.Collapse eventKey="0">
-                    <Card.Body>To properly conduct a Standard Protocol replication:
-                      <ol type="1">
-                        <li>Expose the soil about 1 to 3 cm in depth, removing any overlying ash or minerals.</li>
-                        <li>With a full infiltrometer, place the porous disk flat against the soil and perpendicular to the surface. Tap the “Start Protocol" button as soon as the infiltrometer disk and the soil come into contact.</li>
-                        <li>At the end of each interval, a field in the above table will automatically appear and be selected for data entry. Record the current volume.</li>
-                        <li>Repeat these steps for as many intervals as necessary.</li>
-                        <li>Once all replications have been completed, select the "End Protocol" button.</li>
-                      </ol>
-                    </Card.Body>
-                  </Accordion.Collapse>
-                </Card>
-              </Accordion>
-            </Col>
+          <Row className="justify-content-center my-2">
+            <Button 
+              variant="primary" 
+              hidden={state.timerIsPlaying} 
+              className="w-50"
+              size="lg"
+              onClick={() => setShowHelp(true)}
+            >
+              Help
+            </Button>
+            <Offcanvas
+              show={showHelp}
+              onHide={() => setShowHelp(false)}
+              placement="bottom"
+            >
+              <Offcanvas.Header closeButton>
+                <Offcanvas.Title>Protocol Guide</Offcanvas.Title>
+              </Offcanvas.Header>
+              <Offcanvas.Body>
+                To properly conduct a Standard Protocol replication:
+                <ol>
+                  <li>Expose the soil about 1 to 3 cm in depth, removing any overlying ash or minerals.</li>
+                  <li>With a full infiltrometer, place the porous disk flat against the soil and perpendicular to the surface. Tap the “Start Protocol" button as soon as the infiltrometer disk and the soil come into contact.</li>
+                  <li>At the end of each interval, a field in the above table will automatically appear and be selected for data entry. Record the current volume.</li>
+                  <li>Repeat these steps for as many intervals as necessary.</li>
+                  <li>Once all replications have been completed, select the "End Protocol" button.</li>
+                </ol>
+              </Offcanvas.Body>
+            </Offcanvas>
           </Row>
-        </div>
       </Container>
       {/* Modal */}
       <Modal show={show}
