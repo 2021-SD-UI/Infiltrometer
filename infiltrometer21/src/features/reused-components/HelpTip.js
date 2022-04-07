@@ -3,7 +3,7 @@ import { BsFillQuestionCircleFill as Qmark } from 'react-icons/bs';
 
 export const HelpTip = ({ title, content, size }) => {
     return (
-        <OverlayTrigger trigger="click" placement="top" overlay={
+        <OverlayTrigger rootClose trigger="click" placement="top" overlay={
             <Popover>
                 <Popover.Header as="h3">{title}</Popover.Header>
                 <Popover.Body>
