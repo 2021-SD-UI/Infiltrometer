@@ -2,7 +2,7 @@
 let db = undefined;
 let open = false;
 
-export function IntiializePhotoDB() {
+export function InitializePhotoDB() {
     var req = indexedDB.open('photoDB', 1);
     req.onsuccess = function (evt) {
         // Equal to: db = req.result;

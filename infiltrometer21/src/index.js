@@ -8,7 +8,7 @@ import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { PersistGate } from 'redux-persist/integration/react';
 import { persistStore } from 'redux-persist';
-import { IntiializePhotoDB } from './features/photos/photoDatabase';
+import { InitializePhotoDB } from './features/photos/photoDatabase';
 
 let persistor = persistStore(store);
 
@@ -29,4 +29,4 @@ ReactDOM.render(
 // Learn more about service workers: https://bit.ly/CRA-PWA
 serviceWorker.register();
 
-IntiializePhotoDB();
+InitializePhotoDB();
