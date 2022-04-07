@@ -1,7 +1,7 @@
 
 //just used to upgrade if needed
 export function InitializePhotoDB() { OpenPhotoDB(); }
-
+const indexedDB = window.indexedDB || window.webkitIndexedDB || window.mozIndexedDB || window.moz_indexedDB;
 function OpenPhotoDB() {
     return new Promise(function (resolve, reject) {
         var req = indexedDB.open('photoDB');
