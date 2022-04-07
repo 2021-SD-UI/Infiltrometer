@@ -1,72 +1,83 @@
 
-let db = undefined;
-let open = false;
+//just used to upgrade if needed
+export function InitializePhotoDB() { OpenPhotoDB(); }
 
-export function InitializePhotoDB() {
-    var req = indexedDB.open('photoDB', 1);
-    req.onsuccess = function (evt) {
-        // Equal to: db = req.result;
-        db = this.result;
-        console.log("openDb DONE");
-    };
-    req.onerror = function (evt) {
-        console.error("openDb:", evt.target.errorCode);
-    };
+function OpenPhotoDB() {
+    return new Promise(function (resolve, reject) {
+        var req = indexedDB.open('photoDB', 1);
+        req.onsuccess = function (evt) {
+            // Equal to: db = req.result;
+            var db = this.result;
+            console.log("openDb DONE");
+            resolve(db);
+        };
+        req.onerror = function (evt) {
+            console.error("openDb:", evt.target.errorCode);
+            reject();
+        };
 
-    req.onupgradeneeded = function (evt) {
+        req.onupgradeneeded = function (evt) {
 
-        db = this.result;
-        console.log("openDb.onupgradeneeded");
-        db.createObjectStore('photos', { keyPath: 'id', autoIncrement: true });
-        open = true;
-    };
+            var db = this.result;
+            console.log("openDb.onupgradeneeded");
+            db.createObjectStore('photos', { keyPath: 'id', autoIncrement: true });
+            resolve(db);
+        };
+    })
+
 }
 
 export function clearPhotos() {
-    if (db === undefined) { console.log("The database has not been initialized!"); return; }
-    let tx = db.transaction('photos', 'readwrite');
-    let request = tx.objectStore('photos').clear();
-    request.onerror = error => {
-        console.log(error);
-    }
+    OpenPhotoDB().then((db) => {
+        let tx = db.transaction('photos', 'readwrite');
+        let request = tx.objectStore('photos').clear();
+        request.onerror = error => {
+            console.log(error);
+        }
+    });
+
 }
 
 export function addPhotoToDB(photoID, photoData) {
-    if (db === undefined) { console.log("The database has not been initialized!"); return; }
-    let tx = db.transaction('photos', 'readwrite');
-    let request = tx.objectStore('photos').add({ id: photoID, value: photoData });
-    request.onerror = error => {
-        console.log(error);
-    }
+    OpenPhotoDB().then((db) => {
+        let tx = db.transaction('photos', 'readwrite');
+        let request = tx.objectStore('photos').add({ id: photoID, value: photoData });
+        request.onerror = error => {
+            console.log(error);
+        }
+    });
 }
 
 
 
 
 export function deletePhotoFromDB(photoID) {
-    if (db === undefined) { console.log("The database has not been initialized!"); return; }
-    let tx = db.transaction('photos', 'readwrite');
-    let request = tx.objectStore('photos').delete(photoID);
-    request.onerror = error => {
-        console.log(error);
-    }
+    OpenPhotoDB().then((db) => {
+        let tx = db.transaction('photos', 'readwrite');
+        let request = tx.objectStore('photos').delete(photoID);
+        request.onerror = error => {
+            console.log(error);
+        }
+    });
 }
 
 
 export function getPhoto(photoID) {
     return new Promise((resolve, reject) => {
-        let transaction = db.transaction("photos");
-        let request = transaction.objectStore("photos").get(photoID);
+        OpenPhotoDB().then((db) => {
+            let transaction = db.transaction("photos");
+            let request = transaction.objectStore("photos").get(photoID);
 
-        request.onerror = function (error) {
-            console.log(error);
-            resolve(null);
-        }
+            request.onerror = function (error) {
+                console.log(error);
+                resolve(null);
+            }
 
-        request.onsuccess = function (val) {
-            if (val.target.result === undefined) return; //console.log(val.target.result.value);
-            resolve(val.target.result.value);
-        }
+            request.onsuccess = function (val) {
+                if (val.target.result === undefined) return; //console.log(val.target.result.value);
+                resolve(val.target.result.value);
+            }
+        });
 
     })
 
