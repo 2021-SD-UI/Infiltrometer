@@ -12,7 +12,7 @@ function OpenPhotoDB() {
             resolve(db);
         };
         req.onerror = function (evt) {
-            console.error("openDb:", evt.target.errorCode);
+            console.error("openDb:", req.errorCode);
             reject("Error while opening database");
         };
 
