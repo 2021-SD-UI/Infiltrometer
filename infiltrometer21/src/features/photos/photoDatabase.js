@@ -4,21 +4,21 @@ export function InitializePhotoDB() { OpenPhotoDB(); }
 
 function OpenPhotoDB() {
     return new Promise(function (resolve, reject) {
-        var req = indexedDB.open('photoDB', 1);
+        var req = indexedDB.open('photoDB');
         req.onsuccess = function (evt) {
             // Equal to: db = req.result;
-            var db = this.result;
+            var db = req.result;
             console.log("openDb DONE");
             resolve(db);
         };
         req.onerror = function (evt) {
             console.error("openDb:", evt.target.errorCode);
-            reject();
+            reject("Error while opening database");
         };
 
         req.onupgradeneeded = function (evt) {
 
-            var db = this.result;
+            var db = req.result;
             console.log("openDb.onupgradeneeded");
             db.createObjectStore('photos', { keyPath: 'id', autoIncrement: true });
             resolve(db);
