@@ -1,5 +1,5 @@
-# Infiltrometer
-## Senior Design Infiltrometer App
+# Infiltrometer Companion
+## 21/22 Senior Design Infiltrometer App
 
 Link: https://infiltrometer.cs.mtu.edu/#/
 
