@@ -1,1 +1,0 @@
-This application was developed by Software Engineering students at Michigan Technological University, and is meant to be used with the Mini-Disk Infiltrometer to aid in recording soil infiltration data. Gathered data will be stored on your local device upon completing a reading. This data can be downloaded as a CSV for later use. These CSV reports may also be viewed in Excel.
