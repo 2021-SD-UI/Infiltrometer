@@ -7,9 +7,13 @@ This application was developed by Software Engineering students at Michigan Tech
 
 ## Developers
 > August Miller (Team Lead/Software Developer)
+> 
 > Harry Taylor (Software Developer)
+> 
 > Richard Weycker (Software Developer)
+> 
 > Jade Wang (Software Developer)
+> 
 > Beily Ostrom (Software Developer)
  
 ## Creator
